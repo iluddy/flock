@@ -14,7 +14,7 @@ setup(
         "flask_autodoc",
         "flask_pymongo",
         "tornado",
-        "mongoengine"
+        "flask_mongoengine"
     ],
     entry_points={
         'console_scripts': [
