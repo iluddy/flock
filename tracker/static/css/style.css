@@ -4199,7 +4199,9 @@ body.modal-open {
   margin-bottom: 0px;
 }
 .middle-box h1 {
-  font-size: 170px;
+  font-size: 115px;
+  position: relative;
+  right: 20px;
 }
 .wrapper .middle-box {
   margin-top: 140px;
