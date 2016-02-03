@@ -7480,3 +7480,13 @@ body.skin-3 {
     display: none;
   }
 }
+/* Custom */
+#logo{
+    display: none;
+    padding: 0px;
+    margin: 0px;
+    color: #8095a8;
+    margin-bottom: 10px;
+    position: relative;
+    right: 6px;
+}
