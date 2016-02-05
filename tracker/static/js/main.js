@@ -29,7 +29,10 @@ function tab_handler(){
 }
 
 function load_components(){
-    $('.i-checks').iCheck();
+    $('.i-checks').iCheck({
+        checkboxClass: 'icheckbox_square-green',
+        radioClass: 'iradio_square-green',
+    });
 }
 
 function templates_loaded(){
