@@ -16,7 +16,7 @@
 
     <!-- Gritter -->
     <link href="js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
-
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
@@ -37,26 +37,35 @@
                             <strong class="font-bold"> {{ user_name }} </strong>
                             </span> <span class="text-muted text-xs block">{{ company_name }} </span> </span> </a>
                         </div>
-                        <!--<div class="logo-element">-->
-                            <!--Colony-->
-                        <!--</div>-->
                     </li>
-                    <li class="active">
+                    <li class="active tab" target="dashboard">
                         <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
                     </li>
-                    <li>
-                        <a href="mailbox.html"><i class="fa fa-envelope"></i> <span class="nav-label">Mailbox </span><span class="label label-warning pull-right">16/24</span></a>
-                        <ul class="nav nav-second-level collapse">
-                            <li><a href="mailbox.html">Inbox</a></li>
-                            <li><a href="mail_detail.html">Email view</a></li>
-                            <li><a href="mail_compose.html">Compose email</a></li>
-                            <li><a href="email_template.html">Email templates</a></li>
-                        </ul>
+                    <li class="tab" target="notifications">
+                        <a href="#"><i class="fa fa-bell"></i> <span class="nav-label">Notifications</span></a>
                     </li>
-                    <li>
-                        <a href="#"><i class="fa fa-table"></i> <span class="nav-label">Events</span></a>
+                    <li class="tab" target="calendar">
+                        <a href="#"><i class="fa fa-calendar"></i> <span class="nav-label">Calendar</span></a>
                     </li>
-                    <li>
+                    <li class="tab" target="events">
+                        <a href="#"><i class="fa fa-thumb-tack"></i>
+                            <span class="nav-label">Events</span>
+                            <span class="label label-warning pull-right">25</span>
+                        </a>
+                    </li>
+                    <li class="tab" target="people">
+                        <a href="#"><i class="fa fa-users"></i>
+                            <span class="nav-label">People</span>
+                            <span class="label label-danger pull-right">25</span>
+                        </a>
+                    </li>
+                    <li class="tab" target="places">
+                        <a href="#"><i class="fa fa-map-marker"></i> <span class="nav-label">Places</span></a>
+                    </li>
+                    <li class="tab" target="things">
+                        <a href="#"><i class="fa fa-cube"></i> <span class="nav-label">Things</span></a>
+                    </li>
+                    <li class="tab" target="settings">
                         <a href="#"><i class="fa fa-cog"></i> <span class="nav-label">Settings</span></a>
                     </li>
                 </ul>
@@ -180,6 +189,14 @@
             </ul>
 
         </nav>
+        </div>
+
+        <div id="loader">
+            <div class="sk-spinner sk-spinner-three-bounce">
+                <div class="sk-bounce1"></div>
+                <div class="sk-bounce2"></div>
+                <div class="sk-bounce3"></div>
+            </div>
         </div>
 
         <div id="main" class="row">
@@ -480,6 +497,7 @@
                 </div>
             </div>
         </div>
+
         <div class="footer">
             <div class="pull-right">
                 <a href="http://www.ianluddy.com">ianluddy.com</a>
@@ -488,90 +506,6 @@
                 Colony &copy; 2016
             </div>
         </div>
-        </div>
-        <div class="small-chat-box fadeInRight animated">
-
-            <div class="heading" draggable="true">
-                <small class="chat-date pull-right">
-                    02.19.2015
-                </small>
-                Small chat
-            </div>
-
-            <div class="content">
-
-                <div class="left">
-                    <div class="author-name">
-                        Monica Jackson <small class="chat-date">
-                        10:02 am
-                    </small>
-                    </div>
-                    <div class="chat-message active">
-                        Lorem Ipsum is simply dummy text input.
-                    </div>
-
-                </div>
-                <div class="right">
-                    <div class="author-name">
-                        Mick Smith
-                        <small class="chat-date">
-                            11:24 am
-                        </small>
-                    </div>
-                    <div class="chat-message">
-                        Lorem Ipsum is simpl.
-                    </div>
-                </div>
-                <div class="left">
-                    <div class="author-name">
-                        Alice Novak
-                        <small class="chat-date">
-                            08:45 pm
-                        </small>
-                    </div>
-                    <div class="chat-message active">
-                        Check this stock char.
-                    </div>
-                </div>
-                <div class="right">
-                    <div class="author-name">
-                        Anna Lamson
-                        <small class="chat-date">
-                            11:24 am
-                        </small>
-                    </div>
-                    <div class="chat-message">
-                        The standard chunk of Lorem Ipsum
-                    </div>
-                </div>
-                <div class="left">
-                    <div class="author-name">
-                        Mick Lane
-                        <small class="chat-date">
-                            08:45 pm
-                        </small>
-                    </div>
-                    <div class="chat-message active">
-                        I belive that. Lorem Ipsum is simply dummy text.
-                    </div>
-                </div>
-
-
-            </div>
-            <div class="form-chat">
-                <div class="input-group input-group-sm"><input type="text" class="form-control"> <span class="input-group-btn"> <button
-                        class="btn btn-primary" type="button">Send
-                </button> </span></div>
-            </div>
-
-        </div>
-        <div id="small-chat">
-
-            <span class="badge badge-warning pull-right">5</span>
-            <a class="open-small-chat">
-                <i class="fa fa-comments"></i>
-
-            </a>
         </div>
         <div id="right-sidebar">
             <div class="sidebar-container">
@@ -953,11 +887,14 @@
         </div>
     </div>
 
+    <div id="tmpl_holder"></div>
     <!-- Mainly scripts -->
     <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/handlebars-v3.0.3.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
 
     <!-- Flot -->
     <!--<script src="js/plugins/flot/jquery.flot.js"></script>-->
@@ -976,7 +913,7 @@
 
     <!-- jQuery UI -->
     <script src="js/plugins/jquery-ui/jquery-ui.min.js"></script>
-
+    <script src="js/plugins/iCheck/icheck.min.js"></script>
     <!--&lt;!&ndash; GITTER &ndash;&gt;-->
     <!--<script src="js/plugins/gritter/jquery.gritter.min.js"></script>-->
 
@@ -992,11 +929,8 @@
     <!--&lt;!&ndash; Toastr &ndash;&gt;-->
     <!--<script src="js/plugins/toastr/toastr.min.js"></script>-->
 
+    <script src="js/helpers.js"></script>
+    <script src="js/main.js"></script>
 
-    <script>
-        $(document).ready(function() {
-
-        });
-    </script>
 </body>
 </html>

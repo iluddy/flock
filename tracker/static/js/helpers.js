@@ -33,3 +33,17 @@ function elapsed_time(milliseconds) {
 //    }
     return 'just now'; //'just now' //or other string you like;
 }
+
+function ajax_load(func, args, callback, timeout){
+    return $.ajax({
+        url: func,
+        data: args,
+        timeout: timeout == undefined ? 10000 : timeout
+    }).done(function(input){
+        console.log(input);
+        if (callback)
+            callback(input);
+    }).error(function(request, error){
+        console.log(error);
+    });
+}

@@ -26,6 +26,12 @@ def root():
         company_name=session['company_name'],
     )
 
+@app.route('/templates')
+@auth
+def templates():
+    print 123
+    return app.send_static_file('hb_templates/templates.html')
+
 #### User Session ####
 
 @app.route('/login')

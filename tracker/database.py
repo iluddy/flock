@@ -20,7 +20,7 @@ class Database():
         pass
 
     def reset_database(self):
-        User.drop_collection()
+        Person.drop_collection()
         Company.drop_collection()
 
     def register_user(self, name, mail, password, company):
@@ -31,7 +31,7 @@ class Database():
             return False, 'Company name already in use :('
 
         try:
-            User(name=name, mail=mail, password=password, company=new_company).save()
+            Person(name=name, mail=mail, password=password, company=new_company).save()
         except NotUniqueError:
             return False, 'Email address already in use :('
 
@@ -40,14 +40,14 @@ class Database():
     def authenticate_user(self, mail, password):
         # TODO : encrypt stored passwords
         try:
-            user = User.objects.get(mail=mail, password=password)
+            user = Person.objects.get(mail=mail, password=password)
             session['user_id'] = user.id
             session['user_name'] = user.name
             session['company_id'] = user.company.id
             session['company_name'] = user.company.name
         except DoesNotExist:
             try:
-                User.objects.get(mail=mail)
+                Person.objects.get(mail=mail)
             except:
                 return False, 'Email address not registered :('
 
@@ -58,7 +58,7 @@ class Database():
     def reset_user(self, mail):
         new_password = random_password()
         try:
-            user = User.objects.get(mail=mail)
+            user = Person.objects.get(mail=mail)
             user.password = new_password
             user.save()
             # TODO : encrypt stored passwords
@@ -81,7 +81,7 @@ class Database():
     #     print self.session_cache
 
     def get_user(self, user_id):
-        return User.objects.get(id=user_id)
+        return Person.objects.get(id=user_id)
 
     def get_company(self, company_id):
         return Company.objects.get(id=company_id)
