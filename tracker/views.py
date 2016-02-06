@@ -6,6 +6,9 @@ from functools import wraps
 from flask import request, redirect, url_for, render_template, session
 from time import sleep
 
+from tracker.utils import json_response
+
+
 def auth(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -80,6 +83,16 @@ def reset_user():
         return message, 200
     return message, 401
 
-#### User ####
+#### People ####
 
-#### Company ####
+@app.route('/people')
+@auth
+def people():
+    return json_response(db_wrapper.get_people(session['company_id']))
+
+#### Roles ####
+
+@app.route('/roles')
+@auth
+def roles():
+    return json_response(db_wrapper.get_roles(session['company_id']))

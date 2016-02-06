@@ -4,6 +4,9 @@ from logging.handlers import RotatingFileHandler
 import logging
 import json
 
+from mongoengine import QuerySet
+
+
 def read_config_file(config_file):
     with open(config_file, "r") as f:
         cfg_json = json.loads(f.read())
@@ -66,3 +69,15 @@ def float_to_two_places(x):
 def capitalise(string):
     return string.title()
 
+def json_response(response, jsonify=True, count=None, sort=False):
+    if type(response) in [list, QuerySet]:
+        if jsonify:
+            response = [doc.to_mongo() for doc in response]
+        if sort:
+            response = sorted(response)
+    if count is not None:
+        response = make_response(json.dumps({"count": count, "data": response}))
+    else:
+        response = make_response(json.dumps(response))
+    response.mimetype = "application/json"
+    return response

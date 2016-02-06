@@ -7,7 +7,18 @@ class Person(Document):
     name = StringField()
     password = StringField()
     company = ReferenceField('Company')
-    type = StringField() # admin, leader
+    role = ReferenceField('Role')
+
+class Role(Document):
+    id = SequenceField(primary_key=True)
+    name = StringField()
+    type = ReferenceField('RoleType')
+    company = ReferenceField('Company')
+
+class RoleType(Document):
+    id = SequenceField(primary_key=True)
+    name = StringField()
+    description = StringField()
 
 class Event(Document):
     id = SequenceField(primary_key=True)
