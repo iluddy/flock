@@ -11,6 +11,7 @@ setup(
     zip_safe=False,
     install_requires=[
         "flask",
+        "blinker",
         "flask_autodoc",
         "flask_pymongo",
         "tornado",

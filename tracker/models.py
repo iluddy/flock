@@ -11,8 +11,10 @@ class Person(Document):
 
 class Role(Document):
     id = SequenceField(primary_key=True)
-    name = StringField()
+    name = StringField(unique=True)
     type = ReferenceField('RoleType')
+    type_name = StringField()
+    theme = StringField()
     company = ReferenceField('Company')
 
 class RoleType(Document):

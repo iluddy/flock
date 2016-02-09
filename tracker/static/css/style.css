@@ -7499,5 +7499,29 @@ body.skin-3 {
     display: none;
 }
 #main{
-    padding-top: 20px;
+    padding: 20px;
+}
+#vertical-timeline{
+    margin-top: 0px;
+}
+.help_pane{
+    padding: 10px;
+}
+.spacer{
+    height: 10px;
+}
+.checkbox-help{
+    padding-left: 29px;
+    position: relative;
+    bottom: 11px;
+}
+.color-choice:hover{
+    opacity: 0.8;
+}
+.color-choice{
+    opacity: 0.4;
+    cursor: pointer;
+}
+.color-choice.selected{
+    opacity: 1;
 }

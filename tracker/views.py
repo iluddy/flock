@@ -88,11 +88,30 @@ def reset_user():
 @app.route('/people')
 @auth
 def people():
-    return json_response(db_wrapper.get_people(session['company_id']))
+    return json_response(db_wrapper.get_people())
 
 #### Roles ####
 
 @app.route('/roles')
 @auth
 def roles():
-    return json_response(db_wrapper.get_roles(session['company_id']))
+    return json_response(db_wrapper.get_roles())
+
+@app.route('/role_types')
+@auth
+def role_types():
+    return json_response(db_wrapper.get_role_types())
+
+@app.route('/roles/update', methods=['POST'])
+@auth
+def roles_update():
+
+    updated_role = {
+        "theme": request.form.get("theme"),
+        "name": request.form.get("name"),
+        "type": request.form.get("type"),
+        "id": request.form.get("id")
+    }
+    db_wrapper.update_roles(updated_role)
+
+    return 'People Type Updated', 200

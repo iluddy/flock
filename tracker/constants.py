@@ -8,7 +8,7 @@ default_data = {
         {
             'id': 1,
             'name': 'Admin User',
-            'description': 'Administrate stuff'
+            'description': 'Administrate stuff',
         },
         {
             'id': 2,
@@ -30,14 +30,16 @@ test_data = {
             'name': 'Ian Luddy',
             'mail': 'ian@m.ie',
             'password': 'pass',
-            'company': 1
+            'company': 1,
+            'role': 1
         },
         {
             'id': 2,
             'name': 'Joe Bloggs',
             'mail': 'joe@m.ie',
             'password': 'pass',
-            'company': 1
+            'company': 1,
+            'role': 2
         },
     ],
     'Company': [
@@ -51,7 +53,18 @@ test_data = {
             'id': 1,
             'name': 'Manager',
             'type': 1,
-            'company': 1
+            'type_name': 'Admin User',
+            'company': 1,
+            'theme': 'success'
+        },
+        {
+            'id': 2,
+            'name': 'Trainee',
+            'type': 2,
+            'type_name': 'Normal User',
+            'company': 1,
+            'theme': 'danger'
         }
+
     ]
 }

@@ -47,3 +47,27 @@ function ajax_load(func, args, callback, timeout){
         console.log(error);
     });
 }
+
+function ajax_call(options){
+    $.ajax({
+        url: options.url,
+        type: options.type || "get",
+        data: options.data || {},
+        complete: function(data) {
+            if (options.complete != undefined)
+                options.complete(data);
+        },
+        success: function(data) {
+            if (options.success != undefined)
+                options.success(data);
+            if (options.notify != false)
+                toastr.success(data, 'Done', {'timeOut':2000, 'progressBar':true});
+        },
+        error: function(data) {
+            if (options.error != undefined)
+                options.error(data);
+            if (options.notify != false)
+                toastr.error(data.responseText, 'Error', {'timeOut':2000, 'progressBar':true});
+        }
+    });
+}

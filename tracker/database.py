@@ -32,6 +32,8 @@ class Database():
                 doc(**document).save()
 
     def reset_database(self):
+        Role.drop_collection()
+        RoleType.drop_collection()
         Person.drop_collection()
         Company.drop_collection()
 
@@ -98,13 +100,27 @@ class Database():
     #         del self.session_cache[token]
     #     print self.session_cache
 
-    def get_people(self, company_id, user_id=None):
+    def get_people(self, user_id=None):
         if user_id:
-            return Person.objects.get(id=user_id, company=company_id).to_mongo()
-        return Person.objects(company=company_id)
+            return Person.objects.get(id=user_id, company=session['company_id']).to_mongo()
+        return Person.objects(company=session['company_id'])
 
-    def get_company(self, company_id):
-        return Company.objects.get(id=company_id)
+    def get_company(self):
+        return Company.objects.get(id=session['company_id'])
 
-    def get_roles(self, company_id):
-        return Role.objects(company=company_id)
+    def get_role_types(self):
+        return RoleType.objects()
+
+    def get_roles(self):
+        return Role.objects(company=session['company_id'])
+
+    def update_roles(self, new_role):
+        if new_role.get('id') is not None:
+            to_update = Role.objects.get(id=new_role['id'])
+
+        else:
+            new_role['type_name'] = RoleType.objects(id=new_role['type']).get().name
+            new_role['company'] = session['company_id']
+            Role(
+                **new_role
+            ).save()
