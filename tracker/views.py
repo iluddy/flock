@@ -1,21 +1,7 @@
+from flask import request, redirect, url_for, render_template, session
 from tracker import app
 from tracker import db_wrapper
-from tracker.constants import session_duration
-import datetime
-from functools import wraps
-from flask import request, redirect, url_for, render_template, session
-from time import sleep
-
-from tracker.utils import json_response
-
-
-def auth(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if not session.get('user_id'):
-            return redirect(url_for('login'))
-        return f(*args, **kwargs)
-    return decorated_function
+from tracker.utils import json_response, auth
 
 
 @app.route('/')
@@ -32,7 +18,6 @@ def root():
 @app.route('/templates')
 @auth
 def templates():
-    print 123
     return app.send_static_file('hb_templates/templates.html')
 
 #### User Session ####
@@ -105,13 +90,19 @@ def role_types():
 @app.route('/roles/update', methods=['POST'])
 @auth
 def roles_update():
-
     updated_role = {
         "theme": request.form.get("theme"),
         "name": request.form.get("name"),
-        "type": request.form.get("type"),
-        "id": request.form.get("id")
+        "role_type": int(request.form.get("type"))
     }
-    db_wrapper.update_roles(updated_role)
+    if request.form.get('id'):
+        updated_role['id'] = int(request.form.get('id'))
+    db_wrapper.update_role(updated_role)
+    return 'People Types Updated', 200
 
-    return 'People Type Updated', 200
+@app.route('/roles/delete', methods=['POST'])
+@auth
+def roles_delete():
+    # TODO - validate deletion
+    db_wrapper.delete_role(request.form.get("id"))
+    return 'People Types Updated', 200

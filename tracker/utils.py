@@ -1,9 +1,10 @@
-from flask import make_response
-from uuid import uuid4, uuid5, NAMESPACE_DNS
-from logging.handlers import RotatingFileHandler
-import logging
 import json
+import logging
+from functools import wraps
+from logging.handlers import RotatingFileHandler
+from uuid import uuid4, uuid5, NAMESPACE_DNS
 
+from flask import make_response, redirect, url_for, session
 from mongoengine import QuerySet
 
 
@@ -72,7 +73,7 @@ def capitalise(string):
 def json_response(response, jsonify=True, count=None, sort=False):
     if type(response) in [list, QuerySet]:
         if jsonify:
-            response = [doc.to_mongo() for doc in response]
+            response = [doc.to_dict() for doc in response]
         if sort:
             response = sorted(response)
     if count is not None:
@@ -81,3 +82,11 @@ def json_response(response, jsonify=True, count=None, sort=False):
         response = make_response(json.dumps(response))
     response.mimetype = "application/json"
     return response
+
+def auth(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get('user_id'):
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
