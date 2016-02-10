@@ -4,6 +4,7 @@ from constants import *
 from models import *
 import models as mo
 
+
 class Database():
     """
     Wrapper for the database layer
@@ -18,7 +19,6 @@ class Database():
         self.create_indexes()
         self.add_defaults()
         self.add_test_data()
-
 
     def create_indexes(self):
         # TODO - this
@@ -101,9 +101,10 @@ class Database():
     #     print self.session_cache
 
     def get_people(self, user_id=None):
+        filter = {"company": session["company_id"]}
         if user_id:
-            return Person.objects.get(id=user_id, company=session['company_id']).to_mongo()
-        return Person.objects(company=session['company_id'])
+            filter["user_id"] = user_id
+        return Person.objects(**filter)
 
     def get_company(self):
         return Company.objects.get(id=session['company_id'])
@@ -114,13 +115,17 @@ class Database():
     def get_roles(self):
         return Role.objects(company=session['company_id'])
 
-    def update_roles(self, new_role):
-        if new_role.get('id') is not None:
-            to_update = Role.objects.get(id=new_role['id'])
-
+    def update_role(self, role):
+        role_type = RoleType.objects(id=role['role_type']).get()
+        if role.get('id'):
+            Role.objects(id=role['id']).update_one(
+                theme=role['theme'],
+                name=role['name'],
+                role_type=role_type
+            )
         else:
-            new_role['type_name'] = RoleType.objects(id=new_role['type']).get().name
-            new_role['company'] = session['company_id']
-            Role(
-                **new_role
-            ).save()
+            role['company'] = session['company_id']
+            Role(**role).save()
+
+    def delete_role(self, role_id):
+        Role.objects.get(id=role_id).delete()

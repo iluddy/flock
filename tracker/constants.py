@@ -52,16 +52,14 @@ test_data = {
         {
             'id': 1,
             'name': 'Manager',
-            'type': 1,
-            'type_name': 'Admin User',
+            'role_type': 1,
             'company': 1,
             'theme': 'success'
         },
         {
             'id': 2,
             'name': 'Trainee',
-            'type': 2,
-            'type_name': 'Normal User',
+            'role_type': 2,
             'company': 1,
             'theme': 'danger'
         }
