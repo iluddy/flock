@@ -1,6 +1,6 @@
 <script id="calendar_tmpl" type="text/x-handlebars-template">
     <div class="pane animated fadeInDown">
-        Calendar
+        <div id="calendar_wrap"></div>
     </div>
 </script>
 
@@ -240,9 +240,9 @@
         <div class="tabs-container">
             <div class="">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">People</a></li>
-                    <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">Places</a></li>
-                    <li class=""><a data-toggle="tab" href="#tab-3" aria-expanded="false">Notifications</a></li>
+                    <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">Types of People</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">Types of Places</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-3" aria-expanded="false">General Settings</a></li>
                     <li class=""><a data-toggle="tab" href="#tab-4" aria-expanded="false">Billing</a></li>
                 </ul>
                 <div class="tab-content ">
@@ -253,9 +253,9 @@
                                 <div class="hr-line-dashed"></div>
                             </div>
 
-                            <div class="col-lg-6">
-                                <div class="spacer hidden-lg hidden-md hidden-sm"></div>
-
+                            <div id="add_people_type_form" class="col-lg-6 pull-left" people_type_id="">
+                                <div class="section_title">Add New</div>
+                                <div class="spacer"></div>
                                 <form method="get" class="form-horizontal" onsubmit="event.preventDefault(); add_update_people_type();">
                                     <div class="form-group"><label class="col-sm-2 control-label">Name</label>
                                         <div class="col-sm-10"><input id='people_type_name' placeholder="Manager, Trainee etc." type="text" class="form-control input-lg"
@@ -279,7 +279,7 @@
                                                 <i></i> Admin User </label>
                                                 <span class="help-block m-b-none checkbox-help">
                                                     User has permission to do anything, including changing system settings
-                                                    and defining types of People, Things etc. (€20 a Month)
+                                                    and defining types of People, Things etc.
                                                 </span>
                                             </div>
 
@@ -295,7 +295,7 @@
                                                 <i></i> Normal User </label>
                                                 <span class="help-block m-b-none checkbox-help">
                                                     User can Add/Edit/Delete Events, People, Things etc. but cannot make
-                                                    administrative changes (€5 a Month)
+                                                    administrative changes
                                                 </span>
                                             </div>
                                             <div class="i-checks"><label class="">
@@ -309,7 +309,7 @@
                                                 </div>
                                                 <i></i> Basic User </label>
                                                 <span class="help-block m-b-none checkbox-help">
-                                                    User can view Calendar and Events but cannot make any changes  (€0 a Month)
+                                                    User can view Calendar and Events but cannot make any changes
                                                 </span>
                                             </div>
                                         </div>
@@ -331,14 +331,18 @@
                                     <div class="form-group">
                                         <div class="pull-right">
                                             <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit">
-                                                <strong>Add</strong>
+                                                <strong id="add_people_type_btn">Add</strong>
                                             </button>
                                         </div>
                                     </div>
                                     <br/>
                                 </form>
                             </div>
-                            <div id="people_type_table_holder" class="col-lg-6"></div>
+                            <div class="col-lg-6">
+                                <div class="section_title">Current Types</div>
+                                <div class="spacer"></div>
+                                <div id="people_type_table_holder"></div>
+                            </div>
                         </div>
                     </div>
                     <div id="tab-2" class="tab-pane">
@@ -364,102 +368,134 @@
 
 <script id="people_tmpl" type="text/x-handlebars-template">
     <div class="pane animated fadeInDown">
-        <div class="col-lg-6">
-            <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h5>Add Person</h5>
+        <div class="col-lg-12">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal4">
+                Add People
+            </button>
+            <div class="spacer"></div>
+            <div class="spacer"></div>
+            <div class="spacer"></div>
+        </div>
+        <div id="people_table_control" class="col-lg-2">
+            <h3>Filters</h3>
+            {{#each roles}}
+                <span role_id="{{_id}}" class="filter-label selected label label-{{theme}}">{{name}}</span>
+            {{/each}}
+        </div>
+        <div class="col-lg-9">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>{{> checkbox_part}}</th>
+                    <th>Name</th>
+                    <th>Mail</th>
+                    <th>Type</th>
+                </tr>
+                </thead>
+                <tbody id="people_table_body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal inmodal" id="myModal4" tabindex="-1" role="dialog"  aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content animated fadeIn">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <!--<i class="fa fa-users modal-icon"></i>-->
+                    <h3 class="modal-title">Add People</h3>
+                    <!--<small>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>-->
                 </div>
-                <div class="ibox-content">
+                <div class="modal-body">
                     <form method="get" class="form-horizontal">
-                        <div class="form-group"><label class="col-sm-2 control-label">Full Name</label>
-                            <div class="col-sm-10"><input type="text" class="form-control input-lg" required=""></div>
+                        <div class="form-group"><label class="col-sm-2 control-label">Name</label>
+                            <div class="col-sm-10"><input type="text" placeholder="full name" class="form-control input-lg" required=""></div>
                         </div>
                         <div class="form-group"><label class="col-sm-2 control-label">Email</label>
-                            <div class="col-sm-10"><input type="password" class="form-control input-lg" required="">
-                                <span class="help-block m-b-none">An invitation will be sent to this address</span>
+                            <div class="col-sm-10"><input type="email" placeholder="optional" class="form-control input-lg">
+                                <!--<span class="help-block m-b-none">An invitation will be sent to this address</span>-->
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-10 pull-right">
-
-                                <div class="i-checks"><label class="">
-                                    <div class="iradio_square-green" style="position: relative;"><input type="radio"
-                                                                                                        checked=""
-                                                                                                        value="admin"
-                                                                                                        name="a"
-                                                                                                        style="position: absolute; opacity: 0;">
-                                        <ins class="iCheck-helper"
-                                             style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
-                                    </div>
-                                    <i></i> Admin </label></div>
-                                <div class="i-checks"><label class="">
-                                    <div class="iradio_square-green" style="position: relative;"><input type="radio"
-                                                                                                        checked=""
-                                                                                                        value="normal"
-                                                                                                        name="a"
-                                                                                                        style="position: absolute; opacity: 0;">
-                                        <ins class="iCheck-helper"
-                                             style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
-                                    </div>
-                                    <i></i> Normal </label></div>
-                                <div class="i-checks"><label class="">
-                                    <div class="iradio_square-green" style="position: relative;"><input type="radio"
-                                                                                                        checked=""
-                                                                                                        value="basic"
-                                                                                                        name="a"
-                                                                                                        style="position: absolute; opacity: 0;">
-                                        <ins class="iCheck-helper"
-                                             style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
-                                    </div>
-                                    <i></i> Basic </label></div>
-
-                                <!--<div class="i-checks"><label class=""> <div class="icheckbox_square-green" style="position: relative;"><input type="checkbox" value="" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins></div> <i></i> Option one </label></div>-->
-                                <!--<div class="i-checks"><label class=""> <div class="icheckbox_square-green checked" style="position: relative;"><input type="checkbox" value="" checked="" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins></div> <i></i> Option two checked </label></div>-->
-                                <!--<div class="i-checks"><label> <div class="icheckbox_square-green checked disabled" style="position: relative;"><input type="checkbox" value="" disabled="" checked="" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins></div> <i></i> Option three checked and disabled </label></div>-->
+                                {{> checkbox_part checked='true' label='Send this Person an invitation to use Flock'}}
                             </div>
                         </div>
-                        <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>Add</strong>
-                        </button>
-                        <br/>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Type</label>
+                            <div class="col-sm-10">
+                                {{#each roles}}
+                                    <div class="i-checks"><label class="">
+                                    <div class="iradio_square-green" style="position: relative;">
+                                        <input type="radio" value="{{_id}}" name="{{name}}" checked="" style="position: absolute; opacity: 0;">
+                                        <ins class="iCheck-helper"
+                                             style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
+                                    </div>
+                                    <i></i> {{name}} </label> </div>
+                                {{/each}}
+                            </div>
+                        </div>
                     </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
-        <div class="col-lg-6">
-            <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h5>People</h5>
-                </div>
-                <div class="ibox-content">
+    </div>
+</script>
 
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Type</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Samantha</td>
-                            <td>Samantha</td>
-                            <td><span class="label label-warning">Admin</span></td>
-                        </tr>
-                        <tr>
-                            <td>Jacob</td>
-                            <td>Jacob</td>
-                            <td><span class="label label-warning">Admin</span></td>
-                        </tr>
-                        <tr>
-                            <td>Damien</td>
-                            <td>Damien</td>
-                            <td><span class="label label-warning">Admin</span></td>
-                        </tr>
-                        </tbody>
-                    </table>
+<script id="people_table_body_tmpl" type="text/x-handlebars-template">
+    {{#each people}}
+        <tr>
+            <td>{{> checkbox_part}}</td>
+            <td>{{name}}</td>
+            <td>{{mail}}</td>
+            <td><span class="label label-{{role_theme}}">{{role_name}}</span></td>
+        </tr>
+    {{/each}}
+</script>
+
+<script id="add_person_tmpl" type="text/x-handlebars-template">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>Add Person</h5>
+        </div>
+        <div class="ibox-content">
+            <form method="get" class="form-horizontal">
+                <div class="form-group"><label class="col-sm-2 control-label">Name</label>
+                    <div class="col-sm-10"><input type="text" placeholder="full name" class="form-control input-lg" required=""></div>
                 </div>
-            </div>
+                <div class="form-group"><label class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-10"><input type="email" placeholder="optional" class="form-control input-lg">
+                        <!--<span class="help-block m-b-none">An invitation will be sent to this address</span>-->
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-10 pull-right">
+                        {{> checkbox_part}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Type</label>
+                    <div class="col-sm-10">
+                        {{#each roles}}
+                            <div class="i-checks"><label class="">
+                            <div class="iradio_square-green" style="position: relative;">
+                                <input type="radio" value="{{_id}}" name="{{name}}" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper"
+                                     style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
+                            </div>
+                            <i></i> {{name}} </label> </div>
+                        {{/each}}
+                    </div>
+                </div>
+                <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>Add</strong>
+                </button>
+                <br/>
+            </form>
         </div>
     </div>
 </script>
@@ -470,25 +506,49 @@
         <tr>
             <th>Name</th>
             <th>Type</th>
+            <th></th>
         </tr>
         </thead>
-        <tbody>
-        {{#each types}}
-            <tr>
-                <td><span class="label label-{{theme}}">{{name}}</span></td>
-                <td>{{type_name}}</td>
-            </tr>
-        {{/each}}
+        <tbody id="people_type_table_body">
+            {{#each types}}
+                {{> person_type_part}}
+            {{/each}}
         </tbody>
     </table>
 </script>
 
-<script id="title_tmpl" type="text/x-handlebars-template">
-    <div class="col-lg-10">
-        <h2>{{ title }}</h2>
-        <strong class="text-navy">900</strong> Pizza combinations available from <strong class="text-navy">4</strong>
-        vendors
-        {{ body }}
-    </div>
-    <div class="col-lg-2"></div>
+<script id="people_type_table_row_tmpl" type="text/x-handlebars-template">
+    <tr>
+        <td><span class="label label-{{theme}}">{{name}}</span></td>
+        <td>{{role_type_name}}</td>
+        <td>
+            <i type_id="{{_id}}" name="{{name}}" theme="{{theme}}" role_type="{{role_type}}" class="edit fa fa-edit"></i>
+            <i type_id="{{_id}}" class="delete fa fa-trash-o"></i>
+        </td>
+    </tr>
 </script>
+
+<script id="no_data_tmpl" type="text/x-handlebars-template">
+    <div class="no_data">{{caption}}</div>
+</script>
+
+<script id="checkbox_tmpl" type="text/x-handlebars-template">
+    <div class="i-checks"><label class=""> <div class="icheckbox_square-green" style="position: relative;"><input type="checkbox" {{#if checked}}checked=""{{/if}} value="" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins></div> <i></i> {{label}} </label></div>
+</script>
+
+<script id="radio_button_tmpl" type="text/x-handlebars-template">
+    {{#each boxes}}
+        <div class="i-checks"><label class="">
+            <div class="iradio_square-green" style="position: relative;">
+                <input type="radio" value="{{value}}" checked="" name="{{name}}" style="position: absolute; opacity: 0;">
+                <ins class="iCheck-helper"
+                     style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
+            </div>
+        <i></i> {{label}} </label>
+        <span class="help-block m-b-none checkbox-help">
+            {{help}}
+        </span>
+            </div>
+    {{/each}}
+</script>
+

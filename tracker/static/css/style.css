@@ -3196,6 +3196,12 @@ a:focus {
 .b-r {
   border-right: 1px solid #e7eaec;
 }
+.hr-line {
+  color: #ffffff;
+  background-color: #ffffff;
+  height: 1px;
+  margin: 20px 0;
+}
 .hr-line-dashed {
   border-top: 1px dashed #e7eaec;
   color: #ffffff;
@@ -7481,6 +7487,39 @@ body.skin-3 {
   }
 }
 
+/* Ian */
+
+/* Tables */
+
+body.DTTT_Print {
+    background: #fff;
+
+}
+.DTTT_Print #page-wrapper {
+    margin: 0;
+    background:#fff;
+}
+
+button.DTTT_button, div.DTTT_button, a.DTTT_button {
+    border: 1px solid #e7eaec;
+    background: #fff;
+    color: #676a6c;
+    box-shadow: none;
+    padding: 6px 8px;
+}
+button.DTTT_button:hover, div.DTTT_button:hover, a.DTTT_button:hover {
+    border: 1px solid #d2d2d2;
+    background: #fff;
+    color: #676a6c;
+    box-shadow: none;
+    padding: 6px 8px;
+}
+
+.dataTables_filter label {
+    margin-right: 5px;
+
+}
+
 /* Custom */
 #logo{
     display: none;
@@ -7523,5 +7562,38 @@ body.skin-3 {
     cursor: pointer;
 }
 .color-choice.selected{
+    opacity: 1;
+}
+.table .fa{
+    font-size: 1.3em;
+    cursor: pointer;
+    margin-right: 7px;
+}
+.table .fa:hover{
+    opacity: 0.7;
+}
+.section_title{
+    text-align: center;
+    margin-left: 0px;
+    margin-bottom: 25px;
+    font-size: 1.4em;
+}
+.no_data{
+    text-align: center;
+    font-size: 1.1em;
+}
+#people_datatable{
+    position: relative;
+    bottom: 20px;
+}
+.filter-label{
+    font-size: 1em;
+    clear: both;
+    cursor: pointer;
+    line-height: 2.3;
+    opacity: 0.3;
+}
+
+.filter-label.selected{
     opacity: 1;
 }

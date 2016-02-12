@@ -40,7 +40,6 @@ function ajax_load(func, args, callback, timeout){
         data: args,
         timeout: timeout == undefined ? 10000 : timeout
     }).done(function(input){
-        console.log(input);
         if (callback)
             callback(input);
     }).error(function(request, error){
@@ -52,7 +51,8 @@ function ajax_call(options){
     $.ajax({
         url: options.url,
         type: options.type || "get",
-        data: options.data || {},
+        datatype: "json",
+        data: options.data,
         complete: function(data) {
             if (options.complete != undefined)
                 options.complete(data);
@@ -69,5 +69,30 @@ function ajax_call(options){
             if (options.notify != false)
                 toastr.error(data.responseText, 'Error', {'timeOut':2000, 'progressBar':true});
         }
+    });
+}
+
+function anim(dom, type){
+    $(dom).addClass('animated ' + type);
+    setTimeout(function(){$(dom).removeClass('animated ' + type);}, 800);
+}
+
+function scrll(dom, delay){
+    $('html, body').animate({
+        scrollTop: $(dom).offset().top
+    }, delay);
+}
+
+function confirmation(){
+    swal({
+        title: "Are you sure?",
+        text: "You will not be able to recover this imaginary file!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes, delete it!",
+        closeOnConfirm: false
+    }, function () {
+        swal("Deleted!", "Your imaginary file has been deleted.", "success");
     });
 }

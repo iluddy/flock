@@ -1,3 +1,4 @@
+import json
 from flask import session
 from utils import random_password
 from constants import *
@@ -100,10 +101,12 @@ class Database():
     #         del self.session_cache[token]
     #     print self.session_cache
 
-    def get_people(self, user_id=None):
+    def get_people(self, roles=None, user_id=None):
         filter = {"company": session["company_id"]}
         if user_id:
             filter["user_id"] = user_id
+        if roles:
+            filter["role__in"] = json.loads(roles)
         return Person.objects(**filter)
 
     def get_company(self):

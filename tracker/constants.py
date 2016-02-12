@@ -41,6 +41,38 @@ test_data = {
             'company': 1,
             'role': 2
         },
+        {
+            'id': 3,
+            'name': 'John Bloggs',
+            'mail': 'john@m.ie',
+            'password': 'pass',
+            'company': 1,
+            'role': 3
+        },
+        {
+            'id': 4,
+            'name': 'Jane Bloggs',
+            'mail': 'jane@m.ie',
+            'password': 'pass',
+            'company': 1,
+            'role': 4
+        },
+        {
+            'id': 5,
+            'name': 'Johanne Bloggs',
+            'mail': 'johanne@m.ie',
+            'password': 'pass',
+            'company': 1,
+            'role': 5
+        },
+        {
+            'id': 6,
+            'name': 'Jim Bloggs',
+            'mail': 'jim@m.ie',
+            'password': 'pass',
+            'company': 1,
+            'role': 3
+        },
     ],
     'Company': [
         {
@@ -62,7 +94,27 @@ test_data = {
             'role_type': 2,
             'company': 1,
             'theme': 'danger'
-        }
-
+        },
+        {
+            'id': 3,
+            'name': 'Connector',
+            'role_type': 2,
+            'company': 1,
+            'theme': 'warning'
+        },
+        {
+            'id': 4,
+            'name': 'Independent',
+            'role_type': 3,
+            'company': 1,
+            'theme': 'info'
+        },
+        {
+            'id': 5,
+            'name': 'Student',
+            'role_type': 3,
+            'company': 1,
+            'theme': 'primary'
+        },
     ]
 }

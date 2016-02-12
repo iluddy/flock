@@ -70,10 +70,11 @@ def reset_user():
 
 #### People ####
 
-@app.route('/people')
+@app.route('/people', methods=['GET', 'POST'])
 @auth
 def people():
-    return json_response(db_wrapper.get_people())
+    roles = request.form.get("roles", None)
+    return json_response(db_wrapper.get_people(roles=roles))
 
 #### Roles ####
 
