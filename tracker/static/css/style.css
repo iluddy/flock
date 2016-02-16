@@ -4204,11 +4204,6 @@ body.modal-open {
   letter-spacing: -10px;
   margin-bottom: 0px;
 }
-.middle-box h1 {
-  font-size: 115px;
-  position: relative;
-  right: 20px;
-}
 .wrapper .middle-box {
   margin-top: 140px;
 }
@@ -7589,11 +7584,26 @@ button.DTTT_button:hover, div.DTTT_button:hover, a.DTTT_button:hover {
 .filter-label{
     font-size: 1em;
     clear: both;
+    float: left;
     cursor: pointer;
-    line-height: 2.3;
+    line-height: 1.2;
+    margin-bottom: 4px;
     opacity: 0.3;
 }
 
 .filter-label.selected{
     opacity: 1;
+}
+.middle-box h1 {
+    font-size: 115px;
+    position: relative;
+    right: 10px;
+}
+.modal-footer-buttons{
+    margin-top: 25px;
+    margin-bottom: 8px;
+}
+.modal-footer-buttons button{
+    float: right;
+    margin: 5px;
 }

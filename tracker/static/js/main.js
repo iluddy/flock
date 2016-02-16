@@ -57,6 +57,8 @@ function load_components(){
         radioClass: 'iradio_square-green',
     });
     $('.color-choice').on('click', radio_toggle);
+
+    $('.color-choice').first().click();
 }
 
 function templates_loaded(){
@@ -120,11 +122,22 @@ function load_people(){
         reload_people();
     }
 
+    function add_person(){
+        new_person = {
+            'type': $('#add_person_type_choice .color-choice.selected').attr('type_id'),
+            'name': $('#add_person_name').val(),
+            'mail': $('#add_person_email').val(),
+            'invite': $('#add_person_invite').is(":checked")
+        }
+        ajax_call({'url': '/people/add', 'type': 'post', 'data': new_person, 'success': reload_people});
+    }
+
     function get_filters(){
         sort_by = 'type';
         sort_dir = 'asc';
         role_filter =  $(".filter-label.selected").map(function(){return parseInt($(this).attr("role_id"));}).get();
     }
+
 
     $.when(
         ajax_load('/roles', {}, function(data){roles=data}),
@@ -133,6 +146,8 @@ function load_people(){
         $(page_main).html(people_tmpl({"roles": roles}));
         draw_people(people);
         $('#people_table_control .filter-label').on('click', apply_filter);
+        $('#modal_add_person').on('click', add_person);
+        load_components();
     });
 }
 

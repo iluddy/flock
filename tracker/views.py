@@ -1,5 +1,6 @@
 from flask import request, redirect, url_for, render_template, session
 from tracker import app
+from tracker import task_manager
 from tracker import db_wrapper
 from tracker.utils import json_response, auth
 
@@ -75,6 +76,37 @@ def reset_user():
 def people():
     roles = request.form.get("roles", None)
     return json_response(db_wrapper.get_people(roles=roles))
+
+@app.route('/people/add', methods=['POST'])
+@auth
+def people_add():
+    invite_person = request.form.get("invite", None)
+    new_person = {
+        'name': request.form.get("name", None),
+        'mail': request.form.get("mail", None),
+        'role': request.form.get("type", None),
+        'invite': False if invite_person else None,
+        'company': session['company_id']
+    }
+    db_wrapper.add_person(new_person)
+
+    if invite_person:
+        task_manager.push({
+            'action': 'invite',
+            'email': request.form.get("mail", None)
+         })
+
+    return 'New Person Added: %s' % new_person['name'], 200
+
+@app.route('/people/reinvite', methods=['POST'])
+@auth
+def people_reinvite():
+    task_manager.push({
+        'action': 'invite',
+        'email': request.form.get("mail", None)
+    })
+
+    return 'Invitation will be sent', 200
 
 #### Roles ####
 

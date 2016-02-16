@@ -101,6 +101,10 @@ class Database():
     #         del self.session_cache[token]
     #     print self.session_cache
 
+    def add_person(self, new_person):
+        new_person['role'] = Role.objects(id=new_person['role']).get()
+        return Person(**new_person).save()
+
     def get_people(self, roles=None, user_id=None):
         filter = {"company": session["company_id"]}
         if user_id:

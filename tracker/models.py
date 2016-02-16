@@ -8,8 +8,9 @@ class Base(object):
 
 class Person(Document, Base):
     id = SequenceField(primary_key=True)
-    mail = StringField(unique=True)
+    mail = StringField(unique=True, nullable=True)
     name = StringField()
+    invite = BooleanField() # Null = dont invite, False = invite not yet sent, True = invite sent
     password = StringField()
     company = ReferenceField('Company')
     role = ReferenceField('Role')

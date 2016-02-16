@@ -1,8 +1,10 @@
 import argparse
+import sys
 from tornado.wsgi import WSGIContainer
 from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 from database import Database
+from task_manager import TaskManager
 from constants import secret_key, session_duration
 from flask.ext.autodoc import Autodoc
 from flask.ext.mongoengine import MongoEngine
@@ -36,13 +38,17 @@ db = MongoEngine()
 db.init_app(app)
 db_wrapper = Database(db)
 
+# Task Manager
+task_manager = TaskManager()
+
 # Create Views
 from tracker import views
 
-# Run with development server
-# app.run(port=cfg["web_server"]["port"], host=cfg["web_server"]["host"])
-
-# Run with Tornado
-http_server = HTTPServer(WSGIContainer(app))
-http_server.listen(cfg["web_server"]["port"], address=cfg["web_server"]["host"])
-IOLoop.instance().start()
+try:
+    # Run with Tornado
+    http_server = HTTPServer(WSGIContainer(app))
+    http_server.listen(cfg["web_server"]["port"], address=cfg["web_server"]["host"])
+    IOLoop.instance().start()
+except KeyboardInterrupt:
+    task_manager.stop()
+    sys.exit()
