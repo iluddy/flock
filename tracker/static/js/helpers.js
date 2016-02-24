@@ -38,6 +38,7 @@ function ajax_load(func, args, callback, timeout){
     return $.ajax({
         url: func,
         data: args,
+        type: 'get',
         timeout: timeout == undefined ? 10000 : timeout
     }).done(function(input){
         if (callback)

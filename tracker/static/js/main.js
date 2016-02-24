@@ -107,6 +107,7 @@ function load_people(){
 
     function draw_people(data){
         $('#people_table_body').html(people_table_body_tmpl({'people': data}));
+        $('#people_table_body .delete').on('click', delete_person);
     }
 
     function reload_people(){
@@ -129,7 +130,12 @@ function load_people(){
             'mail': $('#add_person_email').val(),
             'invite': $('#add_person_invite').is(":checked")
         }
-        ajax_call({'url': '/people/add', 'type': 'post', 'data': new_person, 'success': reload_people});
+        ajax_call({'url': '/people', 'type': 'put', 'data': new_person, 'success': reload_people});
+    }
+
+    function delete_person(){
+        to_remove = {'id': parseInt($(this).attr("people_id"))};
+        ajax_call({'url': '/people', 'type': 'delete', 'data': to_remove, 'success': reload_people});
     }
 
     function get_filters(){
@@ -137,7 +143,6 @@ function load_people(){
         sort_dir = 'asc';
         role_filter =  $(".filter-label.selected").map(function(){return parseInt($(this).attr("role_id"));}).get();
     }
-
 
     $.when(
         ajax_load('/roles', {}, function(data){roles=data}),
@@ -181,9 +186,9 @@ function add_update_people_type(){
         'id': $('#add_people_type_form').attr('people_type_id')
     }
     ajax_call({
-        'url': 'roles/update',
+        'url': 'roles',
         'data': data,
-        'type': 'post',
+        'type': 'put',
         'success': load_people_type_table
     });
 }
@@ -200,8 +205,8 @@ function load_people_type_table(){
 
     function delete_people_type(){
         ajax_call({
-            'url': 'roles/delete',
-            'type': 'post',
+            'url': 'roles',
+            'type': 'delete',
             'data': {
                 'id': $(this).attr('type_id')
              },

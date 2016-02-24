@@ -71,13 +71,20 @@ def reset_user():
 
 #### People ####
 
+@app.route('/people', methods=['DELETE'])
+@auth
+def people_delete():
+    # TODO - validate deletion
+    db_wrapper.delete_person(request.form.get("id"))
+    return 'People Updated', 200
+
 @app.route('/people', methods=['GET', 'POST'])
 @auth
 def people():
     roles = request.form.get("roles", None)
     return json_response(db_wrapper.get_people(roles=roles))
 
-@app.route('/people/add', methods=['POST'])
+@app.route('/people', methods=['PUT'])
 @auth
 def people_add():
     invite_person = request.form.get("invite", None)
@@ -89,7 +96,6 @@ def people_add():
         'company': session['company_id']
     }
     db_wrapper.add_person(new_person)
-
     if invite_person:
         task_manager.push({
             'action': 'invite',
@@ -120,7 +126,7 @@ def roles():
 def role_types():
     return json_response(db_wrapper.get_role_types())
 
-@app.route('/roles/update', methods=['POST'])
+@app.route('/roles', methods=['PUT'])
 @auth
 def roles_update():
     updated_role = {
@@ -133,7 +139,7 @@ def roles_update():
     db_wrapper.update_role(updated_role)
     return 'People Types Updated', 200
 
-@app.route('/roles/delete', methods=['POST'])
+@app.route('/roles', methods=['DELETE'])
 @auth
 def roles_delete():
     # TODO - validate deletion

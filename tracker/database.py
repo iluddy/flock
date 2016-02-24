@@ -88,18 +88,8 @@ class Database():
         except DoesNotExist:
             return False, 'Email address not registered :('
 
-    # def create_session(self, user_id, company_id):
-    #     session_token = random_uuid()
-    #     self.session_cache[session_token] = (user_id, company_id)
-    #     return session_token
-    #
-    # def authenticate_session(self, token):
-    #     return token in self.session_cache
-    #
-    # def end_session(self, token):
-    #     if token in self.session_cache:
-    #         del self.session_cache[token]
-    #     print self.session_cache
+    def delete_person(self, person_id):
+        Person.objects.get(id=person_id).delete()
 
     def add_person(self, new_person):
         new_person['role'] = Role.objects(id=new_person['role']).get()

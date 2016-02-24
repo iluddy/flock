@@ -391,6 +391,7 @@
                     <th>Name</th>
                     <th>Mail</th>
                     <th>Type</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody id="people_table_body">
@@ -450,6 +451,7 @@
             <td>{{name}}</td>
             <td>{{mail}}</td>
             <td><span class="label label-{{role_theme}}">{{role_name}}</span></td>
+            <td><i people_id="{{_id}}" class="delete table-btn fa fa-trash-o"></i></td>
         </tr>
     {{/each}}
 </script>
@@ -518,8 +520,8 @@
         <td><span class="label label-{{theme}}">{{name}}</span></td>
         <td>{{role_type_name}}</td>
         <td>
-            <i type_id="{{_id}}" name="{{name}}" theme="{{theme}}" role_type="{{role_type}}" class="edit fa fa-edit"></i>
-            <i type_id="{{_id}}" class="delete fa fa-trash-o"></i>
+            <i type_id="{{_id}}" name="{{name}}" theme="{{theme}}" role_type="{{role_type}}" class="edit table-btn fa fa-edit"></i>
+            <i type_id="{{_id}}" class="delete table-btn fa fa-trash-o"></i>
         </td>
     </tr>
 </script>
