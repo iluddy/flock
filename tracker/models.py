@@ -1,12 +1,18 @@
 from mongoengine import *
 from datetime import datetime
 
+# TODO - add indexes
+
 class Base(object):
 
     def to_dict(self):
         return self.to_mongo()
 
 class Person(Document, Base):
+    meta = {
+        'indexes': ['mail', 'name']
+    }
+
     id = SequenceField(primary_key=True)
     mail = StringField(unique=True, nullable=True)
     name = StringField()

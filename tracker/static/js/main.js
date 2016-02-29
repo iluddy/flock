@@ -25,6 +25,7 @@ function compile_templates(){
     people_type_table_tmpl = Handlebars.compile($("#people_type_table_tmpl").html());
     no_data_tmpl = Handlebars.compile($("#no_data_tmpl").html());
     people_table_body_tmpl = Handlebars.compile($("#people_table_body_tmpl").html());
+    people_table_filter_tmpl = Handlebars.compile($("#people_table_filter_tmpl").html());
 
     // Partial Templates
     Handlebars.registerPartial("person_type_part", $("#people_type_table_row_tmpl").html());
@@ -104,24 +105,21 @@ function load_calendar(){
 function load_people(){
     var roles, people;
     var sort_by, sort_dir, role_filter;
+    var search;
 
     function draw_people(data){
         $('#people_table_body').html(people_table_body_tmpl({'people': data}));
         $('#people_table_body .delete').on('click', delete_person);
+        search = $('#people_table_search');
     }
 
     function reload_people(){
         var filter = {
-            'roles': JSON.stringify(role_filter)
+            'search': search.val()
         }
         ajax_call({'url': '/people', 'type': 'post', 'notify': false, 'data': filter, 'success': draw_people});
     }
 
-    function apply_filter(){
-        $(this).toggleClass('selected');
-        get_filters();
-        reload_people();
-    }
 
     function add_person(){
         new_person = {
@@ -144,14 +142,21 @@ function load_people(){
         role_filter =  $(".filter-label.selected").map(function(){return parseInt($(this).attr("role_id"));}).get();
     }
 
+    function add_handlers(roles){
+        $('#modal_add_person').on('click', add_person);
+        $('#people_table_search').on('keyup', function(){
+            delay(function(){
+                reload_people()
+            }, 800 );
+        });
+    }
     $.when(
         ajax_load('/roles', {}, function(data){roles=data}),
         ajax_load('/people', {}, function(data){people=data})
     ).done(function(){
         $(page_main).html(people_tmpl({"roles": roles}));
         draw_people(people);
-        $('#people_table_control .filter-label').on('click', apply_filter);
-        $('#modal_add_person').on('click', add_person);
+        add_handlers(roles);
         load_components();
     });
 }

@@ -7581,20 +7581,23 @@ button.DTTT_button:hover, div.DTTT_button:hover, a.DTTT_button:hover {
     text-align: center;
     font-size: 1.1em;
 }
-#people_datatable{
+#people_table{
     position: relative;
-    bottom: 20px;
+    top: 16px;
+    right: -10px;
 }
 .filter-label{
     font-size: 1em;
-    clear: both;
-    float: left;
     cursor: pointer;
     line-height: 1.2;
     margin-bottom: 4px;
     opacity: 0.3;
 }
-
+.popover-wrapper{
+    width: 250px;
+    position: relative;
+    right: 10px;
+}
 .filter-label.selected{
     opacity: 1;
 }

@@ -81,8 +81,8 @@ def people_delete():
 @app.route('/people', methods=['GET', 'POST'])
 @auth
 def people():
-    roles = request.form.get("roles", None)
-    return json_response(db_wrapper.get_people(roles=roles))
+    search = request.form.get("search", None)
+    return json_response(db_wrapper.get_people(search=search))
 
 @app.route('/people', methods=['PUT'])
 @auth

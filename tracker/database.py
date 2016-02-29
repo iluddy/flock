@@ -17,14 +17,8 @@ class Database():
     def __init__(self, db):
         self.db = db
         self.reset_database()
-        self.create_indexes()
         self.add_defaults()
         self.add_test_data()
-
-    def create_indexes(self):
-        # TODO - this
-        # self.db.user.create_index("price")
-        pass
 
     def add_defaults(self):
         for collection_name, data in default_data.iteritems():
@@ -95,13 +89,17 @@ class Database():
         new_person['role'] = Role.objects(id=new_person['role']).get()
         return Person(**new_person).save()
 
-    def get_people(self, roles=None, user_id=None):
-        filter = {"company": session["company_id"]}
+    def get_people(self, user_id=None, search=None):
+        query = {'company': session["company_id"]}
         if user_id:
-            filter["user_id"] = user_id
-        if roles:
-            filter["role__in"] = json.loads(roles)
-        return Person.objects(**filter)
+            query["user_id"] = user_id
+        if search:
+            query['$or'] = [
+                {'name': {'$options': 'i', '$regex': '.*{}.*'.format(search)}},
+                {'mail': {'$options': 'i', '$regex': '.*{}.*'.format(search)}},
+                {'role': {'$options': 'i', '$regex': '.*{}.*'.format(search)}},
+            ]
+        return Person.objects(__raw__=query)
 
     def get_company(self):
         return Company.objects.get(id=session['company_id'])

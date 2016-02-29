@@ -369,25 +369,56 @@
 <script id="people_tmpl" type="text/x-handlebars-template">
     <div class="pane animated fadeInDown">
         <div class="col-lg-12">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_people_modal">
-                Add People
-            </button>
-            <div class="spacer"></div>
-            <div class="spacer"></div>
-            <div class="spacer"></div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_people_modal">
+                    Add People
+                </button>
+            </div>
+
+            <div class="col-md-4">
+
+            </div>
+
+            <div class="col-md-5">
+                <input id="people_table_search" type="text" placeholder="search" class="form-control" required="">
+            </div>
+
+            <!--<div class="col-md-1">-->
+                <!--<button id="people_table_filter" type="button" class="btn btn-primary btn-outline" data-toggle="modal">-->
+                    <!--Filter-->
+                <!--</button>-->
+            <!--</div>-->
+
+
         </div>
-        <div id="people_table_control" class="col-lg-2">
-            <h2>Filters</h2>
-            <div class="spacer"></div>
-            {{#each roles}}
-                <span role_id="{{_id}}" class="filter-label selected label label-{{theme}}">{{name}}</span>
-            {{/each}}
-        </div>
-        <div class="col-lg-9">
-            <table class="table table-hover">
+
+        <!--<div id="people_table_control" class="col-lg-8 pull-right">-->
+
+                <!--&lt;!&ndash;<div class="ibox float-e-margins">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="ibox-title">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<h5>Filters</h5>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="ibox-content">&ndash;&gt;-->
+
+                        <!--&lt;!&ndash;{{#each roles}}&ndash;&gt;-->
+                            <!--&lt;!&ndash;<div role_id="{{_id}}" class="filter-label selected label label-{{theme}}">{{name}}</div>&ndash;&gt;-->
+                        <!--&lt;!&ndash;{{/each}}&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+            <!--<div class="col-lg-8 pull-right"></div>-->
+            <!--<input type="text" placeholder="search" class="form-control input-lg" required="">-->
+            <!--<h2>Filters</h2>-->
+            <!--{{#each roles}}-->
+                <!--<span role_id="{{_id}}" class="filter-label selected label label-{{theme}}">{{name}}</span>-->
+            <!--{{/each}}-->
+        <!--</div>-->
+        <div class="col-lg-12">
+            <table id="people_table" class="table table-hover">
                 <thead>
                 <tr>
-                    <th>{{> checkbox_part}}</th>
+                    <!--<th>{{> checkbox_part}}</th>-->
                     <th>Name</th>
                     <th>Mail</th>
                     <th>Type</th>
@@ -447,13 +478,30 @@
 <script id="people_table_body_tmpl" type="text/x-handlebars-template">
     {{#each people}}
         <tr>
-            <td>{{> checkbox_part}}</td>
+            <!--<td>{{> checkbox_part}}</td>-->
             <td>{{name}}</td>
             <td>{{mail}}</td>
             <td><span class="label label-{{role_theme}}">{{role_name}}</span></td>
             <td><i people_id="{{_id}}" class="delete table-btn fa fa-trash-o"></i></td>
         </tr>
     {{/each}}
+</script>
+
+<script id="people_table_filter_tmpl" type="text/x-handlebars-template">
+    <div class="popover-wrapper">
+        <h3>Types of People</h3>
+        <br/>
+        <br/>
+        {{#each roles}}
+            <!--<span role_id="{{_id}}" class="filter-label selected label label-{{theme}}">{{name}}</span>-->
+
+            <div>
+                <span>{{> checkbox_part checked='true' label=name}}</span>
+                <span class="label label-{{theme}} pull-right">4</span>
+            </div>
+
+        {{/each}}
+    </div>
 </script>
 
 <script id="add_person_tmpl" type="text/x-handlebars-template">

@@ -97,3 +97,11 @@ function confirmation(){
         swal("Deleted!", "Your imaginary file has been deleted.", "success");
     });
 }
+
+var delay = (function(){
+    var timer = 0;
+    return function(callback, ms){
+        clearTimeout (timer);
+        timer = setTimeout(callback, ms);
+    };
+})();
