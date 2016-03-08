@@ -9,7 +9,6 @@
         <div class="" id="ibox-content">
             <div class="col-lg-8">
 
-
                 <div id="vertical-timeline" class="vertical-container light-timeline">
                     <div class="vertical-timeline-block">
                         <div class="vertical-timeline-icon navy-bg">
@@ -383,45 +382,24 @@
                 <input id="people_table_search" type="text" placeholder="search" class="form-control" required="">
             </div>
 
-            <!--<div class="col-md-1">-->
-                <!--<button id="people_table_filter" type="button" class="btn btn-primary btn-outline" data-toggle="modal">-->
-                    <!--Filter-->
-                <!--</button>-->
-            <!--</div>-->
-
-
         </div>
-
-        <!--<div id="people_table_control" class="col-lg-8 pull-right">-->
-
-                <!--&lt;!&ndash;<div class="ibox float-e-margins">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div class="ibox-title">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<h5>Filters</h5>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div class="ibox-content">&ndash;&gt;-->
-
-                        <!--&lt;!&ndash;{{#each roles}}&ndash;&gt;-->
-                            <!--&lt;!&ndash;<div role_id="{{_id}}" class="filter-label selected label label-{{theme}}">{{name}}</div>&ndash;&gt;-->
-                        <!--&lt;!&ndash;{{/each}}&ndash;&gt;-->
-
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-            <!--<div class="col-lg-8 pull-right"></div>-->
-            <!--<input type="text" placeholder="search" class="form-control input-lg" required="">-->
-            <!--<h2>Filters</h2>-->
-            <!--{{#each roles}}-->
-                <!--<span role_id="{{_id}}" class="filter-label selected label label-{{theme}}">{{name}}</span>-->
-            <!--{{/each}}-->
-        <!--</div>-->
+        <div class="col-lg-12">
+            <div class="paginator-wrapper">
+                Showing <span id="person_start"></span> to <span id="person_end"></span> of <span id="person_count"></span>
+                <i id="person_prev" class="fa fa-arrow-circle-left paginator"></i>
+                <i id="person_next" class="fa fa-arrow-circle-right paginator"></i>
+            </div>
+        </div>
         <div class="col-lg-12">
             <table id="people_table" class="table table-hover">
                 <thead>
                 <tr>
                     <!--<th>{{> checkbox_part}}</th>-->
-                    <th>Name</th>
-                    <th>Mail</th>
-                    <th>Type</th>
+                    <th>Name <i sorter="name" class="table-sorter fa fa-sort"></i></th>
+                    <th>Mail <i sorter="mail" class="table-sorter fa fa-sort"></i></th>
+                    <th>Phone <i sorter="phone" class="table-sorter fa fa-sort"></i></th>
+                    <th>Type <i sorter="role_name" class="table-sorter fa fa-sort"></i></th>
+                    <th>Status <i sorter="invite" class="table-sorter fa fa-sort"></i></th>
                     <th></th>
                 </tr>
                 </thead>
@@ -480,9 +458,23 @@
         <tr>
             <!--<td>{{> checkbox_part}}</td>-->
             <td>{{name}}</td>
-            <td>{{mail}}</td>
+            <td>{{#if mail}} {{mail}} {{else}} <span class="placeholder-text">Unknown</span> {{/if}}</td>
+            <td>{{#if phone}} {{phone}} {{else}} <span class="placeholder-text">Unknown</span> {{/if}}</td>
             <td><span class="label label-{{role_theme}}">{{role_name}}</span></td>
-            <td><i people_id="{{_id}}" class="delete table-btn fa fa-trash-o"></i></td>
+            <td>
+                {{#if invite}}
+                    {{#if active}}
+                        <span class="badge badge-primary">Active</span>
+                    {{else}}
+                        <span class="badge badge-warning">Invitation Pending</span>
+                        <i people_id="{{_id}}" mail="{{mail}}" title="Resend Invitation" class="invite-btn table-btn fa fa-reply"></i>
+                    {{/if}}
+                {{else}}
+                    <span class="placeholder-text badge">No Invite Sent</span>
+                    <i people_id="{{_id}}" mail="{{mail}}" title="Send Invitation" class="invite-btn table-btn fa fa-reply"></i>
+                {{/if}}
+            </td>
+            <td><i people_id="{{_id}}" name="{{name}}" title="Delete Person" class="delete-btn table-btn fa fa-trash-o"></i></td>
         </tr>
     {{/each}}
 </script>
@@ -493,13 +485,10 @@
         <br/>
         <br/>
         {{#each roles}}
-            <!--<span role_id="{{_id}}" class="filter-label selected label label-{{theme}}">{{name}}</span>-->
-
             <div>
                 <span>{{> checkbox_part checked='true' label=name}}</span>
                 <span class="label label-{{theme}} pull-right">4</span>
             </div>
-
         {{/each}}
     </div>
 </script>
@@ -568,8 +557,8 @@
         <td><span class="label label-{{theme}}">{{name}}</span></td>
         <td>{{role_type_name}}</td>
         <td>
-            <i type_id="{{_id}}" name="{{name}}" theme="{{theme}}" role_type="{{role_type}}" class="edit table-btn fa fa-edit"></i>
-            <i type_id="{{_id}}" class="delete table-btn fa fa-trash-o"></i>
+            <i type_id="{{_id}}" name="{{name}}" theme="{{theme}}" role_type="{{role_type}}" title="Edit Person Type" class="edit-btn table-btn fa fa-edit"></i>
+            <i type_id="{{_id}}" title="Delete Person Type" class="delete-btn table-btn fa fa-trash-o"></i>
         </td>
     </tr>
 </script>

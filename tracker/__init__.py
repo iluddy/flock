@@ -5,10 +5,12 @@ from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 from database import Database
 from task_manager import TaskManager
+from services import PersonService
 from constants import secret_key, session_duration
 from flask.ext.autodoc import Autodoc
 from flask.ext.mongoengine import MongoEngine
 from flask import Flask
+from tracker.mailer import Mailer
 from utils import setup_logger, read_config_file
 
 # Argument parser
@@ -38,8 +40,11 @@ db = MongoEngine()
 db.init_app(app)
 db_wrapper = Database(db)
 
-# Task Manager
-task_manager = TaskManager()
+# Mailer
+mailer = Mailer()
+
+# Service
+person_service = PersonService(db_wrapper, mailer)
 
 # Create Views
 from tracker import views

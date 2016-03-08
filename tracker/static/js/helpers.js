@@ -62,13 +62,15 @@ function ajax_call(options){
             if (options.success != undefined)
                 options.success(data);
             if (options.notify != false)
-                toastr.success(data, 'Done', {'timeOut':2000, 'progressBar':true});
+                toastr.success(data, 'Success!', {'timeOut':2000, 'progressBar':true});
         },
         error: function(data) {
             if (options.error != undefined)
                 options.error(data);
             if (options.notify != false)
-                toastr.error(data.responseText, 'Error', {'timeOut':2000, 'progressBar':true});
+                // TODO - this better
+                var error_msg = data.responseText.replace('</p>', '').split('<p>').slice(-1)[0];
+                toastr.error(error_msg, 'Oh No!', {'timeOut':3000, 'progressBar':true});
         }
     });
 }

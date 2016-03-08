@@ -1,5 +1,6 @@
 from mongoengine import *
 from datetime import datetime
+from utils import account_token
 
 # TODO - add indexes
 
@@ -14,18 +15,21 @@ class Person(Document, Base):
     }
 
     id = SequenceField(primary_key=True)
-    mail = StringField(unique=True, nullable=True)
+    mail = StringField(unique=True, nullable=True, sparse=True)
+    phone = StringField(unique=True, nullable=True, sparse=True)
     name = StringField()
-    invite = BooleanField() # Null = dont invite, False = invite not yet sent, True = invite sent
+    invite = BooleanField(default=True)
+    active = BooleanField(default=False)
     password = StringField()
     company = ReferenceField('Company')
     role = ReferenceField('Role')
+    role_name = StringField()
+    role_theme = StringField()
+    token = StringField()
 
-    def to_dict(self):
-        output = self.to_mongo()
-        output['role_name'] = self.role.name
-        output['role_theme'] = self.role.theme
-        return output
+    def generate_token(self):
+        self.token = account_token()
+        return self.token
 
 class Role(Document, Base):
     id = SequenceField(primary_key=True)

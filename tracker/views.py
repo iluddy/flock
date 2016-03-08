@@ -1,6 +1,6 @@
-from flask import request, redirect, url_for, render_template, session
+from flask import request, redirect, url_for, render_template, session, abort
 from tracker import app
-from tracker import task_manager
+from tracker import person_service
 from tracker import db_wrapper
 from tracker.utils import json_response, auth
 
@@ -21,11 +21,35 @@ def root():
 def templates():
     return app.send_static_file('hb_templates/templates.html')
 
-#### User Session ####
+#### User Account/Session ####
 
 @app.route('/login')
 def login():
     return render_template('login.html')
+
+@app.route('/activate/<token>')
+def activate_form(token):
+    person = db_wrapper.get_people(token=token)
+    # TODO - deal with not finding user
+    # TODO - list terms and conditions on activate and register pages
+    # TODO - validate password on frontend
+    return render_template('activate.html', token=token, name=person.name, email=person.mail)
+
+@app.route('/activate', methods=['POST'])
+def activate_account():
+    token = request.form.get("token")
+    name = request.form.get("name")
+    password = request.form.get("password")
+    mail = request.form.get("email")
+
+    success, message = db_wrapper.activate_user(token, name, password)
+    if success:
+        success, message = db_wrapper.authenticate_user(mail, password)
+
+    if success:
+        return message, 200
+
+    return message, 401
 
 @app.route('/forgot_password')
 def forgot_password():
@@ -74,45 +98,40 @@ def reset_user():
 @app.route('/people', methods=['DELETE'])
 @auth
 def people_delete():
-    # TODO - validate deletion
-    db_wrapper.delete_person(request.form.get("id"))
-    return 'People Updated', 200
+    person_service.delete(request.form.get("id"))
+    return '{} has been deleted'.format(request.form.get("name")), 200
 
 @app.route('/people', methods=['GET', 'POST'])
 @auth
 def people():
     search = request.form.get("search", None)
-    return json_response(db_wrapper.get_people(search=search))
+    sort_by = request.form.get("sort_by", None)
+    sort_dir = request.form.get("sort_dir", None)
+    limit = request.form.get("limit", 10)
+    offset = request.form.get("offset", 0)
+    data, count = person_service.get(search=search, sort_by=sort_by, sort_dir=sort_dir, limit=limit, offset=offset)
+    return json_response({'data': data, 'count': count})
 
 @app.route('/people', methods=['PUT'])
 @auth
 def people_add():
-    invite_person = request.form.get("invite", None)
+    invite = request.form.get("invite", None)
     new_person = {
         'name': request.form.get("name", None),
         'mail': request.form.get("mail", None),
         'role': request.form.get("type", None),
-        'invite': False if invite_person else None,
+        'invite': True if invite else False,
         'company': session['company_id']
     }
-    db_wrapper.add_person(new_person)
-    if invite_person:
-        task_manager.push({
-            'action': 'invite',
-            'email': request.form.get("mail", None)
-         })
+    person_service.add(new_person)
+    return '{} has been added'.format(new_person['name']), 200
 
-    return 'New Person Added: %s' % new_person['name'], 200
-
-@app.route('/people/reinvite', methods=['POST'])
+@app.route('/people/invite', methods=['POST'])
 @auth
-def people_reinvite():
-    task_manager.push({
-        'action': 'invite',
-        'email': request.form.get("mail", None)
-    })
-
-    return 'Invitation will be sent', 200
+def people_invite():
+    mail = request.form.get("mail")
+    person_service.invite(mail, session['user_id'])
+    return 'Invitation has been sent to {}'.format(mail), 200
 
 #### Roles ####
 

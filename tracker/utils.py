@@ -1,5 +1,6 @@
 import json
 import logging
+import requests
 from functools import wraps
 from logging.handlers import RotatingFileHandler
 from uuid import uuid4, uuid5, NAMESPACE_DNS
@@ -27,6 +28,9 @@ def random_uuid():
 
 def random_password():
     return random_uuid()[24:]
+
+def account_token():
+    return random_uuid()
 
 def wrapped_execute(func, *args, **kwargs):
     try:
@@ -70,16 +74,19 @@ def float_to_two_places(x):
 def capitalise(string):
     return string.title()
 
-def json_response(response, jsonify=True, count=None, sort=False):
-    if type(response) in [list, QuerySet]:
-        if jsonify:
-            response = [doc.to_dict() for doc in response]
-        if sort:
-            response = sorted(response)
-    if count is not None:
-        response = make_response(json.dumps({"count": count, "data": response}))
+def json_response(response):
+
+    def dump(data):
+        if type(data) in [list, QuerySet]:
+            return [doc.to_dict() for doc in data]
+        return data
+
+    if "data" in response:
+        response['data'] = dump(response['data'])
     else:
-        response = make_response(json.dumps(response))
+        response = dump(response)
+
+    response = make_response(json.dumps(response))
     response.mimetype = "application/json"
     return response
 

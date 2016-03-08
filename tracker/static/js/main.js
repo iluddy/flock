@@ -52,13 +52,24 @@ function toggle(){
     $(this).toggleClass('selected');
 }
 
+function sort_toggle(dom){
+    $(dom).parent().siblings().children('.table-sorter').removeClass('fa-sort-up').removeClass('fa-sort-down').addClass('fa-sort');
+    $(dom).removeClass('fa-sort');
+    if( $(dom).hasClass('fa-sort-down') ){
+        $(dom).removeClass('fa-sort-down').addClass('fa-sort-up');
+    }else if( $(dom).hasClass('fa-sort-up') ){
+        $(dom).removeClass('fa-sort-up').addClass('fa-sort-down');
+    }else{
+        $(dom).addClass('fa-sort-down');
+    }
+}
+
 function load_components(){
     $('.i-checks').iCheck({
         checkboxClass: 'icheckbox_square-green',
         radioClass: 'iradio_square-green',
     });
     $('.color-choice').on('click', radio_toggle);
-
     $('.color-choice').first().click();
 }
 
@@ -99,56 +110,122 @@ function load_calendar(){
             right: 'month,agendaWeek,agendaDay'
         },
     })
-
 }
 
 function load_people(){
-    var roles, people;
-    var sort_by, sort_dir, role_filter;
-    var search;
+    var sort_by, sort_dir, search, roles, people, count;
+    var page = 0;
+    var limit = 10;
 
     function draw_people(data){
-        $('#people_table_body').html(people_table_body_tmpl({'people': data}));
-        $('#people_table_body .delete').on('click', delete_person);
+        $('#people_table_body').html(people_table_body_tmpl({'people': data.data}));
+        $('#people_table_body .delete-btn').on('click', delete_person);
+        $('#people_table_body .invite-btn').on('click', invite_person);
         search = $('#people_table_search');
+        count = data.count;
+        $('#person_count').text(data.count);
+        update_pagination();
+    }
+
+    function update_pagination(){
+        $('#person_start').text((limit * page) + 1);
+        var end = (limit * page) + limit;
+        end = end > count ? count : end;
+        $('#person_end').text(end);
+    }
+
+    function next_page(){
+        if( (page + 1) * limit <= count ){
+            page = page + 1;
+            reload_people();
+        }
+    }
+
+    function last_page(){
+        if( page > 0){
+            page = page - 1;
+            reload_people();
+        }
     }
 
     function reload_people(){
+        $('#add_person_error').hide();
         var filter = {
-            'search': search.val()
+            'search': search.val(),
+            'sort_by': sort_by,
+            'sort_dir': sort_dir,
+            'offset': page,
+            'limit': limit
         }
-        ajax_call({'url': '/people', 'type': 'post', 'notify': false, 'data': filter, 'success': draw_people});
+        ajax_call({
+            'url': '/people',
+            'type': 'post',
+            'notify': false,
+            'data': filter,
+            'success': draw_people
+        });
+        $('#add_people_modal').modal('hide');
     }
-
 
     function add_person(){
         new_person = {
             'type': $('#add_person_type_choice .color-choice.selected').attr('type_id'),
             'name': $('#add_person_name').val(),
-            'mail': $('#add_person_email').val(),
-            'invite': $('#add_person_invite').is(":checked")
         }
-        ajax_call({'url': '/people', 'type': 'put', 'data': new_person, 'success': reload_people});
+
+        var mail = $('#add_person_email').val();
+        var invite = $('#add_person_invite').is(":checked");
+
+        if( mail.length > 0 )
+            new_person['mail'] = mail;
+
+        if( invite == true )
+            new_person['invite'] = true;
+
+        if ( new_person['name'].length > 0 )
+            ajax_call({
+                'url': '/people',
+                'type': 'put',
+                'data': new_person,
+                'success': function(){
+                    reload_people();
+                },
+            });
     }
 
     function delete_person(){
-        to_remove = {'id': parseInt($(this).attr("people_id"))};
-        ajax_call({'url': '/people', 'type': 'delete', 'data': to_remove, 'success': reload_people});
+        to_remove = {'id': parseInt($(this).attr("people_id")), 'name': $(this).attr('name')};
+        ajax_call({
+            'url': '/people',
+            'type': 'delete',
+            'data': to_remove,
+            'success': function(){
+                reload_people();
+            }
+        });
     }
 
-    function get_filters(){
-        sort_by = 'type';
-        sort_dir = 'asc';
-        role_filter =  $(".filter-label.selected").map(function(){return parseInt($(this).attr("role_id"));}).get();
+    function invite_person(){
+        to_invite = {'mail': $(this).attr("mail")};
+        ajax_call({'url': '/people/invite', 'type': 'post', 'data': to_invite});
     }
 
-    function add_handlers(roles){
+    function add_handlers(){
         $('#modal_add_person').on('click', add_person);
         $('#people_table_search').on('keyup', function(){
             delay(function(){
-                reload_people()
+                page = 0;
+                reload_people();
             }, 800 );
         });
+        $('.table-sorter').on('click', function(){
+            sort_toggle($(this));
+            sort_by = $(this).attr('sorter');
+            sort_dir = $(this).hasClass('fa-sort-down') == true ? 'desc' : 'asc';
+            reload_people();
+        });
+        $('#person_next').on('click', next_page);
+        $('#person_prev').on('click', last_page);
     }
     $.when(
         ajax_load('/roles', {}, function(data){roles=data}),
@@ -156,7 +233,7 @@ function load_people(){
     ).done(function(){
         $(page_main).html(people_tmpl({"roles": roles}));
         draw_people(people);
-        add_handlers(roles);
+        add_handlers();
         load_components();
     });
 }
@@ -238,8 +315,8 @@ function load_people_type_table(){
             roles = input;
             if( input.length > 0){
                 $('#people_type_table_holder').html(people_type_table_tmpl({'types': input}));
-                $('#people_type_table_body i.delete').on('click', delete_people_type);
-                $('#people_type_table_body i.edit').on('click', edit_people_type);
+                $('#people_type_table_body i.delete-btn').on('click', delete_people_type);
+                $('#people_type_table_body i.edit-btn').on('click', edit_people_type);
             }else{
                 $('#people_type_table_holder').html(no_data_tmpl({
                     'caption': 'There are no People-Types configured. Add some now!'

@@ -1,6 +1,6 @@
 import json
 from flask import session
-from utils import random_password
+from utils import random_password, account_token
 from constants import *
 from models import *
 import models as mo
@@ -52,6 +52,23 @@ class Database():
 
         return True, 'Registered'
 
+    def activate_user(self, token, name, password):
+        try:
+            Person.objects(token=token).update_one(
+                name=name,
+                password=password,
+                token=None,
+                active=True
+            )
+            return True, "Activated"
+        except DoesNotExist:
+            return False, "Invitation expired. A new invitation will need to be sent. Please contact your Organisation's administrator."
+
+    def generate_token(self, mail):
+        token = account_token()
+        Person.objects(mail=mail).update_one(token=token)
+        return token
+
     def authenticate_user(self, mail, password):
         # TODO : encrypt stored passwords
         try:
@@ -86,20 +103,47 @@ class Database():
         Person.objects.get(id=person_id).delete()
 
     def add_person(self, new_person):
-        new_person['role'] = Role.objects(id=new_person['role']).get()
+        role = Role.objects(id=new_person['role']).get()
+        new_person['role'] = role
+        new_person['role_name'] = role.name
+        new_person['role_theme'] = role.theme
+
+        # Mail can either be a unique email address or can not exist
+        if not new_person['mail']:
+            del new_person['mail']
+
         return Person(**new_person).save()
 
-    def get_people(self, user_id=None, search=None):
-        query = {'company': session["company_id"]}
+    def get_people(self, user_id=None, search=None, sort_by=None, sort_dir=None, token=None, limit=None, offset=None):
+
         if user_id:
-            query["user_id"] = user_id
+            return Person.objects.get(id=user_id)
+
+        if token:
+            return Person.objects.get(token=token)
+
+        query = {'company': session["company_id"]}
+
         if search:
+            # TODO - deal with multiple search terms
             query['$or'] = [
                 {'name': {'$options': 'i', '$regex': '.*{}.*'.format(search)}},
                 {'mail': {'$options': 'i', '$regex': '.*{}.*'.format(search)}},
-                {'role': {'$options': 'i', '$regex': '.*{}.*'.format(search)}},
+                {'role_name': {'$options': 'i', '$regex': '.*{}.*'.format(search)}}
             ]
-        return Person.objects(__raw__=query)
+
+        results = Person.objects(__raw__=query)
+        count = len(results)
+
+        if sort_by:
+            results = results.order_by('-' + sort_by if sort_dir == 'asc' else sort_by)
+
+        if limit is not None and offset is not None:
+            start = int(offset) * int(limit)
+            end = start + int(limit)
+            results = results[start:end]
+
+        return results, count
 
     def get_company(self):
         return Company.objects.get(id=session['company_id'])
