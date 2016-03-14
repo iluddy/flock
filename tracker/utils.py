@@ -95,5 +95,8 @@ def auth(f):
     def decorated_function(*args, **kwargs):
         if not session.get('user_id'):
             return redirect(url_for('login'))
+
+        # TODO - verify user and company match
+
         return f(*args, **kwargs)
     return decorated_function

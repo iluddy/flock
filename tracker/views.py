@@ -1,9 +1,8 @@
-from flask import request, redirect, url_for, render_template, session, abort
+from flask import request, redirect, url_for, render_template, session
 from tracker import app
-from tracker import person_service
+from tracker import person_service, place_service, account_service, event_service
 from tracker import db_wrapper
 from tracker.utils import json_response, auth
-
 
 @app.route('/')
 @auth
@@ -88,10 +87,8 @@ def login_user():
 
 @app.route('/reset_user', methods=['POST'])
 def reset_user():
-    success, message = db_wrapper.reset_user(request.form.get('mail'))
-    if success:
-        return message, 200
-    return message, 401
+    account_service.reset(request.form.get("mail"))
+    return 'Password reset. You should receive an email shortly :)', 200
 
 #### People ####
 
@@ -109,7 +106,7 @@ def people():
     sort_dir = request.form.get("sort_dir", None)
     limit = request.form.get("limit", 10)
     offset = request.form.get("offset", 0)
-    data, count = person_service.get(search=search, sort_by=sort_by, sort_dir=sort_dir, limit=limit, offset=offset)
+    data, count = person_service.get(session['company_id'], search=search, sort_by=sort_by, sort_dir=sort_dir, limit=limit, offset=offset)
     return json_response({'data': data, 'count': count})
 
 @app.route('/people', methods=['PUT'])
@@ -132,6 +129,45 @@ def people_invite():
     mail = request.form.get("mail")
     person_service.invite(mail, session['user_id'])
     return 'Invitation has been sent to {}'.format(mail), 200
+
+#### Places ####
+
+@app.route('/places', methods=['DELETE'])
+@auth
+def places_delete():
+    place_service.delete(request.form.get("id"))
+    return '{} has been deleted'.format(request.form.get("name")), 200
+
+@app.route('/places', methods=['GET', 'POST'])
+@auth
+def places():
+    search = request.form.get("search", None)
+    sort_by = request.form.get("sort_by", None)
+    sort_dir = request.form.get("sort_dir", None)
+    limit = request.form.get("limit", 10)
+    offset = request.form.get("offset", 0)
+    data, count = place_service.get(session['company_id'], search=search, sort_by=sort_by, sort_dir=sort_dir, limit=limit, offset=offset)
+    return json_response({'data': data, 'count': count})
+
+@app.route('/places', methods=['PUT'])
+@auth
+def places_add():
+    new_place = {
+        'name': request.form.get("name", None),
+        'mail': request.form.get("email", None),
+        'phone': request.form.get("phone", None),
+        'address': request.form.get("address", None),
+        'company': session['company_id']
+    }
+    place_service.add(new_place)
+    return '{} has been added'.format(new_place['name']), 200
+
+#### Events ####
+
+@app.route('/events')
+@auth
+def events():
+    return json_response(event_service.get(session['company_id']))
 
 #### Roles ####
 

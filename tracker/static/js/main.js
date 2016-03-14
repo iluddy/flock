@@ -22,10 +22,11 @@ function compile_templates(){
     places_tmpl = Handlebars.compile($("#places_tmpl").html());
     settings_tmpl = Handlebars.compile($("#settings_tmpl").html());
     notifications_tmpl = Handlebars.compile($("#notifications_tmpl").html());
-    people_type_table_tmpl = Handlebars.compile($("#people_type_table_tmpl").html());
     no_data_tmpl = Handlebars.compile($("#no_data_tmpl").html());
+    no_data_table_tmpl = Handlebars.compile($("#no_data_table_tmpl").html());
+    places_table_body_tmpl = Handlebars.compile($("#places_table_body_tmpl").html());
+    people_type_table_tmpl = Handlebars.compile($("#people_type_table_tmpl").html());
     people_table_body_tmpl = Handlebars.compile($("#people_table_body_tmpl").html());
-    people_table_filter_tmpl = Handlebars.compile($("#people_table_filter_tmpl").html());
 
     // Partial Templates
     Handlebars.registerPartial("person_type_part", $("#people_type_table_row_tmpl").html());
@@ -107,7 +108,7 @@ function load_calendar(){
         header: {
             left: 'prev,next today',
             center: 'title',
-            right: 'month,agendaWeek,agendaDay'
+            right: 'agendaDay,agendaWeek,month'
         },
     })
 }
@@ -118,17 +119,24 @@ function load_people(){
     var limit = 10;
 
     function draw_people(data){
-        $('#people_table_body').html(people_table_body_tmpl({'people': data.data}));
-        $('#people_table_body .delete-btn').on('click', delete_person);
-        $('#people_table_body .invite-btn').on('click', invite_person);
-        search = $('#people_table_search');
+        if( data.data.length == 0){
+            $('#people_table_body').html(no_data_table_tmpl({
+                'caption': 'No People to display. Broaden your search or add some People!', 'span': '6'
+            }));
+        }else{
+            $('#people_table_body').html(people_table_body_tmpl({'people': data.data}));
+            $('#people_table_body .delete-btn').on('click', delete_person);
+            $('#people_table_body .invite-btn').on('click', invite_person);
+        }
         count = data.count;
         $('#person_count').text(data.count);
         update_pagination();
     }
 
     function update_pagination(){
-        $('#person_start').text((limit * page) + 1);
+        var start = (limit * page) + 1;
+        start = start < count ? start : count;
+        $('#person_start').text(start);
         var end = (limit * page) + limit;
         end = end > count ? count : end;
         $('#person_end').text(end);
@@ -226,6 +234,7 @@ function load_people(){
         });
         $('#person_next').on('click', next_page);
         $('#person_prev').on('click', last_page);
+        search = $('#people_table_search');
     }
     $.when(
         ajax_load('/roles', {}, function(data){roles=data}),
@@ -243,7 +252,123 @@ function load_things(){
 }
 
 function load_places(){
-    $(page_main).html(places_tmpl());
+    var sort_by, sort_dir, search, places, count;
+    var page = 0;
+    var limit = 10;
+
+    function draw_places(data){
+        if( data.data.length == 0){
+            $('#places_table_body').html(no_data_table_tmpl({
+                'caption': 'No Places to display. Broaden your search or add some Places!', 'span': '5'
+            }));
+        }else{
+            $('#places_table_body').html(places_table_body_tmpl({'places': data.data}));
+            $('#places_table_body .delete-btn').on('click', delete_place);
+        }
+        count = data.count;
+        $('#places_count').text(data.count);
+        update_pagination();
+    }
+
+    function update_pagination(){
+        var start = (limit * page) + 1;
+        start = start < count ? start : count;
+        $('#places_start').text(start);
+        var end = (limit * page) + limit;
+        end = end > count ? count : end;
+        $('#places_end').text(end);
+    }
+
+    function next_page(){
+        if( (page + 1) * limit <= count ){
+            page = page + 1;
+            reload_places();
+        }
+    }
+
+    function last_page(){
+        if( page > 0){
+            page = page - 1;
+            reload_places();
+        }
+    }
+
+    function reload_places(){
+        $('#add_place_error').hide();
+        var filter = {
+            'search': search.val(),
+            'sort_by': sort_by,
+            'sort_dir': sort_dir,
+            'offset': page,
+            'limit': limit
+        }
+        ajax_call({
+            'url': '/places',
+            'type': 'post',
+            'notify': false,
+            'data': filter,
+            'success': draw_places
+        });
+        $('#add_places_modal').modal('hide');
+    }
+
+    function add_place(){
+        new_place = {
+            'name': $('#add_place_name').val(),
+            'email': $('#add_place_email').val(),
+            'phone': $('#add_place_phone').val(),
+            'address': $('#add_place_address').val(),
+        }
+        // TODO - validate form
+        if ( new_place['name'].length > 0 )
+            ajax_call({
+                'url': '/places',
+                'type': 'put',
+                'data': new_place,
+                'success': function(){
+                    reload_places();
+                },
+            });
+    }
+
+    function delete_place(){
+        to_remove = {'id': parseInt($(this).attr("place_id")), 'name': $(this).attr('name')};
+        ajax_call({
+            'url': '/places',
+            'type': 'delete',
+            'data': to_remove,
+            'success': function(){
+                reload_places();
+            }
+        });
+    }
+
+    function add_handlers(){
+        $('#modal_add_place').on('click', add_place);
+        $('#places_table_search').on('keyup', function(){
+            delay(function(){
+                page = 0;
+                reload_places();
+            }, 800 );
+        });
+        $('.table-sorter').on('click', function(){
+            sort_toggle($(this));
+            sort_by = $(this).attr('sorter');
+            sort_dir = $(this).hasClass('fa-sort-down') == true ? 'desc' : 'asc';
+            reload_places();
+        });
+        $('#place_next').on('click', next_page);
+        $('#place_prev').on('click', last_page);
+        search = $('#places_table_search');
+    }
+    $.when(
+        ajax_load('/places', {}, function(data){places=data})
+    ).done(function(){
+        $(page_main).html(places_tmpl());
+        draw_places(places);
+        add_handlers();
+        load_components();
+    });
 }
 
 function load_settings(){

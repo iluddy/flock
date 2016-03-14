@@ -1,10 +1,35 @@
 from flask import abort, session
 
-class PersonService():
+class Service:
 
     def __init__(self, db, mailer):
         self.db = db
         self.mailer = mailer
+
+class EventService(Service):
+
+    def get(self, company_id):
+        return self.db.get_events(company_id)
+
+class AccountService(Service):
+
+    def reset(self, mail):
+        new_password = self.db.reset_user(mail)
+        self.mailer.reset(mail, new_password)
+
+class PlaceService(Service):
+
+    def add(self, new_place):
+        self.db.add_place(new_place)
+
+    def delete(self, place_id):
+        # TODO - validate
+        self.db.delete_place(place_id)
+
+    def get(self, company_id, search=None, sort_by=None, sort_dir=None, limit=None, offset=None):
+        return self.db.get_places(company_id, search=search, sort_by=sort_by, sort_dir=sort_dir, limit=limit, offset=offset)
+
+class PersonService(Service):
 
     def invite(self, mail, sender_id):
         if not mail:
@@ -26,5 +51,5 @@ class PersonService():
         # TODO - validate
         self.db.delete_person(user_id)
 
-    def get(self, search=None, sort_by=None, sort_dir=None, limit=None, offset=None):
-        return self.db.get_people(search=search, sort_by=sort_by, sort_dir=sort_dir, limit=limit, offset=offset)
+    def get(self, company_id, search=None, sort_by=None, sort_dir=None, limit=None, offset=None):
+        return self.db.get_people(company_id, search=search, sort_by=sort_by, sort_dir=sort_dir, limit=limit, offset=offset)

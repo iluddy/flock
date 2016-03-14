@@ -93,13 +93,13 @@ class Database():
             user = Person.objects.get(mail=mail)
             user.password = new_password
             user.save()
+            return new_password
             # TODO : encrypt stored passwords
-            # TODO : send email
-            return True, 'Password reset. You should receive an email shortly :)'
         except DoesNotExist:
-            return False, 'Email address not registered :('
+            abort(400, 'Email address not registered :(')
 
     def delete_person(self, person_id):
+        # TODO - validate
         Person.objects.get(id=person_id).delete()
 
     def add_person(self, new_person):
@@ -114,7 +114,7 @@ class Database():
 
         return Person(**new_person).save()
 
-    def get_people(self, user_id=None, search=None, sort_by=None, sort_dir=None, token=None, limit=None, offset=None):
+    def get_people(self, company_id, user_id=None, search=None, sort_by=None, sort_dir=None, token=None, limit=None, offset=None):
 
         if user_id:
             return Person.objects.get(id=user_id)
@@ -122,10 +122,11 @@ class Database():
         if token:
             return Person.objects.get(token=token)
 
-        query = {'company': session["company_id"]}
+        query = {'company': company_id}
 
         if search:
             # TODO - deal with multiple search terms
+            # TODO - search status. ie. active, invitation pending etc
             query['$or'] = [
                 {'name': {'$options': 'i', '$regex': '.*{}.*'.format(search)}},
                 {'mail': {'$options': 'i', '$regex': '.*{}.*'.format(search)}},
@@ -144,6 +145,44 @@ class Database():
             results = results[start:end]
 
         return results, count
+
+    def get_places(self, company_id, place_id=None, search=None, sort_by=None, sort_dir=None, limit=None, offset=None):
+
+        if place_id:
+            return Place.objects.get(id=place_id)
+
+        query = {'company': company_id}
+
+        if search:
+            query['$or'] = [
+                {'name': {'$options': 'i', '$regex': '.*{}.*'.format(search)}},
+                {'address': {'$options': 'i', '$regex': '.*{}.*'.format(search)}},
+                {'mail': {'$options': 'i', '$regex': '.*{}.*'.format(search)}},
+                {'description': {'$options': 'i', '$regex': '.*{}.*'.format(search)}}
+            ]
+
+        results = Place.objects(__raw__=query)
+        count = len(results)
+
+        if sort_by:
+            results = results.order_by('-' + sort_by if sort_dir == 'asc' else sort_by)
+
+        if limit is not None and offset is not None:
+            start = int(offset) * int(limit)
+            end = start + int(limit)
+            results = results[start:end]
+
+        return results, count
+
+    def get_events(self, company_id):
+        return Event.objects()
+
+    def delete_place(self, place_id):
+        # TODO - validate
+        Place.objects.get(id=place_id).delete()
+
+    def add_place(self, new_place):
+        return Place(**new_place).save()
 
     def get_company(self):
         return Company.objects.get(id=session['company_id'])

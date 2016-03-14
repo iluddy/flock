@@ -230,7 +230,77 @@
 
 <script id="places_tmpl" type="text/x-handlebars-template">
     <div class="pane animated fadeInDown">
-        Places
+        <div class="col-lg-12">
+            <div class="col-md-3">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_places_modal">
+                    Add a Place
+                </button>
+            </div>
+
+            <div class="col-md-4">
+            </div>
+
+            <div class="col-md-5">
+                <input id="places_table_search" type="text" placeholder="search" class="form-control" required="">
+            </div>
+
+        </div>
+        <div class="col-lg-12">
+            <div class="paginator-wrapper">
+                Showing <span id="places_start"></span> to <span id="places_end"></span> of <span id="places_count"></span>
+                <i id="person_prev" class="fa fa-arrow-circle-left paginator"></i>
+                <i id="person_next" class="fa fa-arrow-circle-right paginator"></i>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <table id="places_table" class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Name <i sorter="name" class="table-sorter fa fa-sort"></i></th>
+                    <th>Address <i sorter="mail" class="table-sorter fa fa-sort"></i></th>
+                    <th>Email <i sorter="role_name" class="table-sorter fa fa-sort"></i></th>
+                    <th>Phone <i sorter="phone" class="table-sorter fa fa-sort"></i></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="places_table_body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="modal inmodal" id="add_places_modal" tabindex="-1" role="dialog"  aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content animated fadeIn">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <!--<i class="fa fa-users modal-icon"></i>-->
+                    <h3 class="modal-title">Add a Place</h3>
+                    <!--<small>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>-->
+                </div>
+                <div class="modal-body">
+                    <form id="add_place_form" method="get" class="form-horizontal" data-toggle="validator">
+                        <div class="form-group"><label class="col-sm-2 control-label">Name</label>
+                            <div class="col-sm-10"><input id="add_place_name" type="text" placeholder="name" class="form-control input-lg" required=""></div>
+                        </div>
+                        <div class="form-group"><label class="col-sm-2 control-label">Email</label>
+                            <div class="col-sm-10"><input id="add_place_email" type="email" placeholder="optional" class="form-control input-lg"></div>
+                        </div>
+                        <div class="form-group"><label class="col-sm-2 control-label">Phone</label>
+                            <div class="col-sm-10"><input id="add_place_phone" type="text" placeholder="phone number" class="form-control input-lg"></div>
+                        </div>
+                        <div class="form-group"><label class="col-sm-2 control-label">Address</label>
+                            <div class="col-sm-10"><textarea id="add_place_address" type="text" placeholder="address" class="form-control input-lg"></textarea></div>
+                        </div>
+                        <div class="form-group modal-footer-buttons">
+                            <button id="modal_add_place" type="submit" class="btn btn-primary">Add</button>
+                            <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </script>
 
@@ -370,12 +440,11 @@
         <div class="col-lg-12">
             <div class="col-md-3">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_people_modal">
-                    Add People
+                    Add a Person
                 </button>
             </div>
 
             <div class="col-md-4">
-
             </div>
 
             <div class="col-md-5">
@@ -415,7 +484,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                     <!--<i class="fa fa-users modal-icon"></i>-->
-                    <h3 class="modal-title">Add People</h3>
+                    <h3 class="modal-title">Add a Person</h3>
                     <!--<small>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>-->
                 </div>
                 <div class="modal-body">
@@ -453,6 +522,21 @@
     </div>
 </script>
 
+<script id="places_table_body_tmpl" type="text/x-handlebars-template">
+    {{#each places}}
+        <tr>
+            <td>{{name}}</td>
+            <td>{{address}}</td>
+            <td>{{#if mail}} {{mail}} {{else}} <span class="placeholder-text">Unknown</span> {{/if}}</td>
+            <td>{{#if phone}} {{phone}} {{else}} <span class="placeholder-text">Unknown</span> {{/if}}</td>
+            <td>
+                <i place_id="{{_id}}" title="Show on Map" class="map-btn table-btn fa fa-map-marker"></i>
+                <i place_id="{{_id}}" name="{{name}}" title="Delete Place" class="delete-btn table-btn fa fa-trash-o"></i>
+            </td>
+        </tr>
+    {{/each}}
+</script>
+
 <script id="people_table_body_tmpl" type="text/x-handlebars-template">
     {{#each people}}
         <tr>
@@ -477,62 +561,6 @@
             <td><i people_id="{{_id}}" name="{{name}}" title="Delete Person" class="delete-btn table-btn fa fa-trash-o"></i></td>
         </tr>
     {{/each}}
-</script>
-
-<script id="people_table_filter_tmpl" type="text/x-handlebars-template">
-    <div class="popover-wrapper">
-        <h3>Types of People</h3>
-        <br/>
-        <br/>
-        {{#each roles}}
-            <div>
-                <span>{{> checkbox_part checked='true' label=name}}</span>
-                <span class="label label-{{theme}} pull-right">4</span>
-            </div>
-        {{/each}}
-    </div>
-</script>
-
-<script id="add_person_tmpl" type="text/x-handlebars-template">
-    <div class="ibox float-e-margins">
-        <div class="ibox-title">
-            <h5>Add Person</h5>
-        </div>
-        <div class="ibox-content">
-            <form method="get" class="form-horizontal">
-                <div class="form-group"><label class="col-sm-2 control-label">Name</label>
-                    <div class="col-sm-10"><input type="text" placeholder="full name" class="form-control input-lg" required=""></div>
-                </div>
-                <div class="form-group"><label class="col-sm-2 control-label">Email</label>
-                    <div class="col-sm-10"><input type="email" placeholder="optional" class="form-control input-lg">
-                        <!--<span class="help-block m-b-none">An invitation will be sent to this address</span>-->
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-10 pull-right">
-                        {{> checkbox_part}}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Type</label>
-                    <div class="col-sm-10">
-                        {{#each roles}}
-                            <div class="i-checks"><label class="">
-                            <div class="iradio_square-green" style="position: relative;">
-                                <input type="radio" value="{{_id}}" name="{{name}}" style="position: absolute; opacity: 0;">
-                                <ins class="iCheck-helper"
-                                     style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
-                            </div>
-                            <i></i> {{name}} </label> </div>
-                        {{/each}}
-                    </div>
-                </div>
-                <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>Add</strong>
-                </button>
-                <br/>
-            </form>
-        </div>
-    </div>
 </script>
 
 <script id="people_type_table_tmpl" type="text/x-handlebars-template">
@@ -567,6 +595,10 @@
     <div class="no_data">{{caption}}</div>
 </script>
 
+<script id="no_data_table_tmpl" type="text/x-handlebars-template">
+    <td colspan="{{span}}" class="no_data">{{caption}}</td>
+</script>
+
 <script id="checkbox_tmpl" type="text/x-handlebars-template">
     <div class="i-checks"><label class=""> <div class="icheckbox_square-green" style="position: relative;">
         <input {{#if id}}id="{{id}}"{{/if}} type="checkbox" {{#if checked}}checked=""{{/if}} value="" style="position: absolute; opacity: 0;">
@@ -582,11 +614,11 @@
                 <ins class="iCheck-helper"
                      style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
             </div>
-        <i></i> {{label}} </label>
-        <span class="help-block m-b-none checkbox-help">
-            {{help}}
-        </span>
-            </div>
+            <i></i> {{label}} </label>
+            <span class="help-block m-b-none checkbox-help">
+                {{help}}
+            </span>
+        </div>
     {{/each}}
 </script>
 

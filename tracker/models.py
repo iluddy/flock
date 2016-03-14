@@ -50,16 +50,22 @@ class RoleType(Document, Base):
 
 class Event(Document, Base):
     id = SequenceField(primary_key=True)
+    name = StringField()
     owner = ReferenceField('Person')
+    start = DateTimeField()
+    end = DateTimeField()
     people = ListField(ReferenceField('Person'))
     things = ListField(ReferenceField('Thing'))
-    name = StringField()
     place = ReferenceField('Place')
+    company = ReferenceField('Company')
 
 class Place(Document, Base):
     id = SequenceField(primary_key=True)
     name = StringField(unique=True)
-    description = StringField()
+    address = StringField()
+    mail = StringField()
+    phone = StringField()
+    company = ReferenceField('Company')
 
 class Company(Document, Base):
     id = SequenceField(primary_key=True)

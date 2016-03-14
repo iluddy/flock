@@ -1,11 +1,10 @@
 import argparse
-import sys
 from tornado.wsgi import WSGIContainer
 from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 from database import Database
 from task_manager import TaskManager
-from services import PersonService
+from services import PersonService, PlaceService, AccountService, EventService
 from constants import secret_key, session_duration
 from flask.ext.autodoc import Autodoc
 from flask.ext.mongoengine import MongoEngine
@@ -43,17 +42,16 @@ db_wrapper = Database(db)
 # Mailer
 mailer = Mailer()
 
-# Service
+# Services
 person_service = PersonService(db_wrapper, mailer)
+place_service = PlaceService(db_wrapper, mailer)
+account_service = AccountService(db_wrapper, mailer)
+event_service = EventService(db_wrapper, mailer)
 
 # Create Views
 from tracker import views
 
-try:
-    # Run with Tornado
-    http_server = HTTPServer(WSGIContainer(app))
-    http_server.listen(cfg["web_server"]["port"], address=cfg["web_server"]["host"])
-    IOLoop.instance().start()
-except KeyboardInterrupt:
-    task_manager.stop()
-    sys.exit()
+# Run with Tornado
+http_server = HTTPServer(WSGIContainer(app))
+http_server.listen(cfg["web_server"]["port"], address=cfg["web_server"]["host"])
+IOLoop.instance().start()

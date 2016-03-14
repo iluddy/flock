@@ -100,5 +100,49 @@ test_data = {
             'company': 1,
             'theme': 'primary'
         },
+    ],
+    'Place': [
+        {
+            'id': 1,
+            'name': 'GEC',
+            'address': 'Taylors Lane, Dublin 8',
+            'mail': 'info@gec.ie',
+            'phone': '01-234234234',
+            'company': 1
+        },
+        {
+            'id': 2,
+            'name': 'Cake Venue',
+            'address': 'Cake St, Dublin 12',
+            'mail': 'info@cake.ie',
+            'phone': '01-234234234',
+            'company': 1
+        },
+        {
+            'id': 3,
+            'name': 'Square Tallaght',
+            'address': 'Square, Tallaght',
+            'mail': 'info@tallaght.ie',
+            'phone': '01-234234234',
+            'company': 1
+        },
+        {
+            'id': 4,
+            'name': 'Walk Office',
+            'address': 'Walk, Walkinstown',
+            'mail': 'info@walk.ie',
+            'phone': '01-234234234',
+            'company': 1
+        },
+    ],
+    'Event': [
+        {
+            'id': 1,
+            'name': 'Cake Class',
+            'owner': 1,
+            'people': [1,2,3],
+            'place': 4,
+            'company': 1
+        }
     ]
 }

@@ -7580,6 +7580,8 @@ button.DTTT_button:hover, div.DTTT_button:hover, a.DTTT_button:hover {
 .no_data{
     text-align: center;
     font-size: 1.1em;
+    opacity: 0.8;
+    padding: 15px;
 }
 #people_table{
     position: relative;
@@ -7635,7 +7637,9 @@ button.DTTT_button:hover, div.DTTT_button:hover, a.DTTT_button:hover {
     opacity: 0.5;
 }
 .paginator{
-    font-size: 1.3em;
+    font-size: 1.7em;
+    position: relative;
+    top: 3px;
     cursor: pointer;
     margin-left: 4px;
 }

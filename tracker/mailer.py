@@ -12,6 +12,28 @@ class Mailer():
             data=data
         )
 
+    def reset(self, recipient, new_password):
+
+        # TODO - remove this
+        recipient = 'ianluddy@gmail.com'
+
+        self.send({
+            "from": self.sent_from,
+            "to": recipient,
+            "subject": "Your Password has been reset",
+            "text": """
+
+            Your Password has been reset.
+
+            Your new Password is {}
+
+            Follow this link to login:
+
+            http://localhost:5001
+
+            """.format(new_password),
+        })
+
     def invite(self, recipient, sender, token):
 
         # TODO - remove this
