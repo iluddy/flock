@@ -269,7 +269,6 @@
         </div>
     </div>
 
-
     <div class="modal inmodal" id="add_places_modal" tabindex="-1" role="dialog"  aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content animated fadeIn">
@@ -306,8 +305,10 @@
 
 <script id="settings_tmpl" type="text/x-handlebars-template">
     <div class="pane animated fadeInDown">
+
         <div class="tabs-container">
-            <div class="">
+
+            <div class="tabs-left">
                 <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">Types of People</a></li>
                     <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">Types of Places</a></li>
@@ -317,12 +318,7 @@
                 <div class="tab-content ">
                     <div id="tab-1" class="tab-pane active">
                         <div class="panel-body">
-                            <div class="help_pane">
-                                <p>Here you can define the various types of People in your organisation.</p>
-                                <div class="hr-line-dashed"></div>
-                            </div>
-
-                            <div id="add_people_type_form" class="col-lg-6 pull-left" people_type_id="">
+                            <div id="add_people_type_form" class="col-lg-6" people_type_id="">
                                 <div class="section_title">Add New</div>
                                 <div class="spacer"></div>
                                 <form method="get" class="form-horizontal" onsubmit="event.preventDefault(); add_update_people_type();">
