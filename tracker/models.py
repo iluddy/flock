@@ -31,6 +31,11 @@ class Person(Document, Base):
         self.token = account_token()
         return self.token
 
+    def to_dict(self):
+        output = self.to_mongo()
+        output['initials'] = ''.join(name[0].upper() for name in self.name.split())
+        return output
+
 class Role(Document, Base):
     id = SequenceField(primary_key=True)
     name = StringField(unique=True)
@@ -50,7 +55,7 @@ class RoleType(Document, Base):
 
 class Event(Document, Base):
     id = SequenceField(primary_key=True)
-    name = StringField()
+    title = StringField()
     owner = ReferenceField('Person')
     start = DateTimeField()
     end = DateTimeField()
@@ -59,10 +64,22 @@ class Event(Document, Base):
     place = ReferenceField('Place')
     company = ReferenceField('Company')
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'people': [person.to_dict() for person in self.people],
+            'start': str(self.start),
+            'end': str(self.end),
+            'owner': self.owner.to_dict(),
+            'place': self.place.to_dict()
+        }
+
 class Place(Document, Base):
     id = SequenceField(primary_key=True)
-    name = StringField(unique=True)
+    name = StringField()
     address = StringField()
+    directions = StringField()
     mail = StringField()
     phone = StringField()
     company = ReferenceField('Company')

@@ -31,10 +31,10 @@ class PlaceService(Service):
 
 class PersonService(Service):
 
-    def invite(self, mail, sender_id):
+    def invite(self, mail, sender_id, company_id):
         if not mail:
             abort(400, 'No email address registered for this Person, please add one to send an invitation')
-        sender = self.db.get_people(user_id=sender_id).name
+        sender = self.db.get_people(company_id, user_id=sender_id).name
         token = self.db.generate_token(mail)
         self.mailer.invite(mail, sender, token)
 

@@ -8375,18 +8375,39 @@ body.md-skin {
 }
 #main .tabs-left li a{
     text-align: center;
-
+    background-color: #eee;
 }
 #main .tabs-left .panel-body{
     border: none !important;
     background: none !important;
+    position: relative;
+    top: -10px;
 }
 #main .tabs-container .tabs-left > .nav-tabs{
-    width: 15%;
+    width: 12%;
 }
 #main .tabs-container .tabs-left .panel-body{
-    width: 85%;
+    width: 88%;
 }
 #main .tabs-container .tabs-left .panel-body{
-    margin-left: 15%;
+    margin-left: 12%;
+}
+.event_people{
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+}
+.fc-month-view .event_people, .fc-agendaWeek-view .event_people{
+    display: none;
+}
+.fc-event:hover{
+    z-index: 100 !important;
+    border: 1px solid #888;
+}
+.event_tip{
+    background-color: white;
+    padding: 10px;
+}
+.event_tip div{
+    margin-bottom: 5px;
 }

@@ -16,7 +16,7 @@ function compile_templates(){
     // Templates
     people_tmpl = Handlebars.compile($("#people_tmpl").html());
     dashboard_tmpl = Handlebars.compile($("#dashboard_tmpl").html());
-    calendar_tmpl = Handlebars.compile($("#calendar_tmpl").html());
+    planner_tmpl = Handlebars.compile($("#planner_tmpl").html());
     events_tmpl = Handlebars.compile($("#events_tmpl").html());
     things_tmpl = Handlebars.compile($("#things_tmpl").html());
     places_tmpl = Handlebars.compile($("#places_tmpl").html());
@@ -27,6 +27,8 @@ function compile_templates(){
     places_table_body_tmpl = Handlebars.compile($("#places_table_body_tmpl").html());
     people_type_table_tmpl = Handlebars.compile($("#people_type_table_tmpl").html());
     people_table_body_tmpl = Handlebars.compile($("#people_table_body_tmpl").html());
+    event_tmpl = Handlebars.compile($("#event_tmpl").html());
+    event_tip_tmpl = Handlebars.compile($("#event_tip_tmpl").html());
 
     // Partial Templates
     Handlebars.registerPartial("person_type_part", $("#people_type_table_row_tmpl").html());
@@ -102,15 +104,50 @@ function load_dashboard(){
     $(page_main).html(dashboard_tmpl());
 }
 
-function load_calendar(){
-    $(page_main).html(calendar_tmpl());
+function load_planner(){
+    $(page_main).html(planner_tmpl());
+
     $('#calendar_wrap').fullCalendar({
         header: {
             left: 'prev,next today',
             center: 'title',
-            right: 'agendaDay,agendaWeek,month'
+            right: 'agendaDay,agendaWeek,month',
         },
-    })
+        minTime: "06:00:00",
+        maxTime: "23:00:00",
+        selectable: true,
+        events: '/events',
+        eventRender: function(event, element) {
+
+            event.start_string = date_string(event.start);
+            event.end_string = date_string(event.end);
+            console.log(event.start_string)
+            $(event_tmpl({'people': event.people})).insertAfter($(element).find('.fc-content'));
+            $(element).qtip({
+                content:{
+                  text: event_tip_tmpl(event)
+                },
+                show: 'click',
+                style: {
+                    classes: 'qtip-bootstrap'
+                },
+                hide: {
+                    delay: 200,
+                    fixed: true
+                },
+                position: {
+                    my: 'bottom right',  // Position my top left...
+                    at: 'top left', // at the bottom right of...
+                }
+            });
+        },
+        eventMouseover: function(event, element){
+            $(element.currentTarget).addClass('active');
+        },
+        eventMouseout: function(event, element){
+            $(element.currentTarget).removeClass('active');
+        },
+    });
 }
 
 function load_people(){

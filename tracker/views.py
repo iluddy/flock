@@ -28,7 +28,7 @@ def login():
 
 @app.route('/activate/<token>')
 def activate_form(token):
-    person = db_wrapper.get_people(token=token)
+    person = db_wrapper.get_people(session['company_id'], token=token)
     # TODO - deal with not finding user
     # TODO - list terms and conditions on activate and register pages
     # TODO - validate password on frontend
@@ -127,7 +127,7 @@ def people_add():
 @auth
 def people_invite():
     mail = request.form.get("mail")
-    person_service.invite(mail, session['user_id'])
+    person_service.invite(mail, session['user_id'], session['company_id'])
     return 'Invitation has been sent to {}'.format(mail), 200
 
 #### Places ####

@@ -1,6 +1,21 @@
-<script id="calendar_tmpl" type="text/x-handlebars-template">
+<script id="planner_tmpl" type="text/x-handlebars-template">
     <div class="pane animated fadeInDown">
-        <div id="calendar_wrap"></div>
+        <div class="tabs-container">
+            <div class="tabs-left">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#planner-tab-1" aria-expanded="true">Calendar</a></li>
+                    <li class=""><a data-toggle="tab" href="#planner-tab-2" aria-expanded="false">Events</a></li>
+                </ul>
+                <div class="tab-content ">
+                    <div id="planner-tab-1" class="tab-pane active">
+                        <div id="calendar_wrap" class="panel-body"></div>
+                    </div>
+                    <div id="planner-tab-2" class="tab-pane">
+                        <div id="events_wrap" class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </script>
 
@@ -283,14 +298,17 @@
                         <div class="form-group"><label class="col-sm-2 control-label">Name</label>
                             <div class="col-sm-10"><input id="add_place_name" type="text" placeholder="name" class="form-control input-lg" required=""></div>
                         </div>
-                        <div class="form-group"><label class="col-sm-2 control-label">Email</label>
+                        <div class="form-group"><label class="col-sm-2 control-label">Contect Email</label>
                             <div class="col-sm-10"><input id="add_place_email" type="email" placeholder="optional" class="form-control input-lg"></div>
                         </div>
-                        <div class="form-group"><label class="col-sm-2 control-label">Phone</label>
-                            <div class="col-sm-10"><input id="add_place_phone" type="text" placeholder="phone number" class="form-control input-lg"></div>
+                        <div class="form-group"><label class="col-sm-2 control-label">Contact Phone</label>
+                            <div class="col-sm-10"><input id="add_place_phone" type="text" placeholder="optional" class="form-control input-lg"></div>
                         </div>
                         <div class="form-group"><label class="col-sm-2 control-label">Address</label>
-                            <div class="col-sm-10"><textarea id="add_place_address" type="text" placeholder="address" class="form-control input-lg"></textarea></div>
+                            <div class="col-sm-10"><textarea id="add_place_address" type="text" placeholder="address" class="form-control input-lg" required=""></textarea></div>
+                        </div>
+                        <div class="form-group"><label class="col-sm-2 control-label">Directions</label>
+                            <div class="col-sm-10"><textarea id="add_place_directions" type="text" placeholder="optional" class="form-control input-lg"></textarea></div>
                         </div>
                         <div class="form-group modal-footer-buttons">
                             <button id="modal_add_place" type="submit" class="btn btn-primary">Add</button>
@@ -310,13 +328,12 @@
 
             <div class="tabs-left">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">Types of People</a></li>
-                    <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">Types of Places</a></li>
-                    <li class=""><a data-toggle="tab" href="#tab-3" aria-expanded="false">General Settings</a></li>
-                    <li class=""><a data-toggle="tab" href="#tab-4" aria-expanded="false">Billing</a></li>
+                    <li class="active"><a data-toggle="tab" href="#setting-tab-1" aria-expanded="true">Types of People</a></li>
+                    <li class=""><a data-toggle="tab" href="#setting-tab-2" aria-expanded="false">General Settings</a></li>
+                    <li class=""><a data-toggle="tab" href="#setting-tab-3" aria-expanded="false">Notifications</a></li>
                 </ul>
                 <div class="tab-content ">
-                    <div id="tab-1" class="tab-pane active">
+                    <div id="setting-tab-1" class="tab-pane active">
                         <div class="panel-body">
                             <div id="add_people_type_form" class="col-lg-6" people_type_id="">
                                 <div class="section_title">Add New</div>
@@ -410,19 +427,14 @@
                             </div>
                         </div>
                     </div>
-                    <div id="tab-2" class="tab-pane">
+                    <div id="setting-tab-2" class="tab-pane">
                         <div class="panel-body">
-                            <strong>Places</strong>
+                            <strong>General</strong>
                         </div>
                     </div>
-                    <div id="tab-3" class="tab-pane">
+                    <div id="setting-tab-3" class="tab-pane">
                         <div class="panel-body">
                             <strong>Notifications</strong>
-                        </div>
-                    </div>
-                    <div id="tab-4" class="tab-pane">
-                        <div class="panel-body">
-                            <strong>Billing</strong>
                         </div>
                     </div>
                 </div>
@@ -618,3 +630,22 @@
     {{/each}}
 </script>
 
+<script id="event_tmpl" type="text/x-handlebars-template">
+    <div class="event_people">
+        {{#each people}}
+            <span class="label label-{{role_theme}}">{{initials}}</span>
+        {{/each}}
+    </div>
+</script>
+
+<script id="event_tip_tmpl" type="text/x-handlebars-template">
+    <div class="event_tip">
+        <h1>{{title}}</h1>
+        <h4>{{start_string}} - {{end_string}}</h4>
+        <div>{{place.name}}</div>
+        <div>{{place.address}}</div>
+        {{#each people}}
+            <span class="label label-{{role_theme}}">{{name}}</span>
+        {{/each}}
+    </div>
+</script>

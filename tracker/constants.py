@@ -134,15 +134,87 @@ test_data = {
             'phone': '01-234234234',
             'company': 1
         },
+        {
+            'id': 5,
+            'name': 'St. Catherines Gym',
+            'address': 'Thomas St',
+            'mail': 'info@gym.ie',
+            'phone': '01-234234234',
+            'company': 1
+        },
     ],
     'Event': [
         {
             'id': 1,
-            'name': 'Cake Class',
+            'title': 'Cake Class',
             'owner': 1,
             'people': [1,2,3],
             'place': 4,
             'company': 1
-        }
+        },
+        {
+            'id': 2,
+            'title': 'Reading Club',
+            'owner': 1,
+            'people': [1,2,3,7],
+            'place': 1,
+            'company': 1
+        },
+        {
+            'id': 3,
+            'title': 'Dancing',
+            'owner': 1,
+            'people': [1,2,112],
+            'place': 3,
+            'company': 1
+        },
+        {
+            'id': 4,
+            'title': 'Gym',
+            'owner': 1,
+            'people': [112,113,114],
+            'place': 5,
+            'company': 1
+        },
+        {
+            'id': 5,
+            'title': 'Dancing',
+            'owner': 1,
+            'people': [1,2,112],
+            'place': 3,
+            'company': 1
+        },
+        {
+            'id': 6,
+            'title': 'Gym',
+            'owner': 1,
+            'people': [112,113,114],
+            'place': 5,
+            'company': 1
+        },
+        {
+            'id': 7,
+            'title': 'Gym',
+            'owner': 1,
+            'people': [112,113,114],
+            'place': 5,
+            'company': 1
+        },
+        {
+            'id': 8,
+            'title': 'Dancing',
+            'owner': 1,
+            'people': [1,2,112],
+            'place': 3,
+            'company': 1
+        },
+        {
+            'id': 9,
+            'title': 'Gym',
+            'owner': 1,
+            'people': [112,113,114],
+            'place': 5,
+            'company': 1
+        },
     ]
 }

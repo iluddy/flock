@@ -1,6 +1,7 @@
-import json
+from datetime import datetime, timedelta
+from random import randint
 from flask import session
-from utils import random_password, account_token
+from utils import random_password
 from constants import *
 from models import *
 import models as mo
@@ -30,6 +31,7 @@ class Database():
         Role.drop_collection()
         RoleType.drop_collection()
         Person.drop_collection()
+        Place.drop_collection()
         Company.drop_collection()
 
     def add_test_data(self):
@@ -37,6 +39,15 @@ class Database():
             doc = getattr(mo, collection_name)
             for document in data:
                 doc(**document).save()
+
+        # Update event times
+        for event in Event.objects():
+            event_time = datetime.utcnow()
+            event_time = event_time.replace(hour=randint(6, 18))
+            event.update(
+                start=event_time,
+                end=event_time + timedelta(hours=randint(1, 2))
+            )
 
     def register_user(self, name, mail, password, company):
         try:
