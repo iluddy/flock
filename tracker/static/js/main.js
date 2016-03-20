@@ -127,7 +127,7 @@ function load_planner(){
                 content:{
                   text: event_tip_tmpl(event)
                 },
-                show: 'click',
+//                show: 'click',
                 style: {
                     classes: 'qtip-bootstrap'
                 },
@@ -136,8 +136,8 @@ function load_planner(){
                     fixed: true
                 },
                 position: {
-                    my: 'bottom right',  // Position my top left...
-                    at: 'top left', // at the bottom right of...
+                    my: 'bottom middle',  // Position my top left...
+                    at: 'top middle', // at the bottom right of...
                 }
             });
         },

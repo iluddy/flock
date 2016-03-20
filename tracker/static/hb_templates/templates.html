@@ -1,21 +1,23 @@
 <script id="planner_tmpl" type="text/x-handlebars-template">
     <div class="pane animated fadeInDown">
-        <div class="tabs-container">
-            <div class="tabs-left">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#planner-tab-1" aria-expanded="true">Calendar</a></li>
-                    <li class=""><a data-toggle="tab" href="#planner-tab-2" aria-expanded="false">Events</a></li>
-                </ul>
-                <div class="tab-content ">
-                    <div id="planner-tab-1" class="tab-pane active">
-                        <div id="calendar_wrap" class="panel-body"></div>
-                    </div>
-                    <div id="planner-tab-2" class="tab-pane">
-                        <div id="events_wrap" class="panel-body"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div id="calendar_wrap"></div>
+        <!--<div class="tabs-container">-->
+            <!--<div class="tabs-left">-->
+                <!--<ul class="nav nav-tabs">-->
+                    <!--<li class="active"><a data-toggle="tab" href="#planner-tab-1" aria-expanded="true">Calendar</a></li>-->
+                    <!--<li class=""><a data-toggle="tab" href="#planner-tab-2" aria-expanded="false">Events</a></li>-->
+                <!--</ul>-->
+                <!--<div class="tab-content ">-->
+                    <!--<div id="planner-tab-1" class="tab-pane active">-->
+                        <!--<div id="calendar_wrap" class="panel-body"></div>-->
+                    <!--</div>-->
+                    <!--<div id="planner-tab-2" class="tab-pane">-->
+                        <!--<div id="events_wrap" class="panel-body"></div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!---->
     </div>
 </script>
 
@@ -640,12 +642,24 @@
 
 <script id="event_tip_tmpl" type="text/x-handlebars-template">
     <div class="event_tip">
-        <h1>{{title}}</h1>
-        <h4>{{start_string}} - {{end_string}}</h4>
-        <div>{{place.name}}</div>
-        <div>{{place.address}}</div>
-        {{#each people}}
-            <span class="label label-{{role_theme}}">{{name}}</span>
-        {{/each}}
+        <div class="event_title">{{title}}</div>
+        <div class="event_body">
+            <div class="event_time">{{start_string}} - {{end_string}}</div>
+            <div>
+                {{place.name}}
+                <br/>
+                {{place.address}}
+            </div>
+            <div class="event_people_wrap">
+                {{#each people}}
+                    <span class="label label-{{role_theme}}">{{name}}</span>
+                {{/each}}
+            </div>
+        </div>
+        <div class="event_footer">
+            <div class="event_edit">
+                <a href="#">Edit</a>
+            </div>
+        </div>
     </div>
 </script>

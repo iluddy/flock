@@ -8402,12 +8402,35 @@ body.md-skin {
 }
 .fc-event:hover{
     z-index: 100 !important;
-    border: 1px solid #888;
 }
 .event_tip{
     background-color: white;
-    padding: 10px;
+    padding: 5px;
 }
-.event_tip div{
-    margin-bottom: 5px;
+.event_tip .event_people_wrap{
+    margin-top: 10px;
+}
+.event_tip .event_people_wrap span{
+    margin-bottom: 2px;
+    display: inline-block;
+}
+.event_tip .event_title{
+    margin-top: 10px;
+    font-size: 1.9em;
+}
+.event_tip .event_body{
+    padding-top: 5px;
+    padding-left: 5px;
+}
+.event_tip .event_edit{
+    text-decoration: underline;
+    float: right;
+}
+.event_tip .event_footer{
+    margin-top: 5px;
+    height: 15px;
+}
+.event_tip .event_time{
+    margin-top: 10px;
+    opacity: 0.6;
 }
