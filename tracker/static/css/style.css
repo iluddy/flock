@@ -8434,3 +8434,13 @@ body.md-skin {
     margin-top: 10px;
     opacity: 0.6;
 }
+.req-input{
+    border-left: 3px solid #1ab394;
+}
+.account_info{
+    border-right: 1px solid #aaa;
+    padding-right: 7px;
+}
+.account_info span{
+    margin-left: 4px;
+}

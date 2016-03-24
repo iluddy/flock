@@ -4,7 +4,7 @@ from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 from database import Database
 from task_manager import TaskManager
-from services import PersonService, PlaceService, AccountService, EventService
+from services import PersonService, PlaceService, AccountService, EventService, RoleService
 from constants import secret_key, session_duration
 from flask.ext.autodoc import Autodoc
 from flask.ext.mongoengine import MongoEngine
@@ -47,6 +47,7 @@ person_service = PersonService(db_wrapper, mailer)
 place_service = PlaceService(db_wrapper, mailer)
 account_service = AccountService(db_wrapper, mailer)
 event_service = EventService(db_wrapper, mailer)
+role_service = RoleService(db_wrapper, mailer)
 
 # Create Views
 from tracker import views

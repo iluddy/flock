@@ -1,10 +1,10 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
 from random import randint
-from flask import session
 from utils import random_password
 from constants import *
 from models import *
 import models as mo
+from werkzeug.exceptions import abort
 
 
 class Database():
@@ -20,6 +20,8 @@ class Database():
         self.reset_database()
         self.add_defaults()
         self.add_test_data()
+
+    #### Utils ####
 
     def add_defaults(self):
         for collection_name, data in default_data.iteritems():
@@ -49,19 +51,19 @@ class Database():
                 end=event_time + timedelta(hours=randint(1, 2))
             )
 
+    #### User Account ####
+
     def register_user(self, name, mail, password, company):
         try:
             new_company = Company(name=company)
             new_company.save()
         except NotUniqueError:
-            return False, 'Company name already in use :('
+            abort(400, 'Company name already in use :(')
 
         try:
             Person(name=name, mail=mail, password=password, company=new_company).save()
         except NotUniqueError:
-            return False, 'Email address already in use :('
-
-        return True, 'Registered'
+            abort(400, 'Email address already in use :(')
 
     def activate_user(self, token, name, password):
         try:
@@ -71,32 +73,26 @@ class Database():
                 token=None,
                 active=True
             )
-            return True, "Activated"
         except DoesNotExist:
-            return False, "Invitation expired. A new invitation will need to be sent. Please contact your Organisation's administrator."
+            abort(400, "Invitation expired. A new invitation will need to be sent. Please contact your Organisation's administrator.")
 
     def generate_token(self, mail):
         token = account_token()
-        Person.objects(mail=mail).update_one(token=token)
+        Person.objects(mail=mail).update_one(token=token, invite=True)
         return token
 
     def authenticate_user(self, mail, password):
         # TODO : encrypt stored passwords
         try:
             user = Person.objects.get(mail=mail, password=password)
-            session['user_id'] = user.id
-            session['user_name'] = user.name
-            session['company_id'] = user.company.id
-            session['company_name'] = user.company.name
+            return user.id, user.name, user.company.id, user.company.name
         except DoesNotExist:
             try:
                 Person.objects.get(mail=mail)
             except:
-                return False, 'Email address not registered :('
+                abort(400, 'Email address not registered :(')
 
-            return False, 'Password is incorrect :('
-
-        return True, 'Logged In'
+        abort(400, 'Password is incorrect :(')
 
     def reset_user(self, mail):
         new_password = random_password()
@@ -109,11 +105,16 @@ class Database():
         except DoesNotExist:
             abort(400, 'Email address not registered :(')
 
-    def delete_person(self, person_id):
+    #### Person ####
+
+    def person_delete(self, person_id):
         # TODO - validate
         Person.objects.get(id=person_id).delete()
 
-    def add_person(self, new_person):
+    def person_add(self, new_person):
+
+        # TODO - handle update
+
         role = Role.objects(id=new_person['role']).get()
         new_person['role'] = role
         new_person['role_name'] = role.name
@@ -125,10 +126,12 @@ class Database():
 
         return Person(**new_person).save()
 
-    def get_people(self, company_id, user_id=None, search=None, sort_by=None, sort_dir=None, token=None, limit=None, offset=None):
-
+    def person_get(self, company_id, user_id=None, mail=None, search=None, sort_by=None, sort_dir=None, token=None, limit=None, offset=None):
         if user_id:
             return Person.objects.get(id=user_id)
+
+        if mail:
+            return Person.objects.get(mail=mail)
 
         if token:
             return Person.objects.get(token=token)
@@ -157,7 +160,18 @@ class Database():
 
         return results, count
 
-    def get_places(self, company_id, place_id=None, search=None, sort_by=None, sort_dir=None, limit=None, offset=None):
+    #### Event ####
+
+    def event_get(self, company_id=None, place_id=None):
+        if company_id:
+            return Event.objects(company=company_id)
+        if place_id:
+            print '***'
+            return Event.objects(place=place_id)
+
+    #### Place ####
+
+    def place_get(self, company_id, place_id=None, search=None, sort_by=None, sort_dir=None, limit=None, offset=None):
 
         if place_id:
             return Place.objects.get(id=place_id)
@@ -185,36 +199,41 @@ class Database():
 
         return results, count
 
-    def get_events(self, company_id):
-        return Event.objects()
-
-    def delete_place(self, place_id):
-        # TODO - validate
+    def place_delete(self, place_id):
         Place.objects.get(id=place_id).delete()
 
-    def add_place(self, new_place):
+    def place_add(self, new_place):
         return Place(**new_place).save()
 
-    def get_company(self):
-        return Company.objects.get(id=session['company_id'])
+    #### Company ####
 
-    def get_role_types(self):
+    def company_get(self, company_id):
+        return Company.objects.get(id=company_id)
+
+    #### Role Type ####
+
+    def role_type_get(self):
         return RoleType.objects()
 
-    def get_roles(self):
-        return Role.objects(company=session['company_id'])
+    #### Role ####
 
-    def update_role(self, role):
+    def role_get(self, company_id=None, role_id=None):
+        if company_id:
+            return Role.objects(company=company_id)
+        if role_id:
+            return Role.objects(id=role_id)
+
+    def role_add(self, role, company_id):
+        role['company'] = company_id
+        Role(**role).save()
+
+    def role_update(self, role, company_id):
         role_type = RoleType.objects(id=role['role_type']).get()
-        if role.get('id'):
-            Role.objects(id=role['id']).update_one(
-                theme=role['theme'],
-                name=role['name'],
-                role_type=role_type
-            )
-        else:
-            role['company'] = session['company_id']
-            Role(**role).save()
+        Role.objects(id=role['id']).update_one(
+            theme=role['theme'],
+            name=role['name'],
+            role_type=role_type
+        )
 
-    def delete_role(self, role_id):
+    def role_delete(self, role_id):
         Role.objects.get(id=role_id).delete()

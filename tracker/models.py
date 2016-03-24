@@ -21,10 +21,10 @@ class Person(Document, Base):
     invite = BooleanField(default=True)
     active = BooleanField(default=False)
     password = StringField()
-    company = ReferenceField('Company')
-    role = ReferenceField('Role')
-    role_name = StringField()
-    role_theme = StringField()
+    company = ReferenceField('Company', nullable=False)
+    role = ReferenceField('Role', nullable=False)
+    role_name = StringField(nullable=False)
+    role_theme = StringField(nullable=False)
     token = StringField()
 
     def generate_token(self):
@@ -39,9 +39,9 @@ class Person(Document, Base):
 class Role(Document, Base):
     id = SequenceField(primary_key=True)
     name = StringField(unique=True)
-    role_type = ReferenceField('RoleType')
-    theme = StringField()
-    company = ReferenceField('Company')
+    role_type = ReferenceField('RoleType', nullable=False)
+    theme = StringField(nullable=False)
+    company = ReferenceField('Company', nullable=False)
 
     def to_dict(self):
         output = self.to_mongo()
@@ -50,19 +50,19 @@ class Role(Document, Base):
 
 class RoleType(Document, Base):
     id = SequenceField(primary_key=True)
-    name = StringField()
-    description = StringField()
+    name = StringField(nullable=False)
+    description = StringField(nullable=False)
 
 class Event(Document, Base):
     id = SequenceField(primary_key=True)
-    title = StringField()
-    owner = ReferenceField('Person')
-    start = DateTimeField()
+    title = StringField(nullable=False)
+    owner = ReferenceField('Person', nullable=False)
+    start = DateTimeField(nullable=False)
     end = DateTimeField()
     people = ListField(ReferenceField('Person'))
     things = ListField(ReferenceField('Thing'))
     place = ReferenceField('Place')
-    company = ReferenceField('Company')
+    company = ReferenceField('Company', nullable=False)
 
     def to_dict(self):
         return {
@@ -72,17 +72,17 @@ class Event(Document, Base):
             'start': str(self.start),
             'end': str(self.end),
             'owner': self.owner.to_dict(),
-            'place': self.place.to_dict()
+            'place': self.place.to_dict() if self.place else None
         }
 
 class Place(Document, Base):
     id = SequenceField(primary_key=True)
-    name = StringField()
-    address = StringField()
+    name = StringField(nullable=False)
+    address = StringField(nullable=False)
     directions = StringField()
     mail = StringField()
     phone = StringField()
-    company = ReferenceField('Company')
+    company = ReferenceField('Company', nullable=False)
 
 class Company(Document, Base):
     id = SequenceField(primary_key=True)

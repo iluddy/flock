@@ -1,4 +1,4 @@
-from flask import abort, session
+from flask import abort
 
 class Service:
 
@@ -9,7 +9,7 @@ class Service:
 class EventService(Service):
 
     def get(self, company_id):
-        return self.db.get_events(company_id)
+        return self.db.event_get(company_id=company_id)
 
 class AccountService(Service):
 
@@ -20,36 +20,62 @@ class AccountService(Service):
 class PlaceService(Service):
 
     def add(self, new_place):
-        self.db.add_place(new_place)
+        self.db.place_add(new_place)
 
     def delete(self, place_id):
+        place = self.db.place_get(place_id)
+
         # TODO - validate
-        self.db.delete_place(place_id)
+        if self.db.event_get(place_id=place_id):
+            abort(400, 'There are Events associated with this {}. Delete those Events first.'.format(place.name))
+
+        self.db.place_delete(place_id)
 
     def get(self, company_id, search=None, sort_by=None, sort_dir=None, limit=None, offset=None):
-        return self.db.get_places(company_id, search=search, sort_by=sort_by, sort_dir=sort_dir, limit=limit, offset=offset)
+        return self.db.place_get(company_id, search=search, sort_by=sort_by, sort_dir=sort_dir, limit=limit, offset=offset)
 
 class PersonService(Service):
 
     def invite(self, mail, sender_id, company_id):
-        if not mail:
-            abort(400, 'No email address registered for this Person, please add one to send an invitation')
-        sender = self.db.get_people(company_id, user_id=sender_id).name
-        token = self.db.generate_token(mail)
-        self.mailer.invite(mail, sender, token)
+        recipient = self.db.person_get(company_id, mail=mail)
 
-    def add(self, new_person):
-        self.db.add_person(new_person)
+        if not mail or not recipient:
+            abort(400, 'No email address registered for this Person, please add one to send an invitation')
+
+        self.mailer.invite(
+            mail,
+            self.db.person_get(company_id, user_id=sender_id).name,
+            self.db.generate_token(mail)
+        )
+
+    def add(self, new_person, user_id, company_id):
+
+        if new_person['invite'] and not new_person.get('mail'):
+            abort(400, 'Please specify an email address to send the invitation to, or uncheck the invitation box.')
+
+        self.db.person_add(new_person)
 
         if new_person['invite']:
-            if not new_person.get('mail'):
-                abort(400, 'Please specify an email address to send the invitation to, or uncheck the invitation box.')
-
-            self.invite(new_person['mail'], session['user_id'])
+            self.invite(new_person['mail'], user_id, company_id)
 
     def delete(self, user_id):
         # TODO - validate
-        self.db.delete_person(user_id)
+        self.db.person_delete(user_id)
 
     def get(self, company_id, search=None, sort_by=None, sort_dir=None, limit=None, offset=None):
-        return self.db.get_people(company_id, search=search, sort_by=sort_by, sort_dir=sort_dir, limit=limit, offset=offset)
+        return self.db.person_get(company_id, search=search, sort_by=sort_by, sort_dir=sort_dir, limit=limit, offset=offset)
+
+class RoleService(Service):
+
+    def add(self, role, company_id):
+        self.db.role_add(role, company_id)
+
+    def delete(self, role_id):
+        self.db.role_delete(role_id)
+
+    def update(self, role, company_id):
+        self.db.role_update(role, company_id)
+
+    def get(self, role_id=None, company_id=None):
+        return self.db.role_get(role_id=role_id, company_id=company_id)
+

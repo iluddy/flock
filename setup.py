@@ -16,7 +16,8 @@ setup(
         "flask_pymongo",
         "tornado",
         "flask_mongoengine",
-        "requests"
+        "requests",
+        "premailer"
     ],
     entry_points={
         'console_scripts': [

@@ -11,12 +11,7 @@
     <link href="css/fullcalendar.css" rel="stylesheet">
     <link href="css/jquery.qtip.min.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
-
-    <!-- Toastr style -->
     <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
-
-    <!-- Gritter -->
-    <!--<link href="js/plugins/gritter/jquery.gritter.css" rel="stylesheet">-->
     <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
@@ -55,6 +50,13 @@
                         </li>
                     </ul>
                     <ul class="nav navbar-top-links navbar-right">
+                        <span class="account_info">
+                            <i class="fa fa-user"></i>
+                            <span class="m-t-xs">
+                                <strong class="font-bold"> {{ user_name }} </strong>
+                            </span>
+                            <span class="text-muted text-xs">{{ company_name }} </span>
+                        </span>
                         <li>
                             <a href="logout">
                                 <i class="fa fa-sign-out"></i> Log out
@@ -115,6 +117,7 @@
     <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
     <script src="js/moment.min.js"></script>
     <script src="js/fullcalendar.js"></script>
+    <script src="js/jquery.fileupload.js"></script>
     <script src="js/jquery.qtip.min.js"></script>
 </body>
 </html>

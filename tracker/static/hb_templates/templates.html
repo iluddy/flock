@@ -297,20 +297,23 @@
                 </div>
                 <div class="modal-body">
                     <form id="add_place_form" method="get" class="form-horizontal" data-toggle="validator">
-                        <div class="form-group"><label class="col-sm-2 control-label">Name</label>
-                            <div class="col-sm-10"><input id="add_place_name" type="text" placeholder="name" class="form-control input-lg" required=""></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Name</label>
+                            <div class="col-sm-9">
+                              <input id="add_place_name" type="text" placeholder="Local Cafe" class="form-control input-lg req-input" required="">
+                            </div>
                         </div>
-                        <div class="form-group"><label class="col-sm-2 control-label">Contect Email</label>
-                            <div class="col-sm-10"><input id="add_place_email" type="email" placeholder="optional" class="form-control input-lg"></div>
+                        <div class="form-group"><label class="col-sm-3 control-label">Address</label>
+                            <div class="col-sm-9"><input id="add_place_address" type="text" placeholder="22 Main Street" class="form-control input-lg req-input" required=""></input></div>
                         </div>
-                        <div class="form-group"><label class="col-sm-2 control-label">Contact Phone</label>
-                            <div class="col-sm-10"><input id="add_place_phone" type="text" placeholder="optional" class="form-control input-lg"></div>
+                        <div class="form-group"><label class="col-sm-3 control-label">Contect Email</label>
+                            <div class="col-sm-9"><input id="add_place_email" type="email" placeholder="joebloggs@mail.com" class="form-control input-lg"></div>
                         </div>
-                        <div class="form-group"><label class="col-sm-2 control-label">Address</label>
-                            <div class="col-sm-10"><textarea id="add_place_address" type="text" placeholder="address" class="form-control input-lg" required=""></textarea></div>
+                        <div class="form-group"><label class="col-sm-3 control-label">Contact Phone</label>
+                            <div class="col-sm-9"><input id="add_place_phone" type="text" placeholder="555-0001234" class="form-control input-lg"></div>
                         </div>
-                        <div class="form-group"><label class="col-sm-2 control-label">Directions</label>
-                            <div class="col-sm-10"><textarea id="add_place_directions" type="text" placeholder="optional" class="form-control input-lg"></textarea></div>
+                        <div class="form-group"><label class="col-sm-3 control-label">Directions</label>
+                            <div class="col-sm-9"><textarea id="add_place_directions" type="text" placeholder="Go to Main St ..." class="form-control input-lg"></textarea></div>
                         </div>
                         <div class="form-group modal-footer-buttons">
                             <button id="modal_add_place" type="submit" class="btn btn-primary">Add</button>
@@ -500,17 +503,18 @@
                 <div class="modal-body">
                     <form id="add_person_form" method="get" class="form-horizontal" data-toggle="validator">
                         <div class="form-group"><label class="col-sm-2 control-label">Name</label>
-                            <div class="col-sm-10"><input id="add_person_name" type="text" placeholder="full name" class="form-control input-lg" required=""></div>
+                            <div class="col-sm-10"><input id="add_person_name" type="text" placeholder="Joe Bloggs" class="form-control input-lg req-input" required=""></div>
                         </div>
                         <div class="form-group"><label class="col-sm-2 control-label">Email</label>
-                            <div class="col-sm-10"><input id="add_person_email" type="email" placeholder="optional" class="form-control input-lg">
-                                <!--<span class="help-block m-b-none">An invitation will be sent to this address</span>-->
-                            </div>
+                            <div class="col-sm-10"><input id="add_person_email" type="email" placeholder="jb@mail.com" class="form-control input-lg"></div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-10 pull-right">
                                 {{> checkbox_part id='add_person_invite' checked='true' label='Send this Person an invitation to use Flock'}}
                             </div>
+                        </div>
+                        <div class="form-group"><label class="col-sm-2 control-label">Phone</label>
+                            <div class="col-sm-10"><input id="add_person_phone" type="number" placeholder="01-1234567" class="form-control input-lg"></div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Type</label>
@@ -536,7 +540,7 @@
     {{#each places}}
         <tr>
             <td>{{name}}</td>
-            <td>{{address}}</td>
+            <td>{{#if address}} {{address}} {{else}} <span class="placeholder-text">Unknown</span> {{/if}}</td>
             <td>{{#if mail}} {{mail}} {{else}} <span class="placeholder-text">Unknown</span> {{/if}}</td>
             <td>{{#if phone}} {{phone}} {{else}} <span class="placeholder-text">Unknown</span> {{/if}}</td>
             <td>

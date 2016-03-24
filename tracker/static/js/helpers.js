@@ -65,11 +65,13 @@ function ajax_call(options){
                 toastr.success(data, 'Success!', {'timeOut':2000, 'progressBar':true});
         },
         error: function(data) {
+//            console.log(data);
             if (options.error != undefined)
                 options.error(data);
             if (options.notify != false)
                 // TODO - this better
                 var error_msg = data.responseText.replace('</p>', '').split('<p>').slice(-1)[0];
+                console.log(error_msg);
                 toastr.error(error_msg, 'Oh No!', {'timeOut':3000, 'progressBar':true});
         }
     });
@@ -122,4 +124,34 @@ function date_string(unix_timestamp){
     // Will display time in 10:30:23 format
     var formattedTime = hours + ':' + minutes.substr(-2);
     return formattedTime;
+}
+
+function add_file_uploader(target, api_call, callback) {
+    $(target).html($("#upload_file").tmpl({"api_call": api_call}));
+    $('#fileuploader').fileupload({
+        dataType: 'json',
+        autoUpload: false,
+        multipart: true,
+        dropZone: $('#file_dropzone'),
+        progressall: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $(".upload_progress .progress-bar").css("width", progress.toString()+"%");
+            $(".upload_progress .progress-bar").attr("aria-valuenow", progress.toString());
+        },
+        stop: function (e, data) {
+            setTimeout(function(){$(".upload_progress").fadeOut(500);}, 1000);
+            info_msg("Saved");
+            callback();
+        },
+        start: function (e, data) {
+            $('#file_dropzone').removeClass('accept');
+            $("#file_upload_progress").css("width","0%");
+            $(".upload_progress .progress-bar").attr("aria-valuenow", "0");
+            $(".upload_progress .progress-bar").css("width","0%");
+            $(".upload_progress").fadeIn(100);
+        },
+        dragover : function(e){
+            $('#file_dropzone').addClass('accept');
+        },
+    }).on('dragleave', function(){$('#file_dropzone').removeClass('accept');})
 }

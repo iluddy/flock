@@ -1,6 +1,6 @@
 from flask import request, redirect, url_for, render_template, session
 from tracker import app
-from tracker import person_service, place_service, account_service, event_service
+from tracker import person_service, place_service, account_service, event_service, role_service
 from tracker import db_wrapper
 from tracker.utils import json_response, auth
 
@@ -28,7 +28,7 @@ def login():
 
 @app.route('/activate/<token>')
 def activate_form(token):
-    person = db_wrapper.get_people(session['company_id'], token=token)
+    person = db_wrapper.get_people(None, token=token)
     # TODO - deal with not finding user
     # TODO - list terms and conditions on activate and register pages
     # TODO - validate password on frontend
@@ -43,12 +43,10 @@ def activate_account():
 
     success, message = db_wrapper.activate_user(token, name, password)
     if success:
-        success, message = db_wrapper.authenticate_user(mail, password)
+        session['user_id'], session['user_name'], session['company_id'], session['company_name'] = \
+            db_wrapper.authenticate_user(mail, password)
 
-    if success:
-        return message, 200
-
-    return message, 401
+    return 'Account Activated :)', 200
 
 @app.route('/forgot_password')
 def forgot_password():
@@ -68,22 +66,19 @@ def registration():
 
 @app.route('/register', methods=['POST'])
 def register():
-    success, message = db_wrapper.register_user(
+    db_wrapper.register_user(
         request.form.get("name"),
         request.form.get("mail"),
         request.form.get("password"),
         request.form.get("company"),
     )
-    if not success:
-        return message, 422
     return login_user()
 
 @app.route('/login_user', methods=['POST'])
 def login_user():
-    success, message = db_wrapper.authenticate_user(request.form.get('mail'), request.form.get('password'))
-    if success:
-        return message, 200
-    return message, 401
+    session['user_id'], session['user_name'], session['company_id'], session['company_name'] = \
+        db_wrapper.authenticate_user(request.form.get('mail'), request.form.get('password'))
+    return 'Logged in :)', 200
 
 @app.route('/reset_user', methods=['POST'])
 def reset_user():
@@ -120,7 +115,7 @@ def people_add():
         'invite': True if invite else False,
         'company': session['company_id']
     }
-    person_service.add(new_person)
+    person_service.add(new_person, session['user_id'], session['company_id'])
     return '{} has been added'.format(new_person['name']), 200
 
 @app.route('/people/invite', methods=['POST'])
@@ -174,29 +169,35 @@ def events():
 @app.route('/roles')
 @auth
 def roles():
-    return json_response(db_wrapper.get_roles())
-
-@app.route('/role_types')
-@auth
-def role_types():
-    return json_response(db_wrapper.get_role_types())
+    return json_response(role_service.get(company_id=session['company_id']))
 
 @app.route('/roles', methods=['PUT'])
 @auth
 def roles_update():
-    updated_role = {
+    role = {
         "theme": request.form.get("theme"),
         "name": request.form.get("name"),
         "role_type": int(request.form.get("type"))
     }
     if request.form.get('id'):
-        updated_role['id'] = int(request.form.get('id'))
-    db_wrapper.update_role(updated_role)
+        role['id'] = int(request.form.get('id'))
+        role_service.update(role, session['company_id'])
+
+    role_service.add(role, session['company_id'])
+
     return 'People Types Updated', 200
 
 @app.route('/roles', methods=['DELETE'])
 @auth
 def roles_delete():
     # TODO - validate deletion
-    db_wrapper.delete_role(request.form.get("id"))
+    role_service.delete(request.form.get("id"))
     return 'People Types Updated', 200
+
+#### Role Type ####
+
+@app.route('/role_types')
+@auth
+def role_types():
+    # TODO - remove db-wrapper
+    return json_response(db_wrapper.get_role_types())

@@ -127,7 +127,6 @@ function load_planner(){
                 content:{
                   text: event_tip_tmpl(event)
                 },
-//                show: 'click',
                 style: {
                     classes: 'qtip-bootstrap'
                 },
@@ -232,9 +231,7 @@ function load_people(){
                 'url': '/people',
                 'type': 'put',
                 'data': new_person,
-                'success': function(){
-                    reload_people();
-                },
+                'success': reload_people
             });
     }
 
@@ -244,15 +241,13 @@ function load_people(){
             'url': '/people',
             'type': 'delete',
             'data': to_remove,
-            'success': function(){
-                reload_people();
-            }
+            'success': reload_people
         });
     }
 
     function invite_person(){
         to_invite = {'mail': $(this).attr("mail")};
-        ajax_call({'url': '/people/invite', 'type': 'post', 'data': to_invite});
+        ajax_call({'url': '/people/invite', 'type': 'post', 'data': to_invite, 'success': reload_people});
     }
 
     function add_handlers(){
@@ -357,14 +352,12 @@ function load_places(){
             'address': $('#add_place_address').val(),
         }
         // TODO - validate form
-        if ( new_place['name'].length > 0 )
+        if ( new_place['name'].length > 0 && new_place['address'].length > 0)
             ajax_call({
                 'url': '/places',
                 'type': 'put',
                 'data': new_place,
-                'success': function(){
-                    reload_places();
-                },
+                'success': reload_places
             });
     }
 
@@ -465,7 +458,7 @@ function load_people_type_table(){
         $("#people_type_colour span").first().click();
         $("#people_type_type_check .iradio_square-green input[value=" + $(this).attr('role_type')  + "]").click();
         $('#people_type_colour span.label-' + $(this).attr('theme')).click();
-        scrll('#main', 200);
+        scrll('body', 200);
         anim('#add_people_type_form', 'pulse');
     }
 
