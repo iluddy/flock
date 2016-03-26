@@ -9,7 +9,6 @@ from constants import secret_key, session_duration
 from flask.ext.autodoc import Autodoc
 from flask.ext.mongoengine import MongoEngine
 from flask import Flask, Request
-from flock.mailer import Mailer
 from utils import setup_logger, read_config_file
 import os
 import rollbar
@@ -42,6 +41,7 @@ db.init_app(app)
 db_wrapper = Database(db)
 
 # Mailer
+from flock.mailer import Mailer
 mailer = Mailer()
 
 # Services

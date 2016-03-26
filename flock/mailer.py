@@ -1,9 +1,9 @@
 import requests
-import os
 from jinja2 import FileSystemLoader, Environment
 from premailer import transform
+from flock import cfg
 
-templates_env = Environment(loader=FileSystemLoader(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'templates')))
+templates_env = Environment(loader=FileSystemLoader(cfg['template_dir']))
 generic_email_template = templates_env.get_template('email.html')
 
 def plain_text_to_html(content):
@@ -16,7 +16,7 @@ def plain_text_to_html(content):
     output = output.replace('\n', '<br/>')
     return output
 
-default_sender = "Flock Team <notifications@tryflock.com>"
+default_sender = "Flock Notifications <notifications@tryflock.com>"
 
 class Mailer():
     auth = ("api", "key-97da181732b95a21257c270bd2215529")

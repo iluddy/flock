@@ -16,5 +16,6 @@
     "rollbar": {
         "environment": "develop",
         "token": "65cc806fe1ef4ca88a5603514d5739f1"
-    }
+    },
+    "template_dir": "C:/Git/flock/flock/templates"
 }
