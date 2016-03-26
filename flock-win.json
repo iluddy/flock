@@ -1,0 +1,16 @@
+{
+    "database": {
+        "name": "flock",
+        "host": "localhost",
+        "port": 27017
+    },
+    "logging": {
+        "file": "C:/flock/flock.log",
+        "level": 20
+    },
+    "web_server": {
+        "host": "localhost",
+        "port": 5001,
+        "enabled": true
+    }
+}

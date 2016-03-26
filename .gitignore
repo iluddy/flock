@@ -1415,3 +1415,4 @@ env/lib/python2.7/site-packages/premailer-2.10.1.dist-info/WHEEL
 .idea/modules.xml
 .idea/vcs.xml
 .idea/workspace.xml
+aws.pem
