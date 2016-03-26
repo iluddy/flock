@@ -1408,3 +1408,10 @@ env/lib/python2.7/site-packages/premailer-2.10.1.dist-info/metadata.json
 env/lib/python2.7/site-packages/premailer-2.10.1.dist-info/RECORD
 env/lib/python2.7/site-packages/premailer-2.10.1.dist-info/top_level.txt
 env/lib/python2.7/site-packages/premailer-2.10.1.dist-info/WHEEL
+.idea/.name
+.idea/encodings.xml
+.idea/flock.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/workspace.xml

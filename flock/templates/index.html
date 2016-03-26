@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Flock | Dashboard</title>
+    <link href="css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/fullcalendar.css" rel="stylesheet">
+    <link href="css/jquery.qtip.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+</head>
+
+<body class="top-navigation">
+    <div id="wrapper">
+        <div class="border-bottom white-bg">
+            <nav class="navbar navbar-static-top" role="navigation">
+                <div class="navbar-header">
+                    <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+                        <i class="fa fa-reorder"></i>
+                    </button>
+                    <a href="#" class="navbar-brand">Flock</a>
+                </div>
+                <div class="navbar-collapse collapse" id="navbar">
+                    <ul class="nav navbar-nav">
+                        <li class="active tab" target="dashboard">
+                            <a href="#dashboard"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
+                        </li>
+                        <li class="tab" target="planner">
+                            <a href="#planner"><i class="fa fa-calendar"></i> <span class="nav-label">Planner</span></a>
+                        </li>
+                        <li class="tab" target="people">
+                            <a href="#people"><i class="fa fa-users"></i> <span class="nav-label">People</span></a>
+                        </li>
+                        <li class="tab" target="places">
+                            <a href="#places"><i class="fa fa-map-marker"></i> <span class="nav-label">Places</span></a>
+                        </li>
+                        <!--<li class="tab" target="things">-->
+                            <!--<a href="#things"><i class="fa fa-cube"></i> <span class="nav-label">Things</span></a>-->
+                        <!--</li>-->
+                        <li class="tab" target="settings">
+                            <a href="#settings"><i class="fa fa-cog"></i> <span class="nav-label">Settings</span></a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-top-links navbar-right">
+                        <span class="account_info">
+                            <i class="fa fa-user"></i>
+                            <span class="m-t-xs">
+                                <strong class="font-bold"> {{ user_name }} </strong>
+                            </span>
+                            <span class="text-muted text-xs">{{ company_name }} </span>
+                        </span>
+                        <li>
+                            <a href="logout">
+                                <i class="fa fa-sign-out"></i> Log out
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row border-bottom"> </div>
+
+            <div id="loader">
+                <div class="sk-spinner sk-spinner-three-bounce">
+                    <div class="sk-bounce1"></div>
+                    <div class="sk-bounce2"></div>
+                    <div class="sk-bounce3"></div>
+                </div>
+            </div>
+
+            <div id="main" class="row">
+            </div>
+
+            <div class="footer">
+                <div class="pull-right">
+                    <a href="http://www.ianluddy.com">ianluddy.com</a>
+                </div>
+                <div>
+                    Flock &copy; 2016
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tmpl_holder"></div>
+
+    <!-- Mainly scripts -->
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/handlebars-v3.0.3.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="js/inspinia.js"></script>
+    <script src="js/plugins/pace/pace.min.js"></script>
+
+    <!-- jQuery UI -->
+    <script src="js/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="js/plugins/iCheck/icheck.min.js"></script>
+
+    <script src="js/plugins/toastr/toastr.min.js"></script>
+
+    <script src="js/helpers.js"></script>
+    <script src="js/main.js"></script>
+
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="js/moment.min.js"></script>
+    <script src="js/fullcalendar.js"></script>
+    <script src="js/jquery.fileupload.js"></script>
+    <script src="js/jquery.qtip.min.js"></script>
+</body>
+</html>

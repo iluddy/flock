@@ -1,10 +1,10 @@
 from setuptools import setup
 
 setup(
-    name='tracker',
+    name='flock',
     version='1.0',
     long_description=__doc__,
-    packages=['tracker'],
+    packages=['flock'],
     url='ianluddy@gmail.com',
     author_email='ianluddy@gmail.com',
     include_package_data=True,
@@ -17,11 +17,12 @@ setup(
         "tornado",
         "flask_mongoengine",
         "requests",
-        "premailer"
+        "premailer",
+        "lxml"
     ],
     entry_points={
         'console_scripts': [
-            'tracker = tracker:run',
+            'flock = flock:run',
         ]
     }
 )
