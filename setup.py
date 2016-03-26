@@ -10,15 +10,16 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        "flask",
-        "blinker",
+        "flask==0.10.1",
+        "blinker==1.3",
         "flask_autodoc",
         "flask_pymongo",
         "tornado",
         "flask_mongoengine",
         "requests",
         "premailer",
-        "lxml"
+        "lxml",
+        "rollbar==0.11.4"
     ],
     entry_points={
         'console_scripts': [

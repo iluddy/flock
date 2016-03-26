@@ -1,1 +1,2 @@
-from flock import *
+if __name__ == '__main__':
+    import flock

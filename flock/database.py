@@ -87,7 +87,7 @@ class Database():
         # TODO : encrypt stored passwords
         try:
             user = Person.objects.get(mail=mail, password=password)
-            return user.id, user.name, user.company.id, user.company.name
+            return user.id, user.name, user.company.id, user.company.name, user.mail
         except DoesNotExist:
             try:
                 Person.objects.get(mail=mail)

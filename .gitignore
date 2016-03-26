@@ -1417,3 +1417,4 @@ env/lib/python2.7/site-packages/premailer-2.10.1.dist-info/WHEEL
 .idea/workspace.xml
 aws.pem
 /*.pem
+*.pyc

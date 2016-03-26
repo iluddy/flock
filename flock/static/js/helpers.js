@@ -65,7 +65,7 @@ function ajax_call(options){
                 toastr.success(data, 'Success!', {'timeOut':2000, 'progressBar':true});
         },
         error: function(data) {
-//            console.log(data);
+            console.log(data);
             if (options.error != undefined)
                 options.error(data);
             if (options.notify != false)
@@ -81,7 +81,7 @@ function anim(dom, type){
 }
 
 function strip_response_msg(msg){
-    return data.responseText.replace('</p>', '').split('<p>').slice(-1)[0];
+    return msg.replace('</p>', '').split('<p>').slice(-1)[0];
 }
 
 function scrll(dom, delay){

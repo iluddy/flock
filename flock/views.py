@@ -1,8 +1,14 @@
 from flask import request, redirect, url_for, render_template, session
-from flock import app
-from flock import person_service, place_service, account_service, event_service, role_service
-from flock import db_wrapper
-from flock.utils import json_response, auth
+from utils import json_response, auth
+import __builtin__
+
+app = __builtin__.flock_app
+db_wrapper = __builtin__.flock_db_wrapper
+person_service = __builtin__.flock_person_service
+place_service = __builtin__.flock_place_service
+account_service = __builtin__.flock_account_service
+event_service = __builtin__.flock_event_service
+role_service = __builtin__.flock_role_service
 
 @app.route('/')
 @auth
@@ -42,7 +48,7 @@ def activate_account():
     mail = request.form.get("email")
 
     db_wrapper.activate_user(token, name, password)
-    session['user_id'], session['user_name'], session['company_id'], session['company_name'] = \
+    session['user_id'], session['user_name'], session['company_id'], session['company_name'], session['email'] = \
         db_wrapper.authenticate_user(mail, password)
 
     return 'Account Activated :)', 200
@@ -57,6 +63,7 @@ def logout():
     session.pop('company_id', None)
     session.pop('company_name', None)
     session.pop('user_name', None)
+    session.pop('email', None)
     return redirect(url_for('login'))
 
 @app.route('/registration')
@@ -75,7 +82,7 @@ def register():
 
 @app.route('/login_user', methods=['POST'])
 def login_user():
-    session['user_id'], session['user_name'], session['company_id'], session['company_name'] = \
+    session['user_id'], session['user_name'], session['company_id'], session['company_name'], session['email']= \
         db_wrapper.authenticate_user(request.form.get('mail'), request.form.get('password'))
     return 'Logged in :)', 200
 
