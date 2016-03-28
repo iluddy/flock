@@ -15,7 +15,6 @@ apt-get install python-lxml
 
 chown root flock
 
-chmod +x flock
+chmod a+x flock
 
- update-rc.d flock defaults
- 
+update-rc.d flock defaults
