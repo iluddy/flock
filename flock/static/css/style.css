@@ -8444,3 +8444,6 @@ body.md-skin {
 .account_info span{
     margin-left: 4px;
 }
+#page-wrapper {
+  padding: 0px;
+}

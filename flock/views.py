@@ -59,11 +59,7 @@ def forgot_password():
 
 @app.route('/logout')
 def logout():
-    session.pop('user_id', None)
-    session.pop('company_id', None)
-    session.pop('company_name', None)
-    session.pop('user_name', None)
-    session.pop('email', None)
+    session.clear()
     return redirect(url_for('login'))
 
 @app.route('/registration')
