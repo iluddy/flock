@@ -1,62 +1,35 @@
-#!/bin/bash
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides: Flock
+# Required-Start: $remote_fs $syslog
+# Required-Stop: $remote_fs $syslog
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: Flock
+# Description: This file starts and stops Flock app
 #
-# chkconfig: 35 90 12
-# description: Tracker Runner
-#
-# Get function from functions library
-. /etc/init.d/functions
+### END INIT INFO
 
-# Start
-start() {
-    if running $1;
-    then
-        echo "Tracker Already Running"
-        echo;
-    else
-        echo "Starting Tracker..."
-        sudo python /home/ec2-user/tracker/app.py -c /home/ec2-user/tracker.json > /dev/null 2>&1 &
-        ### Create the lock file ###
-        touch /var/lock/subsys/tracker
-        echo "Tracker Running"
-        echo;
-    fi
-}
+WWW_DIR=/data/www
 
-# Restart
-stop() {
-    if running $1;
-    then
-        echo "Stopping Tracker..."
-        ps -aef | grep "sudo python /home/ec2-user/tracker/app.py" | awk '{print $2}' | xargs sudo kill > /dev/null 2>&1 &
-        ### Remove the Lock File ###
-        rm -f /var/lock/subsys/tracker
-        echo "Tracker Stopped"
-        echo;
-    else
-        echo "Tracker Not Running"
-        echo;
-    fi
-}
-# Status
-status() {
-    if running $1;
-    then
-        echo "Tracker Running"
-        echo;
-    else
-        echo "Tracker Not Running"
-        echo;
-    fi
-}
-
-running() {
-    if [ -f "/var/lock/subsys/tracker" ]
-    then
-        return 0
-    else
-        return 1
-    fi
-}
-
-### main logic ###
-"tracker" 80L, 1484C
+case "$1" in
+ start)
+   /data/www/env/bin/python $WWW_DIR/flock/flock/__init__.py -c $WWW_DIR/flock/flock-staging.json > /dev/null 2>&1 &
+   echo 'Flock Started'
+   ;;
+ stop)
+   ps -aef | grep "flock/__init__.py" | awk '{print $2}' | xargs sudo kill > /dev/null 2>&1 &
+   echo 'Flock Stopped'
+   ;;
+ restart)
+   ps -aef | grep "flock/__init__.py" | awk '{print $2}' | xargs sudo kill > /dev/null 2>&1 &
+   sleep 3
+   /data/www/env/bin/python $WWW_DIR/flock/flock/__init__.py -c $WWW_DIR/flock/flock-staging.json > /dev/null 2>&1 &
+   echo 'Flock Restarted'
+   ;;
+ *)
+   echo "Usage: flock  {start|stop|restart}" >&2
+   exit 3
+   ;;
+esac
+~
