@@ -8265,16 +8265,6 @@ body.md-skin {
     position: relative;
     bottom: 11px;
 }
-.color-choice:hover{
-    opacity: 0.8;
-}
-.color-choice{
-    opacity: 0.4;
-    cursor: pointer;
-}
-.color-choice.selected{
-    opacity: 1;
-}
 .table-btn{
     font-size: 1.3em;
     cursor: pointer;
@@ -8444,6 +8434,31 @@ body.md-skin {
 .account_info span{
     margin-left: 4px;
 }
-#page-wrapper {
-  padding: 0px;
+#page-wrapper{
+    padding: 0px;
+}
+#people_type_row_new{
+    text-align: center;
+}
+#people_type_row_new button{
+    margin-top: 20px;
+    width: 200px;
+}
+.color-choice{
+    height: 40px;
+    width: 40px;
+    display: inline-block;
+}
+.color-choice:hover{
+    opacity: 0.8;
+}
+.color-choice{
+    opacity: 0.2;
+    cursor: pointer;
+}
+.color-choice.selected {
+    opacity: 1;
+}
+.centered{
+   text-align: center;
 }

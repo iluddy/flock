@@ -1,5 +1,6 @@
 from flask import request, redirect, url_for, render_template, session
 from utils import json_response, auth
+import json
 import __builtin__
 
 app = __builtin__.flock_app
@@ -179,27 +180,20 @@ def roles_update():
     role = {
         "theme": request.form.get("theme"),
         "name": request.form.get("name"),
-        "role_type": int(request.form.get("type"))
+        "permissions": json.loads(request.form.get("permissions"))
     }
     if request.form.get('id'):
         role['id'] = int(request.form.get('id'))
         role_service.update(role, session['company_id'])
+        return '{} Role Updated'.format(role['name']), 200
 
     role_service.add(role, session['company_id'])
-
-    return 'People Types Updated', 200
+    return '{} Role Added'.format(role['name']), 200
 
 @app.route('/roles', methods=['DELETE'])
 @auth
 def roles_delete():
-    # TODO - validate deletion
-    role_service.delete(request.form.get("id"))
-    return 'People Types Updated', 200
-
-#### Role Type ####
-
-@app.route('/role_types')
-@auth
-def role_types():
-    # TODO - remove db-wrapper
-    return json_response(db_wrapper.get_role_types())
+    role_id = request.form.get("id")
+    role = role_service.get(role_id=role_id)
+    role_service.delete(role_id)
+    return '{} Role Deleted'.format(role.name), 200

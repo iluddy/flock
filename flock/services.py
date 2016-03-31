@@ -62,8 +62,9 @@ class PersonService(Service):
         # TODO - validate
         self.db.person_delete(user_id)
 
-    def get(self, company_id, search=None, sort_by=None, sort_dir=None, limit=None, offset=None):
-        return self.db.person_get(company_id, search=search, sort_by=sort_by, sort_dir=sort_dir, limit=limit, offset=offset)
+    def get(self, company_id=None, role_id=None, search=None, sort_by=None, sort_dir=None, limit=None, offset=None):
+        return self.db.person_get(company_id, role_id=role_id, search=search, sort_by=sort_by, sort_dir=sort_dir,
+                                  limit=limit, offset=offset)
 
 class RoleService(Service):
 
@@ -71,10 +72,15 @@ class RoleService(Service):
         self.db.role_add(role, company_id)
 
     def delete(self, role_id):
+        people = self.db.person_get(role_id=role_id)
+        role = self.get(role_id=role_id)
+        if people:
+            abort(400, 'There are {} {}s registered. Remove those People first.'.format(len(people), role.name))
         self.db.role_delete(role_id)
 
     def update(self, role, company_id):
         self.db.role_update(role, company_id)
+        # TODO - update person models
 
     def get(self, role_id=None, company_id=None):
         return self.db.role_get(role_id=role_id, company_id=company_id)

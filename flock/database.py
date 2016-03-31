@@ -33,7 +33,7 @@ class Database():
 
     def reset_database(self):
         Role.drop_collection()
-        RoleType.drop_collection()
+        Permission.drop_collection()
         Person.drop_collection()
         Place.drop_collection()
         Company.drop_collection()
@@ -128,7 +128,7 @@ class Database():
 
         return Person(**new_person).save()
 
-    def person_get(self, company_id, user_id=None, mail=None, search=None, sort_by=None, sort_dir=None, token=None, limit=None, offset=None):
+    def person_get(self, company_id=None, role_id=None, user_id=None, mail=None, search=None, sort_by=None, sort_dir=None, token=None, limit=None, offset=None):
         if user_id:
             return Person.objects.get(id=user_id)
 
@@ -137,6 +137,9 @@ class Database():
 
         if token:
             return Person.objects.get(token=token)
+
+        if role_id:
+            return Person.objects(role=self.role_get(role_id=role_id))
 
         query = {'company': company_id}
 
@@ -211,10 +214,13 @@ class Database():
     def company_get(self, company_id):
         return Company.objects.get(id=company_id)
 
-    #### Role Type ####
+    #### Permissions ####
 
-    def role_type_get(self):
-        return RoleType.objects()
+    def permission_get(self, permission_name=None, permission_names=None):
+        if permission_name:
+            return Permission.objects.get(name=permission_name)
+        if permission_names:
+            return Permission.objects(name__in=permission_names)
 
     #### Role ####
 
@@ -222,18 +228,17 @@ class Database():
         if company_id:
             return Role.objects(company=company_id)
         if role_id:
-            return Role.objects(id=role_id)
+            return Role.objects.get(id=role_id)
 
     def role_add(self, role, company_id):
         role['company'] = company_id
         Role(**role).save()
 
     def role_update(self, role, company_id):
-        role_type = RoleType.objects(id=role['role_type']).get()
         Role.objects(id=role['id']).update_one(
             theme=role['theme'],
             name=role['name'],
-            role_type=role_type
+            permissions=self.permission_get(permission_ids=role['permissions'])
         )
 
     def role_delete(self, role_id):

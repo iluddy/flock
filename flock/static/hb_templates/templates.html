@@ -333,103 +333,16 @@
 
             <div class="tabs-left">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#setting-tab-1" aria-expanded="true">Types of People</a></li>
-                    <li class=""><a data-toggle="tab" href="#setting-tab-2" aria-expanded="false">General Settings</a></li>
-                    <li class=""><a data-toggle="tab" href="#setting-tab-3" aria-expanded="false">Notifications</a></li>
+                    <li class="active"><a data-toggle="tab" href="#setting-tab-1" aria-expanded="true">People</a></li>
+                    <li class=""><a data-toggle="tab" href="#setting-tab-2" aria-expanded="false">Notifications</a></li>
+                    <li class=""><a data-toggle="tab" href="#setting-tab-3" aria-expanded="false">General</a></li>
                 </ul>
                 <div class="tab-content ">
                     <div id="setting-tab-1" class="tab-pane active">
                         <div class="panel-body">
-                            <div id="add_people_type_form" class="col-lg-6" people_type_id="">
-                                <div class="section_title">Add New</div>
-                                <div class="spacer"></div>
-                                <form method="get" class="form-horizontal" onsubmit="event.preventDefault(); add_update_people_type();">
-                                    <div class="form-group"><label class="col-sm-2 control-label">Name</label>
-                                        <div class="col-sm-10"><input id='people_type_name' placeholder="Manager, Trainee etc." type="text" class="form-control input-lg"
-                                                                      required=""></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">Type</label>
-                                        <div id="people_type_type_check" class="col-sm-10">
-                                            <div class="spacer"></div>
-                                            <div class="i-checks"><label class="">
-                                                <div class="iradio_square-green" style="position: relative;"><input
-                                                        type="radio"
-                                                        checked=""
-                                                        value="1"
-                                                        name="a"
-                                                        style="position: absolute; opacity: 0;">
-                                                    <ins class="iCheck-helper"
-                                                         style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
-                                                </div>
-
-                                                <i></i> Admin User </label>
-                                                <span class="help-block m-b-none checkbox-help">
-                                                    User has permission to do anything, including changing system settings
-                                                    and defining types of People, Things etc.
-                                                </span>
-                                            </div>
-
-                                            <div class="i-checks"><label class="">
-                                                <div class="iradio_square-green" style="position: relative;"><input
-                                                        type="radio"
-                                                        value="2"
-                                                        name="a"
-                                                        style="position: absolute; opacity: 0;">
-                                                    <ins class="iCheck-helper"
-                                                         style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
-                                                </div>
-                                                <i></i> Normal User </label>
-                                                <span class="help-block m-b-none checkbox-help">
-                                                    User can Add/Edit/Delete Events, People, Things etc. but cannot make
-                                                    administrative changes
-                                                </span>
-                                            </div>
-                                            <div class="i-checks"><label class="">
-                                                <div class="iradio_square-green" style="position: relative;"><input
-                                                        type="radio"
-                                                        value="3"
-                                                        name="a"
-                                                        style="position: absolute; opacity: 0;">
-                                                    <ins class="iCheck-helper"
-                                                         style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
-                                                </div>
-                                                <i></i> Basic User </label>
-                                                <span class="help-block m-b-none checkbox-help">
-                                                    User can view Calendar and Events but cannot make any changes
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">Colour</label>
-                                        <div id='people_type_colour' class="col-sm-10">
-                                            <div class="spacer"></div>
-                                            <span class="color-choice selected label label-primary" value="primary">Green</span>
-                                            <span class="color-choice label label-success" value="success">Blue</span>
-                                            <span class="color-choice label label-default" value="default">Grey</span>
-                                            <span class="color-choice label label-info" value="info">Turquoise</span>
-                                            <span class="color-choice label label-warning" value="warning">Orange</span>
-                                            <span class="color-choice label label-danger" value="danger">Red</span>
-                                        </div>
-                                    </div>
-                                    <br/>
-                                    <div class="form-group">
-                                        <div class="pull-right">
-                                            <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit">
-                                                <strong id="add_people_type_btn">Add</strong>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <br/>
-                                </form>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="section_title">Current Types</div>
-                                <div class="spacer"></div>
-                                <div id="people_type_table_holder"></div>
-                            </div>
+                            <div class="section_title">Roles and Permissions</div>
+                            <div class="spacer"></div>
+                            <div id="role_table_holder"></div>
                         </div>
                     </div>
                     <div id="setting-tab-2" class="tab-pane">
@@ -581,26 +494,140 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>Name</th>
-            <th>Type</th>
+            <th>Role Name</th>
+            <th>Events</th>
+            <th>People</th>
+            <th>Places</th>
+            <th>System Settings</th>
             <th></th>
         </tr>
         </thead>
-        <tbody id="people_type_table_body">
+        <tbody id="role_table_body">
             {{#each types}}
                 {{> person_type_part}}
             {{/each}}
+
+            <tr id="people_type_row_new">
+                <td colspan="6">
+                    <button id="add_role_btn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_role_modal">
+                        Add New
+                    </button>
+                </td>
+            </tr>
         </tbody>
     </table>
+
+    <div class="modal inmodal" id="add_role_modal" tabindex="-1" role="dialog"  aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content animated fadeIn">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h3 class="modal-title">Add Role</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="add_role_form" method="get" class="form-horizontal" data-toggle="validator" role_id="">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Name</label>
+                            <div class="col-sm-9">
+                              <input id="add_role_name" type="text" placeholder="Manager, Trainee etc." class="form-control input-lg req-input" required="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Colour</label>
+                            <div class="col-sm-9">
+                                <div id='role_colour'>
+                                    <span class="color-choice selected label-primary" value="primary"></span>
+                                    <span class="color-choice label-success" value="success"></span>
+                                    <span class="color-choice label-default" value="default"></span>
+                                    <span class="color-choice label-info" value="info"></span>
+                                    <span class="color-choice label-warning" value="warning"></span>
+                                    <span class="color-choice label-danger" value="danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 centered">
+                            <div class="spacer"></div>
+                            <h3> Permissions </h3>
+                            <div class="spacer"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Events</label>
+                            <div class="col-sm-9">
+                                <div class="btn-group btn-choice">
+                                    <button class="btn btn-white" type="button">Can't View</button>
+                                    <button class="btn btn-white" type="button" value="view_events">Can View</button>
+                                    <button class="btn btn-white" type="button" value="view_events edit_events">Can View and Edit</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">People</label>
+                            <div class="col-sm-9">
+                                <div class="btn-group btn-choice">
+                                    <button class="btn btn-white" type="button">Can't View</button>
+                                    <button class="btn btn-white" type="button" value="view_people">Can View</button>
+                                    <button class="btn btn-white" type="button" value="view_people edit_people">Can View and Edit</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Places</label>
+                            <div class="col-sm-9">
+                                <div class="btn-group btn-choice">
+                                    <button class="btn btn-white" type="button">Can't View</button>
+                                    <button class="btn btn-white" type="button" value="view_places">Can View</button>
+                                    <button class="btn btn-white" type="button" value="view_places edit_places">Can View and Edit</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">System Settings</label>
+                            <div class="col-sm-9">
+                                <div class="btn-group btn-choice">
+                                    <button class="btn btn-white" type="button">Can't Edit</button>
+                                    <button class="btn btn-white" type="button" value="edit_system_settings">Can Edit</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group modal-footer-buttons">
+                            <button id="modal_add_role_btn" type="submit" class="btn btn-primary">Add</button>
+                            <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </script>
 
 <script id="people_type_table_row_tmpl" type="text/x-handlebars-template">
     <tr>
         <td><span class="label label-{{theme}}">{{name}}</span></td>
-        <td>{{role_type_name}}</td>
         <td>
-            <i type_id="{{_id}}" name="{{name}}" theme="{{theme}}" role_type="{{role_type}}" title="Edit Person Type" class="edit-btn table-btn fa fa-edit"></i>
-            <i type_id="{{_id}}" title="Delete Person Type" class="delete-btn table-btn fa fa-trash-o"></i>
+            {{#if view_events}} View {{#if edit_events}} + Edit {{/if}} {{/if}}
+            {{#unless view_events}} {{#unless edit_events}} - {{/unless}} {{/unless}}
+        </td>
+        <td>
+            {{#if view_people}} View {{#if edit_people}} + Edit {{/if}} {{/if}}
+            {{#unless view_people}} {{#unless edit_people}} - {{/unless}} {{/unless}}
+        </td>
+        <td>
+            {{#if view_places}} View {{#if edit_places}} + Edit {{/if}} {{/if}}
+            {{#unless view_places}} {{#unless edit_places}} - {{/unless}} {{/unless}}
+        </td>
+        <td>
+            {{#if edit_system_settings}} Edit {{else}} - {{/if}}
+        </td>
+        <td>
+            <i role_id="{{_id}}" name="{{name}}" theme="{{theme}}" role_type="{{role_type}}" title="Edit Role" class="edit-btn table-btn fa fa-edit"></i>
+            <i role_id="{{_id}}" title="Delete Role" class="delete-btn table-btn fa fa-trash-o"></i>
         </td>
     </tr>
 </script>

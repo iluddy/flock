@@ -4,21 +4,34 @@ session_duration = 1200
 secret_key = "\x13`4\xf5\x90:(Qs\xa2\x0f\xd8\xbe\xee\x1b5Ae!\x9b\xd4\xe8\xf1\x94"
 
 default_data = {
-    'RoleType': [
+    'Permission': [
         {
             'id': 1,
-            'name': 'Admin User',
-            'description': 'Administrate stuff',
+            'name': 'view_events',
         },
         {
             'id': 2,
-            'name': 'Normal User',
-            'description': 'Normal stuff'
+            'name': 'edit_events'
         },
         {
             'id': 3,
-            'name': 'Basic User',
-            'description': 'Read Only'
+            'name': 'view_people'
+        },
+        {
+            'id': 4,
+            'name': 'edit_people'
+        },
+        {
+            'id': 5,
+            'name': 'view_places'
+        },
+        {
+            'id': 6,
+            'name': 'edit_places'
+        },
+        {
+            'id': 7,
+            'name': 'edit_system_settings'
         },
     ]
 }
@@ -68,37 +81,51 @@ test_data = {
         {
             'id': 1,
             'name': 'Manager',
-            'role_type': 1,
+            'permissions': ['edit_events', 'view_events', 'edit_people', 'view_people', 'edit_places', 'view_places', 'edit_system_settings'],
             'company': 1,
             'theme': 'success'
         },
         {
             'id': 2,
             'name': 'Trainee',
-            'role_type': 2,
+            'permissions': ['edit_events', 'view_events', 'edit_people', 'view_people', 'edit_places', 'view_places'],
             'company': 1,
             'theme': 'danger'
         },
         {
             'id': 3,
             'name': 'Connector',
-            'role_type': 2,
+            'permissions': ['edit_events', 'view_events', 'edit_people', 'view_people', 'edit_places', 'view_places'],
             'company': 1,
             'theme': 'warning'
         },
         {
             'id': 4,
             'name': 'Independent',
-            'role_type': 3,
+            'permissions': ['edit_events', 'view_events', 'edit_people', 'view_people', 'edit_places', 'view_places'],
             'company': 1,
             'theme': 'info'
         },
         {
             'id': 5,
             'name': 'Student',
-            'role_type': 3,
+            'permissions': ['view_events', 'view_people', 'view_places'],
             'company': 1,
             'theme': 'primary'
+        },
+        {
+            'id': 6,
+            'name': 'External',
+            'permissions': [],
+            'company': 1,
+            'theme': 'info'
+        },
+        {
+            'id': 7,
+            'name': 'System Administrator',
+            'permissions': ['edit_events', 'view_events', 'edit_people', 'view_people', 'edit_places', 'view_places', 'edit_system_settings'],
+            'company': 1,
+            'theme': 'default'
         },
     ],
     'Place': [
