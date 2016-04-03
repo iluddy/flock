@@ -76,9 +76,16 @@ function load_components(){
     $('.color-choice').first().click();
     $('.btn-choice .btn').on('click', function(){
         $(this).siblings().removeClass('btn-primary').addClass('btn-white').removeClass('selected');
-        $(this).addClass('btn-primary').removeClass('btn-white').addClass('selected');
+        if( $(this).hasClass('selected') ){
+            $(this).removeClass('btn-primary').addClass('btn-white').removeClass('selected');
+        }else{
+            $(this).addClass('btn-primary').removeClass('btn-white').addClass('selected');
+        }
     });
-    $('.btn-choice .btn:last-child').click();
+}
+
+function reset_components(){
+    $('.btn-choice .btn').off('click').removeClass('btn-primary').addClass('btn-white').removeClass('selected');
 }
 
 function templates_loaded(){
@@ -423,21 +430,27 @@ function load_events(){
 function load_settings_people(){
 
     function reset_form(){
-        $('#add_role_modal').modal('hide');
+        reset_components();
         $("#modal_add_role_btn").text("Add");
         $("#add_role_name").val("");
         $('#role_colour span').first().click();
         $("#add_role_form").attr('role_id', '');
+        $('#modal_add_role_btn').off('click');
+        $('#add_role_modal').modal('hide');
     }
 
-
     function edit_role(){
+        reset_form();
         add_handlers();
         $('#add_role_modal').modal('show');
         $("#modal_add_role_btn").text("Update");
         $("#add_role_form").attr('role_id', $(this).attr('role_id'));
         $("#add_role_name").val($(this).attr('name'));
         $('#role_colour span.label-' + $(this).attr('theme')).click();
+        var permissions = $(this).attr('permissions').split(',');
+        for( var i in permissions ){
+            $('#add_role_form .btn[value="' + permissions[i] + '"]').click();
+        }
     }
 
     function save_role(){
@@ -469,7 +482,6 @@ function load_settings_people(){
                 'type': 'put',
                 'success': load_roles
             });
-
         }
     }
 
@@ -485,6 +497,7 @@ function load_settings_people(){
     }
 
     function draw_roles(input){
+        roles = input;
         if( input.length > 0){
             $('#role_table_holder').html(people_type_table_tmpl({'types': input}));
         }else{
@@ -494,7 +507,12 @@ function load_settings_people(){
         }
         $('#role_table_body i.delete-btn').on('click', delete_role);
         $('#role_table_body i.edit-btn').on('click', edit_role);
-        $('#add_role_btn').on('click', add_handlers);
+        $('#add_role_btn').on('click', open_modal);
+    }
+
+    function open_modal(){
+        reset_form();
+        add_handlers();
     }
 
     function add_handlers(){

@@ -2,38 +2,17 @@
 
 session_duration = 1200
 secret_key = "\x13`4\xf5\x90:(Qs\xa2\x0f\xd8\xbe\xee\x1b5Ae!\x9b\xd4\xe8\xf1\x94"
+permissions = [
+    'view_events',
+    'edit_events',
+    'view_people',
+    'edit_people',
+    'view_places',
+    'edit_places',
+    'edit_system_settings'
+]
 
 default_data = {
-    'Permission': [
-        {
-            'id': 1,
-            'name': 'view_events',
-        },
-        {
-            'id': 2,
-            'name': 'edit_events'
-        },
-        {
-            'id': 3,
-            'name': 'view_people'
-        },
-        {
-            'id': 4,
-            'name': 'edit_people'
-        },
-        {
-            'id': 5,
-            'name': 'view_places'
-        },
-        {
-            'id': 6,
-            'name': 'edit_places'
-        },
-        {
-            'id': 7,
-            'name': 'edit_system_settings'
-        },
-    ]
 }
 
 test_data = {
@@ -81,28 +60,28 @@ test_data = {
         {
             'id': 1,
             'name': 'Manager',
-            'permissions': ['edit_events', 'view_events', 'edit_people', 'view_people', 'edit_places', 'view_places', 'edit_system_settings'],
+            'permissions': ['edit_events', 'edit_people', 'edit_places', 'edit_system_settings'],
             'company': 1,
             'theme': 'success'
         },
         {
             'id': 2,
             'name': 'Trainee',
-            'permissions': ['edit_events', 'view_events', 'edit_people', 'view_people', 'edit_places', 'view_places'],
+            'permissions': ['edit_events', 'edit_people', 'edit_places'],
             'company': 1,
             'theme': 'danger'
         },
         {
             'id': 3,
             'name': 'Connector',
-            'permissions': ['edit_events', 'view_events', 'edit_people', 'view_people', 'edit_places', 'view_places'],
+            'permissions': ['edit_events', 'edit_people', 'edit_places'],
             'company': 1,
             'theme': 'warning'
         },
         {
             'id': 4,
             'name': 'Independent',
-            'permissions': ['edit_events', 'view_events', 'edit_people', 'view_people', 'edit_places', 'view_places'],
+            'permissions': ['edit_events', 'edit_people', 'edit_places'],
             'company': 1,
             'theme': 'info'
         },
@@ -123,7 +102,7 @@ test_data = {
         {
             'id': 7,
             'name': 'System Administrator',
-            'permissions': ['edit_events', 'view_events', 'edit_people', 'view_people', 'edit_places', 'view_places', 'edit_system_settings'],
+            'permissions': ['edit_events', 'edit_people', 'edit_places', 'edit_system_settings'],
             'company': 1,
             'theme': 'default'
         },

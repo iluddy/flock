@@ -557,9 +557,8 @@
                             <label class="col-sm-3 control-label">Events</label>
                             <div class="col-sm-9">
                                 <div class="btn-group btn-choice">
-                                    <button class="btn btn-white" type="button">Can't View</button>
-                                    <button class="btn btn-white" type="button" value="view_events">Can View</button>
-                                    <button class="btn btn-white" type="button" value="view_events edit_events">Can View and Edit</button>
+                                    <button class="btn btn-white" type="button" value="view_events">View</button>
+                                    <button class="btn btn-white" type="button" value="edit_events">View + Edit</button>
                                 </div>
                             </div>
                         </div>
@@ -568,9 +567,8 @@
                             <label class="col-sm-3 control-label">People</label>
                             <div class="col-sm-9">
                                 <div class="btn-group btn-choice">
-                                    <button class="btn btn-white" type="button">Can't View</button>
-                                    <button class="btn btn-white" type="button" value="view_people">Can View</button>
-                                    <button class="btn btn-white" type="button" value="view_people edit_people">Can View and Edit</button>
+                                    <button class="btn btn-white" type="button" value="view_people">View</button>
+                                    <button class="btn btn-white" type="button" value="edit_people">View + Edit</button>
                                 </div>
                             </div>
                         </div>
@@ -579,9 +577,8 @@
                             <label class="col-sm-3 control-label">Places</label>
                             <div class="col-sm-9">
                                 <div class="btn-group btn-choice">
-                                    <button class="btn btn-white" type="button">Can't View</button>
-                                    <button class="btn btn-white" type="button" value="view_places">Can View</button>
-                                    <button class="btn btn-white" type="button" value="view_places edit_places">Can View and Edit</button>
+                                    <button class="btn btn-white" type="button" value="view_places">View</button>
+                                    <button class="btn btn-white" type="button" value="edit_places">View + Edit</button>
                                 </div>
                             </div>
                         </div>
@@ -590,8 +587,7 @@
                             <label class="col-sm-3 control-label">System Settings</label>
                             <div class="col-sm-9">
                                 <div class="btn-group btn-choice">
-                                    <button class="btn btn-white" type="button">Can't Edit</button>
-                                    <button class="btn btn-white" type="button" value="edit_system_settings">Can Edit</button>
+                                    <button class="btn btn-white" type="button" value="edit_system_settings">View + Edit</button>
                                 </div>
                             </div>
                         </div>
@@ -611,22 +607,43 @@
     <tr>
         <td><span class="label label-{{theme}}">{{name}}</span></td>
         <td>
-            {{#if view_events}} View {{#if edit_events}} + Edit {{/if}} {{/if}}
-            {{#unless view_events}} {{#unless edit_events}} - {{/unless}} {{/unless}}
+            {{#in_array 'view_events' permissions }}
+                View
+            {{else}}
+                {{#in_array 'edit_events' permissions }}
+                    View + Edit
+                {{else}}
+                    -
+                {{/in_array}}
+            {{/in_array}}
         </td>
         <td>
-            {{#if view_people}} View {{#if edit_people}} + Edit {{/if}} {{/if}}
-            {{#unless view_people}} {{#unless edit_people}} - {{/unless}} {{/unless}}
+            {{#in_array 'view_people' permissions }}
+                View
+            {{else}}
+                {{#in_array 'edit_people' permissions }}
+                    View + Edit
+                {{else}}
+                    -
+                {{/in_array}}
+            {{/in_array}}
         </td>
         <td>
-            {{#if view_places}} View {{#if edit_places}} + Edit {{/if}} {{/if}}
-            {{#unless view_places}} {{#unless edit_places}} - {{/unless}} {{/unless}}
+            {{#in_array 'view_places' permissions }}
+                View
+            {{else}}
+                {{#in_array 'edit_places' permissions }}
+                    View + Edit
+                {{else}}
+                    -
+                {{/in_array}}
+            {{/in_array}}
         </td>
         <td>
-            {{#if edit_system_settings}} Edit {{else}} - {{/if}}
+            {{#in_array 'edit_system_settings' permissions}} Edit {{else}} - {{/in_array}}
         </td>
         <td>
-            <i role_id="{{_id}}" name="{{name}}" theme="{{theme}}" role_type="{{role_type}}" title="Edit Role" class="edit-btn table-btn fa fa-edit"></i>
+            <i role_id="{{_id}}" name="{{name}}" theme="{{theme}}" permissions="{{permissions}}" title="Edit Role" class="edit-btn table-btn fa fa-edit"></i>
             <i role_id="{{_id}}" title="Delete Role" class="delete-btn table-btn fa fa-trash-o"></i>
         </td>
     </tr>

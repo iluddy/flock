@@ -41,21 +41,7 @@ class Role(Document, Base):
     name = StringField(unique=True)
     theme = StringField(nullable=False)
     company = ReferenceField('Company', nullable=False)
-    permissions = ListField(ReferenceField('Permission'), nullable=False)
-
-    def to_dict(self):
-        output = self.to_mongo()
-        for permission in output['permissions']:
-            output[permission] = True
-        del output['permissions']
-        return output
-
-class Permission(Document, Base):
-    id = SequenceField(primary_key=True)
-    name = StringField(unique=True)
-
-    def __unicode__(self):
-        return unicode(self.name)
+    permissions = ListField(StringField(nullable=False), nullable=False)
 
 class Event(Document, Base):
     id = SequenceField(primary_key=True)

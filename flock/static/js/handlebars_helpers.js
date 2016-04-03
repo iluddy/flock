@@ -15,3 +15,9 @@ Handlebars.registerHelper('elapsed', function(stamp) {
     );
 });
 
+Handlebars.registerHelper('in_array', function(elem, list, options) {
+  if(list.indexOf(elem) > -1) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+});

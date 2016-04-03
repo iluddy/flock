@@ -78,8 +78,8 @@ class RoleService(Service):
             abort(400, 'There are {} {}s registered. Remove those People first.'.format(len(people), role.name))
         self.db.role_delete(role_id)
 
-    def update(self, role, company_id):
-        self.db.role_update(role, company_id)
+    def update(self, role):
+        self.db.role_update(role)
         # TODO - update person models
 
     def get(self, role_id=None, company_id=None):

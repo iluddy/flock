@@ -33,7 +33,6 @@ class Database():
 
     def reset_database(self):
         Role.drop_collection()
-        Permission.drop_collection()
         Person.drop_collection()
         Place.drop_collection()
         Company.drop_collection()
@@ -214,14 +213,6 @@ class Database():
     def company_get(self, company_id):
         return Company.objects.get(id=company_id)
 
-    #### Permissions ####
-
-    def permission_get(self, permission_name=None, permission_names=None):
-        if permission_name:
-            return Permission.objects.get(name=permission_name)
-        if permission_names:
-            return Permission.objects(name__in=permission_names)
-
     #### Role ####
 
     def role_get(self, company_id=None, role_id=None):
@@ -231,14 +222,16 @@ class Database():
             return Role.objects.get(id=role_id)
 
     def role_add(self, role, company_id):
+        if Role.objects(company=company_id, name=role['name']):
+            abort(400, 'A Role with this name already exists.')
         role['company'] = company_id
         Role(**role).save()
 
-    def role_update(self, role, company_id):
+    def role_update(self, role):
         Role.objects(id=role['id']).update_one(
             theme=role['theme'],
             name=role['name'],
-            permissions=self.permission_get(permission_names=role['permissions'])
+            permissions=role['permissions']
         )
 
     def role_delete(self, role_id):

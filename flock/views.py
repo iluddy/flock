@@ -184,7 +184,7 @@ def roles_update():
     }
     if request.form.get('id'):
         role['id'] = int(request.form.get('id'))
-        role_service.update(role, session['company_id'])
+        role_service.update(role)
         return '{} Role Updated'.format(role['name']), 200
 
     role_service.add(role, session['company_id'])
