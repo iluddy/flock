@@ -238,7 +238,7 @@ class Database():
         Role.objects(id=role['id']).update_one(
             theme=role['theme'],
             name=role['name'],
-            permissions=self.permission_get(permission_ids=role['permissions'])
+            permissions=self.permission_get(permission_names=role['permissions'])
         )
 
     def role_delete(self, role_id):
