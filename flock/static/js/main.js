@@ -226,12 +226,13 @@ function load_people(){
     }
 
     function add_person(){
-        new_person = {
-            'type': $('#add_person_type_choice .color-choice.selected').attr('type_id'),
-            'name': $('#add_person_name').val(),
-        }
+        var new_person = {
+            'type': $('#add_person_type_choice .label-color-choice.selected').attr('type_id'),
+            'name': $('#add_person_name').val()
+        };
 
         var mail = $('#add_person_email').val();
+        var phone = $('#add_person_phone').val();
         var invite = $('#add_person_invite').is(":checked");
 
         if( mail.length > 0 )
@@ -239,6 +240,9 @@ function load_people(){
 
         if( invite == true )
             new_person['invite'] = true;
+
+        if( phone.length > 0)
+            new_person['phone'] = phone;
 
         if ( new_person['name'].length > 0 )
             ajax_call({

@@ -115,6 +115,7 @@ def people_add():
         'name': request.form.get("name", None),
         'mail': request.form.get("mail", None),
         'role': request.form.get("type", None),
+        'phone': request.form.get("phone", None),
         'invite': True if invite else False,
         'company': session['company_id']
     }
