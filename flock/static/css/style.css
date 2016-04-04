@@ -8449,14 +8449,23 @@ body.md-skin {
     width: 40px;
     display: inline-block;
 }
-.color-choice:hover{
+.label-color-choice:hover, .color-choice:hover{
     opacity: 0.8;
+}
+.label-color-choice{
+    font-size: 1.05em;
+    opacity: 0.4;
+    display: inline-block;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border-radius: 0px;
+    padding: 8px;
 }
 .color-choice{
     opacity: 0.2;
     cursor: pointer;
 }
-.color-choice.selected {
+.label-color-choice.selected, .color-choice.selected{
     opacity: 1;
 }
 .centered{

@@ -74,6 +74,8 @@ function load_components(){
     });
     $('.color-choice').on('click', radio_toggle);
     $('.color-choice').first().click();
+    $('.label-color-choice').on('click', radio_toggle);
+    $('.label-color-choice').first().click();
     $('.btn-choice .btn').on('click', function(){
         $(this).siblings().removeClass('btn-primary').addClass('btn-white').removeClass('selected');
         if( $(this).hasClass('selected') ){
