@@ -82,29 +82,30 @@ test_data = {
          "role": 5, "role_name": "Student", "role_theme": "primary", "token": "879d9147-ba5e-49e8-bacd-dc631fca337f"},
         {"id": 109, "mail": "blythe@m.ie", "name": "Blythe Poole", "invite": True, "active": False, "company": 1,
          "role": 2, "role_name": "Trainee", "role_theme": "danger", "token": "64fdc85d-8e8a-4777-9e90-10f4fff5e17b"},
-        {"id": 110, "name": "Gyles Traviss", "invite": False, "active": False, "company": 1, "role": 2,
+        {"id": 110, "mail": "gt@gt.ie", "name": "Gyles Traviss", "invite": False, "active": False, "company": 1, "role": 2,
          "role_name": "Trainee", "role_theme": "danger"},
         {"id": 111, "mail": "davie@m.ie", "name": "Davie Sangster", "invite": False, "active": False, "company": 1,
          "role": 1, "role_name": "Manager", "role_theme": "success", "token": "ee82b1d5-9e4b-4e32-bd60-20a889ff782d"},
         {"id": 112, "mail": "jerrod@m.ie", "name": "Jerrod Hooper", "invite": True, "active": False, "company": 1,
          "role": 1, "role_name": "Manager", "role_theme": "success", "token": "21faa801-8d67-4fa4-8adb-5442eaf90104"},
-        {"id": 113, "name": "Kyler Kendrick", "invite": False, "active": False, "company": 1, "role": 2,
+        {"id": 113, "mail": "kk@k.ie", "name": "Kyler Kendrick", "invite": False, "active": False, "company": 1, "role": 2,
          "role_name": "Trainee", "role_theme": "danger"},
         {"id": 114, "mail": "x@m.ie", "name": "Xavier Neville", "invite": True, "active": False, "company": 1,
          "role": 3, "role_name": "Connector", "role_theme": "warning", "token": "cfc5a323-9750-4909-9a4f-3e303996e200"},
         {"id": 115, "mail": "gage@m.ie", "name": "Gage Greene", "invite": True, "active": True, "company": 1, "role": 3,
          "role_name": "Connector", "role_theme": "warning", "token": None, "password": "pass"},
-        {"id": 117, "name": "Erskine Abrams", "invite": False, "active": False, "company": 1, "role": 3,
+        {"id": 117, "mail": "ea@e.ie", "name": "Erskine Abrams", "invite": False, "active": False, "company": 1, "role": 3,
          "role_name": "Connector", "role_theme": "warning"},
         {"id": 118, "mail": "norton@m.ie", "name": "Norton Garret", "invite": False, "active": False, "company": 1,
          "role": 5, "role_name": "Student", "role_theme": "primary"},
-        {"id": 119, "name": "Dex Stevens", "invite": False, "active": False, "company": 1, "role": 5,
+        {"id": 119, "mail": "ds@d.ie", "name": "Dex Stevens", "invite": False, "active": False, "company": 1, "role": 5,
          "role_name": "Student", "role_theme": "primary"}
     ],
     'Company': [
         {
             'id': 1,
-            'name': 'IanCO'
+            'name': 'IanCO',
+            'owner': 1
         }
     ],
     'Place': [

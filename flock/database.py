@@ -59,16 +59,19 @@ class Database():
     #### User Account ####
 
     def register_user(self, name, mail, password, company):
+        new_company = Company(name=company)
+
         try:
-            new_company = Company(name=company)
+            owner = Person(name=name, mail=mail, password=password, company=new_company)
+            owner.save()
+        except NotUniqueError:
+            abort(400, 'Email address already in use :(')
+
+        try:
+            new_company.owner = owner
             new_company.save()
         except NotUniqueError:
             abort(400, 'Company name already in use :(')
-
-        try:
-            Person(name=name, mail=mail, password=password, company=new_company).save()
-        except NotUniqueError:
-            abort(400, 'Email address already in use :(')
 
     def activate_user(self, token, name, password):
         try:
@@ -94,7 +97,7 @@ class Database():
         except DoesNotExist:
             try:
                 Person.objects.get(mail=mail)
-            except:
+            except DoesNotExist:
                 abort(400, 'Email address not registered :(')
 
         abort(400, 'Password is incorrect :(')
@@ -132,12 +135,16 @@ class Database():
         except NotUniqueError:
             abort(400, 'That email address is already in use.')
 
+    def person_update(self, new_person):
+        # TODO - this
+        pass
+
     def person_get(self, company_id=None, role_id=None, user_id=None, mail=None, search=None, sort_by=None, sort_dir=None, token=None, limit=None, offset=None):
         if user_id:
             return Person.objects.get(id=user_id)
 
         if mail:
-            return Person.objects.get(mail=mail, company_id=company_id)
+            return Person.objects.get(__raw__={'mail': mail, 'company': int(company_id)})
 
         if token:
             return Person.objects.get(token=token)
@@ -237,6 +244,14 @@ class Database():
             theme=role['theme'],
             name=role['name'],
             permissions=role['permissions']
+        )
+
+    def person_role_update(self, role):
+        role = Role.objects.get(id=role['id'])
+        Person.objects(role=role).update(
+            role=role,
+            role_name=role.name,
+            role_theme=role.theme
         )
 
     def role_delete(self, role_id):

@@ -12,8 +12,10 @@ event_service = __builtin__.flock_event_service
 role_service = __builtin__.flock_role_service
 
 @app.route('/')
-@auth
 def root():
+    if session.get('user_id') is None:
+        return redirect(url_for('login'))
+
     return render_template(
         'index.html',
         user_name=session['user_name'],
@@ -181,15 +183,22 @@ def roles_update():
     role = {
         "theme": request.form.get("theme"),
         "name": request.form.get("name"),
+        "permissions": json.loads(request.form.get("permissions")),
+        "id": int(request.form.get('id'))
+    }
+    role_service.update(role)
+    return '{} Role Updated'.format(role['name']), 200
+
+@app.route('/roles', methods=['POST'])
+@auth
+def roles_add():
+    role = {
+        "theme": request.form.get("theme"),
+        "name": request.form.get("name"),
         "permissions": json.loads(request.form.get("permissions"))
     }
-    if request.form.get('id'):
-        role['id'] = int(request.form.get('id'))
-        role_service.update(role)
-        return '{} Role Updated'.format(role['name']), 200
-
     role_service.add(role, session['company_id'])
-    return '{} Role Added'.format(role['name']), 200
+    return '{} Role Added'.format(request.form.get("name")), 200
 
 @app.route('/roles', methods=['DELETE'])
 @auth

@@ -1,4 +1,4 @@
-from flask import abort
+from flask import abort, session
 
 class Service:
 
@@ -80,7 +80,7 @@ class RoleService(Service):
 
     def update(self, role):
         self.db.role_update(role)
-        # TODO - update person models
+        self.db.person_role_update(role)
 
     def get(self, role_id=None, company_id=None):
         return self.db.role_get(role_id=role_id, company_id=company_id)

@@ -8,6 +8,12 @@ $(document).ready(function () {
     ).done(templates_loaded);
 });
 
+$( document ).ajaxError(function( event, jqxhr ) {
+    // Logout if session expires
+    if( jqxhr.status == 403 )
+        $(location).attr('href', 'logout');
+});
+
 function add_templates(input){
     $("#tmpl_holder").html(input);
 }
@@ -228,15 +234,12 @@ function load_people(){
     function add_person(){
         var new_person = {
             'type': $('#add_person_type_choice .label-color-choice.selected').attr('type_id'),
-            'name': $('#add_person_name').val()
+            'name': $('#add_person_name').val(),
+            'mail': $('#add_person_email').val()
         };
 
-        var mail = $('#add_person_email').val();
         var phone = $('#add_person_phone').val();
         var invite = $('#add_person_invite').is(":checked");
-
-        if( mail.length > 0 )
-            new_person['mail'] = mail;
 
         if( invite == true )
             new_person['invite'] = true;
@@ -244,7 +247,7 @@ function load_people(){
         if( phone.length > 0)
             new_person['phone'] = phone;
 
-        if ( new_person['name'].length > 0 )
+        if ( new_person['name'].length > 0 && new_person['mail'].length > 0 )
             ajax_call({
                 'url': '/people',
                 'type': 'put',
@@ -254,7 +257,7 @@ function load_people(){
     }
 
     function delete_person(){
-        to_remove = {'id': parseInt($(this).attr("people_id")), 'name': $(this).attr('name')};
+        var to_remove = {'id': parseInt($(this).attr("people_id")), 'name': $(this).attr('name')};
         ajax_call({
             'url': '/people',
             'type': 'delete',
@@ -264,7 +267,7 @@ function load_people(){
     }
 
     function invite_person(){
-        to_invite = {'mail': $(this).attr("mail")};
+        var to_invite = {'mail': $(this).attr("mail")};
         ajax_call({'url': '/people/invite', 'type': 'post', 'data': to_invite, 'success': reload_people});
     }
 
@@ -461,10 +464,11 @@ function load_settings_people(){
 
     function save_role(){
 
+        var role_id = $('#add_role_form').attr('role_id');
+
         var data = {
             'theme': $('#role_colour .color-choice.selected').attr('value'),
             'name': $('#add_role_name').val(),
-            'id': $('#add_role_form').attr('role_id'),
             'permissions': []
         };
 
@@ -482,12 +486,23 @@ function load_settings_people(){
 
             data.permissions = JSON.stringify(data.permissions);
 
-            ajax_call({
-                'url': 'roles',
-                'data': data,
-                'type': 'put',
-                'success': load_roles
-            });
+            if ( role_id.length > 0 ){
+                data.id = role_id;
+                ajax_call({
+                    'url': 'roles',
+                    'data': data,
+                    'type': 'PUT',
+                    'success': load_roles
+                });
+            }else{
+                ajax_call({
+                    'url': 'roles',
+                    'data': data,
+                    'type': 'POST',
+                    'success': load_roles
+                });
+            }
+
         }
     }
 

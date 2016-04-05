@@ -1,13 +1,11 @@
 import json
 import logging
-import requests
 from functools import wraps
 from logging.handlers import RotatingFileHandler
 from uuid import uuid4, uuid5, NAMESPACE_DNS
 
-from flask import make_response, redirect, url_for, session
+from flask import make_response, session, abort
 from mongoengine import QuerySet
-
 
 def read_config_file(config_file):
     with open(config_file, "r") as f:
@@ -93,8 +91,9 @@ def json_response(response):
 def auth(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if not session.get('user_id'):
-            return redirect(url_for('login'))
+        if session.get('user_id') is None:
+            session.clear()
+            abort(403, 'You are no longer logged in!')
 
         # TODO - verify user and company match
 

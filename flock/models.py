@@ -11,6 +11,11 @@ class Base(object):
         return self.to_mongo()
 
 class Place(Document, Base):
+    meta = {
+        'indexes': [
+            {'fields': ('company', 'name'), 'unique': True}
+        ]
+    }
     id = SequenceField(primary_key=True)
     name = StringField(nullable=False)
     address = StringField(nullable=False)
@@ -20,27 +25,33 @@ class Place(Document, Base):
     company = ReferenceField('Company', nullable=False)
 
 class Thing(Document, Base):
+    meta = {
+        'indexes': [
+            {'fields': ('company', 'name'), 'unique': True}
+        ]
+    }
     id = SequenceField(primary_key=True)
-    title = StringField()
-    body = StringField()
+    name = StringField(nullable=False)
+    description = StringField(nullable=True)
+    company = ReferenceField('Company', nullable=False)
 
 class Role(Document, Base):
+    meta = {
+        'indexes': [
+            {'fields': ('company', 'name'), 'unique': True}
+        ]
+    }
     id = SequenceField(primary_key=True)
-    name = StringField(unique=True)
+    name = StringField(nullable=False)
     theme = StringField(nullable=False)
     company = ReferenceField('Company', nullable=False)
     permissions = ListField(StringField(nullable=False), nullable=False)
 
 class Person(Document, Base):
-
-    meta = {
-        'indexes': [
-            {'fields': ('company', 'mail'), 'unique': True}
-        ]
-    }
+    # TODO - allow email to be registered with multiple companies
 
     id = SequenceField(primary_key=True)
-    mail = StringField(nullable=False)
+    mail = StringField(unique=True, nullable=False)
     phone = StringField(nullable=True)
     name = StringField()
     invite = BooleanField(default=True)
@@ -64,7 +75,7 @@ class Person(Document, Base):
 class Event(Document, Base):
     id = SequenceField(primary_key=True)
     title = StringField(nullable=False)
-    owner = ReferenceField('Person', nullable=False)
+    owner = ReferenceField('Person', reverse_delete_rule=DENY)
     start = DateTimeField(nullable=False)
     end = DateTimeField()
     people = ListField(ReferenceField('Person', reverse_delete_rule=PULL))
@@ -87,7 +98,37 @@ class Company(Document, Base):
     id = SequenceField(primary_key=True)
     name = StringField(unique=True)
     status = StringField(default='trialling')
-    joined = DateTimeField(default=datetime.now)
+    created = DateTimeField(default=datetime.now)
+    owner = ReferenceField('Person', reverse_delete_rule=DENY)
+
+    def save(self, *args, **kwargs):
+
+        # Create default Roles
+        admin = Role(name='Administrator', theme='success', company=self,
+             permissions=[
+                 'edit_events', 'edit_people', 'edit_places', 'edit_system_settings'
+             ]
+        ).save()
+        Role(name='Regular User', theme='primary', company=self,
+             permissions=[
+                 'edit_events', 'edit_people', 'edit_places'
+             ]
+        ).save()
+        Role(name='Read-Only User', theme='warning', company=self,
+             permissions=[
+                 'view_events', 'view_people', 'view_places'
+             ]
+        ).save()
+
+        # Set owner as Admin
+        self.owner.update(
+            role=admin,
+            role_name=admin.name,
+            role_theme=admin.theme,
+            active=True
+        )
+
+        return super(Company, self).save(*args, **kwargs)
 
 class Notification(Document, Base):
     id = SequenceField(primary_key=True)
