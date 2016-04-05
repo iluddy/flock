@@ -1,5 +1,6 @@
 from flask import request, redirect, url_for, render_template, session
 from utils import json_response, auth
+from constants import PAGE_SIZE
 import json
 import __builtin__
 
@@ -22,6 +23,7 @@ def root():
         user_id=session['user_id'],
         company_id=session['company_id'],
         company_name=session['company_name'],
+        permissions=db_wrapper.permissions_get(session['user_id'])
     )
 
 @app.route('/templates')
@@ -104,7 +106,7 @@ def people():
     search = request.form.get("search", None)
     sort_by = request.form.get("sort_by", None)
     sort_dir = request.form.get("sort_dir", None)
-    limit = request.form.get("limit", 10)
+    limit = request.form.get("limit", PAGE_SIZE)
     offset = request.form.get("offset", 0)
     data, count = person_service.get(session['company_id'], search=search, sort_by=sort_by, sort_dir=sort_dir, limit=limit, offset=offset)
     return json_response({'data': data, 'count': count})
@@ -145,7 +147,7 @@ def places():
     search = request.form.get("search", None)
     sort_by = request.form.get("sort_by", None)
     sort_dir = request.form.get("sort_dir", None)
-    limit = request.form.get("limit", 10)
+    limit = request.form.get("limit", PAGE_SIZE)
     offset = request.form.get("offset", 0)
     data, count = place_service.get(session['company_id'], search=search, sort_by=sort_by, sort_dir=sort_dir, limit=limit, offset=offset)
     return json_response({'data': data, 'count': count})

@@ -29,7 +29,7 @@ class Database():
         # self.db.person.createIndex({"company": 1, "mail": 1})
 
     def add_defaults(self):
-        for collection_name, data in default_data.iteritems():
+        for collection_name, data in DEFAULT_DATA.iteritems():
             doc = getattr(mo, collection_name)
             for document in data:
                 doc(**document).save()
@@ -42,7 +42,7 @@ class Database():
         Company.drop_collection()
 
     def add_test_data(self):
-        for collection_name, data in test_data.iteritems():
+        for collection_name, data in TEST_DATA.iteritems():
             doc = getattr(mo, collection_name)
             for document in data:
                 doc(**document).save()
@@ -72,6 +72,9 @@ class Database():
             new_company.save()
         except NotUniqueError:
             abort(400, 'Company name already in use :(')
+
+    def permissions_get(self, user_id):
+        return self.person_get(user_id=user_id).role.permissions
 
     def activate_user(self, token, name, password):
         try:

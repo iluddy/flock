@@ -5,7 +5,7 @@ from tornado.ioloop import IOLoop
 from database import Database
 from task_manager import TaskManager
 from services import PersonService, PlaceService, AccountService, EventService, RoleService
-from constants import secret_key, session_duration
+from constants import SECRET_KEY, SESSION_DURATION
 from flask.ext.autodoc import Autodoc
 from flask.ext.mongoengine import MongoEngine
 from flask import Flask, Request
@@ -26,8 +26,8 @@ cfg = read_config_file(args.c)
 
 # Create App
 app = Flask(__name__, static_url_path='')
-app.secret_key = secret_key
-app.permanent_session_lifetime = session_duration
+app.secret_key = SECRET_KEY
+app.permanent_session_lifetime = SESSION_DURATION
 documentor = Autodoc(app)
 app.config['MONGODB_SETTINGS'] = {
     'db': cfg["database"]["name"],

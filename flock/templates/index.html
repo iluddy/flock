@@ -33,21 +33,29 @@
                         <li class="active tab" target="dashboard">
                             <a href="#dashboard"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
                         </li>
-                        <li class="tab" target="planner">
-                            <a href="#planner"><i class="fa fa-calendar"></i> <span class="nav-label">Planner</span></a>
-                        </li>
-                        <li class="tab" target="people">
-                            <a href="#people"><i class="fa fa-users"></i> <span class="nav-label">People</span></a>
-                        </li>
-                        <li class="tab" target="places">
-                            <a href="#places"><i class="fa fa-map-marker"></i> <span class="nav-label">Places</span></a>
-                        </li>
+                        {%if 'view_events' in permissions or 'edit_events' in permissions%}
+                            <li class="tab" target="planner">
+                                <a href="#planner"><i class="fa fa-calendar"></i> <span class="nav-label">Planner</span></a>
+                            </li>
+                        {% endif %}
+                        {%if 'view_people' in permissions or 'edit_people' in permissions%}
+                            <li class="tab" target="people">
+                                <a href="#people"><i class="fa fa-users"></i> <span class="nav-label">People</span></a>
+                            </li>
+                        {% endif %}
+                        {%if 'view_places' in permissions or 'edit_places' in permissions%}
+                            <li class="tab" target="places">
+                                <a href="#places"><i class="fa fa-map-marker"></i> <span class="nav-label">Places</span></a>
+                            </li>
+                        {% endif %}
                         <!--<li class="tab" target="things">-->
                             <!--<a href="#things"><i class="fa fa-cube"></i> <span class="nav-label">Things</span></a>-->
                         <!--</li>-->
-                        <li class="tab" target="settings">
-                            <a href="#settings"><i class="fa fa-cog"></i> <span class="nav-label">Settings</span></a>
-                        </li>
+                        {%if 'edit_system_settings' in permissions %}
+                            <li class="tab" target="settings">
+                                <a href="#settings"><i class="fa fa-cog"></i> <span class="nav-label">Settings</span></a>
+                            </li>
+                        {% endif %}
                     </ul>
                     <ul class="nav navbar-top-links navbar-right">
                         <span class="account_info">

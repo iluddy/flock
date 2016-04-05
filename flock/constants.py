@@ -1,8 +1,8 @@
 # Stuff that doesn't change
 
-session_duration = 1200
-secret_key = "\x13`4\xf5\x90:(Qs\xa2\x0f\xd8\xbe\xee\x1b5Ae!\x9b\xd4\xe8\xf1\x94"
-permissions = [
+SESSION_DURATION = 1200
+SECRET_KEY = "\x13`4\xf5\x90:(Qs\xa2\x0f\xd8\xbe\xee\x1b5Ae!\x9b\xd4\xe8\xf1\x94"
+PERMISSIONS = [
     'view_events',
     'edit_events',
     'view_people',
@@ -12,10 +12,12 @@ permissions = [
     'edit_system_settings'
 ]
 
-default_data = {
+PAGE_SIZE = 15
+
+DEFAULT_DATA = {
 }
 
-test_data = {
+TEST_DATA = {
     'Role': [
         {
             'id': 1,
