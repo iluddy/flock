@@ -523,7 +523,7 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
 .top-navigation .navbar-brand {
   background: #1ab394;
   color: #fff;
-  padding: 15px 25px;
+  padding: 15px 28px 15px 27px;
 }
 .top-navigation .navbar-top-links li:last-child {
   margin-right: 0;
@@ -8470,4 +8470,14 @@ body.md-skin {
 }
 .centered{
    text-align: center;
+}
+.navbar-header img{
+    height: 30px;
+    position: relative;
+    bottom: -9px;
+    left: 21px;
+    float: left;
+}
+.navbar-header{
+    background-color: #1ab394;
 }

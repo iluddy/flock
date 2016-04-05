@@ -6,3 +6,9 @@
 #wrong{
     display: none;
 }
+.logo-img{
+    height: 154px;
+    position: absolute;
+    top: 4%;
+    right: 82%;
+}
