@@ -16,46 +16,6 @@ default_data = {
 }
 
 test_data = {
-    'Person': [
-        {"id": 1, "mail": "ian@m.ie", "name": "Ian Luddy", "invite": True, "active": True, "password": "pass",
-         "company": 1, "role": 1, "role_name": "Manager", "role_theme": "success"},
-        {"id": 2, "mail": "joe@m.ie", "name": "Joe Bloggs", "invite": True, "active": True, "password": "pass",
-         "company": 1, "role": 2, "role_name": "Trainee", "role_theme": "danger"},
-        {"id": 3, "mail": "john@m.ie", "name": "John Bloggs", "invite": True, "active": True, "password": "password",
-         "company": 1, "role": 3, "role_name": "Connector", "role_theme": "warning", "token": None},
-        {"id": 7, "mail": "ap@m.ie", "name": "Alan Partridge", "invite": True, "active": True, "password": "alan",
-         "company": 1, "role": 3, "role_name": "Connector", "role_theme": "warning", "token": None},
-        {"id": 107, "mail": "jaylin@m.ie", "name": "Jaylin Adcock", "invite": True, "active": False, "company": 1,
-         "role": 2, "role_name": "Trainee", "role_theme": "danger", "token": "db891800-6030-475c-a925-0a079444bc28"},
-        {"id": 108, "mail": "tracy@m.ie", "name": "Tracy Weekes", "invite": True, "active": False, "company": 1,
-         "role": 5, "role_name": "Student", "role_theme": "primary", "token": "879d9147-ba5e-49e8-bacd-dc631fca337f"},
-        {"id": 109, "mail": "blythe@m.ie", "name": "Blythe Poole", "invite": True, "active": False, "company": 1,
-         "role": 2, "role_name": "Trainee", "role_theme": "danger", "token": "64fdc85d-8e8a-4777-9e90-10f4fff5e17b"},
-        {"id": 110, "name": "Gyles Traviss", "invite": False, "active": False, "company": 1, "role": 2,
-         "role_name": "Trainee", "role_theme": "danger"},
-        {"id": 111, "mail": "davie@m.ie", "name": "Davie Sangster", "invite": False, "active": False, "company": 1,
-         "role": 1, "role_name": "Manager", "role_theme": "success", "token": "ee82b1d5-9e4b-4e32-bd60-20a889ff782d"},
-        {"id": 112, "mail": "jerrod@m.ie", "name": "Jerrod Hooper", "invite": True, "active": False, "company": 1,
-         "role": 1, "role_name": "Manager", "role_theme": "success", "token": "21faa801-8d67-4fa4-8adb-5442eaf90104"},
-        {"id": 113, "name": "Kyler Kendrick", "invite": False, "active": False, "company": 1, "role": 2,
-         "role_name": "Trainee", "role_theme": "danger"},
-        {"id": 114, "mail": "x@m.ie", "name": "Xavier Neville", "invite": True, "active": False, "company": 1,
-         "role": 3, "role_name": "Connector", "role_theme": "warning", "token": "cfc5a323-9750-4909-9a4f-3e303996e200"},
-        {"id": 115, "mail": "gage@m.ie", "name": "Gage Greene", "invite": True, "active": True, "company": 1, "role": 3,
-         "role_name": "Connector", "role_theme": "warning", "token": None, "password": "pass"},
-        {"id": 117, "name": "Erskine Abrams", "invite": False, "active": False, "company": 1, "role": 3,
-         "role_name": "Connector", "role_theme": "warning"},
-        {"id": 118, "mail": "norton@m.ie", "name": "Norton Garret", "invite": False, "active": False, "company": 1,
-         "role": 5, "role_name": "Student", "role_theme": "primary"},
-        {"id": 119, "name": "Dex Stevens", "invite": False, "active": False, "company": 1, "role": 5,
-         "role_name": "Student", "role_theme": "primary"}
-    ],
-    'Company': [
-        {
-            'id': 1,
-            'name': 'IanCO'
-        }
-    ],
     'Role': [
         {
             'id': 1,
@@ -106,6 +66,46 @@ test_data = {
             'company': 1,
             'theme': 'default'
         },
+    ],
+    'Person': [
+        {"id": 1, "mail": "ian@m.ie", "name": "Ian Luddy", "invite": True, "active": True, "password": "pass",
+         "company": 1, "role": 1, "role_name": "Manager", "role_theme": "success"},
+        {"id": 2, "mail": "joe@m.ie", "name": "Joe Bloggs", "invite": True, "active": True, "password": "pass",
+         "company": 1, "role": 2, "role_name": "Trainee", "role_theme": "danger"},
+        {"id": 3, "mail": "john@m.ie", "name": "John Bloggs", "invite": True, "active": True, "password": "password",
+         "company": 1, "role": 3, "role_name": "Connector", "role_theme": "warning", "token": None},
+        {"id": 7, "mail": "ap@m.ie", "name": "Alan Partridge", "invite": True, "active": True, "password": "alan",
+         "company": 1, "role": 3, "role_name": "Connector", "role_theme": "warning", "token": None},
+        {"id": 107, "mail": "jaylin@m.ie", "name": "Jaylin Adcock", "invite": True, "active": False, "company": 1,
+         "role": 2, "role_name": "Trainee", "role_theme": "danger", "token": "db891800-6030-475c-a925-0a079444bc28"},
+        {"id": 108, "mail": "tracy@m.ie", "name": "Tracy Weekes", "invite": True, "active": False, "company": 1,
+         "role": 5, "role_name": "Student", "role_theme": "primary", "token": "879d9147-ba5e-49e8-bacd-dc631fca337f"},
+        {"id": 109, "mail": "blythe@m.ie", "name": "Blythe Poole", "invite": True, "active": False, "company": 1,
+         "role": 2, "role_name": "Trainee", "role_theme": "danger", "token": "64fdc85d-8e8a-4777-9e90-10f4fff5e17b"},
+        {"id": 110, "name": "Gyles Traviss", "invite": False, "active": False, "company": 1, "role": 2,
+         "role_name": "Trainee", "role_theme": "danger"},
+        {"id": 111, "mail": "davie@m.ie", "name": "Davie Sangster", "invite": False, "active": False, "company": 1,
+         "role": 1, "role_name": "Manager", "role_theme": "success", "token": "ee82b1d5-9e4b-4e32-bd60-20a889ff782d"},
+        {"id": 112, "mail": "jerrod@m.ie", "name": "Jerrod Hooper", "invite": True, "active": False, "company": 1,
+         "role": 1, "role_name": "Manager", "role_theme": "success", "token": "21faa801-8d67-4fa4-8adb-5442eaf90104"},
+        {"id": 113, "name": "Kyler Kendrick", "invite": False, "active": False, "company": 1, "role": 2,
+         "role_name": "Trainee", "role_theme": "danger"},
+        {"id": 114, "mail": "x@m.ie", "name": "Xavier Neville", "invite": True, "active": False, "company": 1,
+         "role": 3, "role_name": "Connector", "role_theme": "warning", "token": "cfc5a323-9750-4909-9a4f-3e303996e200"},
+        {"id": 115, "mail": "gage@m.ie", "name": "Gage Greene", "invite": True, "active": True, "company": 1, "role": 3,
+         "role_name": "Connector", "role_theme": "warning", "token": None, "password": "pass"},
+        {"id": 117, "name": "Erskine Abrams", "invite": False, "active": False, "company": 1, "role": 3,
+         "role_name": "Connector", "role_theme": "warning"},
+        {"id": 118, "mail": "norton@m.ie", "name": "Norton Garret", "invite": False, "active": False, "company": 1,
+         "role": 5, "role_name": "Student", "role_theme": "primary"},
+        {"id": 119, "name": "Dex Stevens", "invite": False, "active": False, "company": 1, "role": 5,
+         "role_name": "Student", "role_theme": "primary"}
+    ],
+    'Company': [
+        {
+            'id': 1,
+            'name': 'IanCO'
+        }
     ],
     'Place': [
         {

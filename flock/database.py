@@ -1,13 +1,11 @@
 from datetime import timedelta
 from random import randint
-
 from werkzeug.exceptions import abort
-
 import models as mo
 from constants import *
 from models import *
 from utils import random_password
-
+from mongoengine import NotUniqueError, DoesNotExist
 
 class Database():
     """
@@ -22,8 +20,13 @@ class Database():
         self.reset_database()
         self.add_defaults()
         self.add_test_data()
+        self.add_indexes()
 
     #### Utils ####
+
+    def add_indexes(self):
+        pass
+        # self.db.person.createIndex({"company": 1, "mail": 1})
 
     def add_defaults(self):
         for collection_name, data in default_data.iteritems():
@@ -32,9 +35,10 @@ class Database():
                 doc(**document).save()
 
     def reset_database(self):
-        Role.drop_collection()
         Person.drop_collection()
+        Role.drop_collection()
         Place.drop_collection()
+        Event.drop_collection()
         Company.drop_collection()
 
     def add_test_data(self):
@@ -114,8 +118,6 @@ class Database():
 
     def person_add(self, new_person):
 
-        # TODO - handle update
-
         role = Role.objects(id=new_person['role']).get()
         new_person['role'] = role
         new_person['role_name'] = role.name
@@ -125,20 +127,23 @@ class Database():
         if not new_person['mail']:
             del new_person['mail']
 
-        return Person(**new_person).save()
+        try:
+            return Person(**new_person).save()
+        except NotUniqueError:
+            abort(400, 'That email address is already in use.')
 
     def person_get(self, company_id=None, role_id=None, user_id=None, mail=None, search=None, sort_by=None, sort_dir=None, token=None, limit=None, offset=None):
         if user_id:
             return Person.objects.get(id=user_id)
 
         if mail:
-            return Person.objects.get(mail=mail)
+            return Person.objects.get(mail=mail, company_id=company_id)
 
         if token:
             return Person.objects.get(token=token)
 
         if role_id:
-            return Person.objects(role=self.role_get(role_id=role_id))
+            return Person.objects(__raw__={'role': int(role_id)})
 
         query = {'company': company_id}
 
@@ -168,13 +173,13 @@ class Database():
 
     def event_get(self, company_id=None, place_id=None):
         if company_id:
-            return Event.objects(company=company_id)
+            return Event.objects(__raw__={'company': int(company_id)})
         if place_id:
-            return Event.objects(place=place_id)
+            return Event.objects(__raw__={'place': int(place_id)})
 
     #### Place ####
 
-    def place_get(self, company_id, place_id=None, search=None, sort_by=None, sort_dir=None, limit=None, offset=None):
+    def place_get(self, company_id=None, place_id=None, search=None, sort_by=None, sort_dir=None, limit=None, offset=None):
 
         if place_id:
             return Place.objects.get(id=place_id)
