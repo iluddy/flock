@@ -3,9 +3,16 @@ import logging
 from functools import wraps
 from logging.handlers import RotatingFileHandler
 from uuid import uuid4, uuid5, NAMESPACE_DNS
-
+import hashlib
 from flask import make_response, session, abort
 from mongoengine import QuerySet
+
+def hash_string(string):
+    return hashlib.md5(string.encode('utf-8')).digest()
+
+def validate_password(string):
+    if len(string) < 8:
+        abort(400, 'Password needs to be at least 8 characters')
 
 def read_config_file(config_file):
     with open(config_file, "r") as f:

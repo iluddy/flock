@@ -19,7 +19,7 @@ setup(
         "requests",
         "premailer",
         "lxml",
-        "rollbar==0.11.4"
+        "rollbar==0.11.4",
     ],
     entry_points={
         'console_scripts': [

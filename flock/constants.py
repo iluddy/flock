@@ -1,4 +1,5 @@
 # Stuff that doesn't change
+# -*- coding: utf-8 -*-
 
 SESSION_DURATION = 1200
 SECRET_KEY = "\x13`4\xf5\x90:(Qs\xa2\x0f\xd8\xbe\xee\x1b5Ae!\x9b\xd4\xe8\xf1\x94"
@@ -20,210 +21,288 @@ DEFAULT_DATA = {
 TEST_DATA = {
     'Role': [
         {
-            'id': 1,
+            'id': -1,
             'name': 'Manager',
             'permissions': ['edit_events', 'edit_people', 'edit_places', 'edit_system_settings'],
-            'company': 1,
+            'company': -1,
             'theme': 'success'
         },
         {
-            'id': 2,
+            'id': -2,
             'name': 'Trainee',
             'permissions': ['edit_events', 'edit_people', 'edit_places'],
-            'company': 1,
+            'company': -1,
             'theme': 'danger'
         },
         {
-            'id': 3,
+            'id': -3,
             'name': 'Connector',
             'permissions': ['edit_events', 'edit_people', 'edit_places'],
-            'company': 1,
+            'company': -1,
             'theme': 'warning'
         },
         {
-            'id': 4,
+            'id': -4,
             'name': 'Independent',
             'permissions': ['edit_events', 'edit_people', 'edit_places'],
-            'company': 1,
+            'company': -1,
             'theme': 'info'
         },
         {
-            'id': 5,
+            'id': -5,
             'name': 'Student',
             'permissions': ['view_events', 'view_people', 'view_places'],
-            'company': 1,
+            'company': -1,
             'theme': 'primary'
         },
         {
-            'id': 6,
+            'id': -6,
             'name': 'External',
             'permissions': [],
-            'company': 1,
+            'company': -1,
             'theme': 'info'
-        },
-        {
-            'id': 7,
-            'name': 'System Administrator',
-            'permissions': ['edit_events', 'edit_people', 'edit_places', 'edit_system_settings'],
-            'company': 1,
-            'theme': 'default'
-        },
+        }
     ],
     'Person': [
-        {"id": 1, "mail": "ian@m.ie", "name": "Ian Luddy", "invite": True, "active": True, "password": "pass",
-         "company": 1, "role": 1, "role_name": "Manager", "role_theme": "success"},
-        {"id": 2, "mail": "joe@m.ie", "name": "Joe Bloggs", "invite": True, "active": True, "password": "pass",
-         "company": 1, "role": 2, "role_name": "Trainee", "role_theme": "danger"},
-        {"id": 3, "mail": "john@m.ie", "name": "John Bloggs", "invite": True, "active": True, "password": "password",
-         "company": 1, "role": 3, "role_name": "Connector", "role_theme": "warning", "token": None},
-        {"id": 7, "mail": "ap@m.ie", "name": "Alan Partridge", "invite": True, "active": True, "password": "alan",
-         "company": 1, "role": 3, "role_name": "Connector", "role_theme": "warning", "token": None},
-        {"id": 107, "mail": "jaylin@m.ie", "name": "Jaylin Adcock", "invite": True, "active": False, "company": 1,
-         "role": 2, "role_name": "Trainee", "role_theme": "danger", "token": "db891800-6030-475c-a925-0a079444bc28"},
-        {"id": 108, "mail": "tracy@m.ie", "name": "Tracy Weekes", "invite": True, "active": False, "company": 1,
-         "role": 5, "role_name": "Student", "role_theme": "primary", "token": "879d9147-ba5e-49e8-bacd-dc631fca337f"},
-        {"id": 109, "mail": "blythe@m.ie", "name": "Blythe Poole", "invite": True, "active": False, "company": 1,
-         "role": 2, "role_name": "Trainee", "role_theme": "danger", "token": "64fdc85d-8e8a-4777-9e90-10f4fff5e17b"},
-        {"id": 110, "mail": "gt@gt.ie", "name": "Gyles Traviss", "invite": False, "active": False, "company": 1, "role": 2,
-         "role_name": "Trainee", "role_theme": "danger"},
-        {"id": 111, "mail": "davie@m.ie", "name": "Davie Sangster", "invite": False, "active": False, "company": 1,
-         "role": 1, "role_name": "Manager", "role_theme": "success", "token": "ee82b1d5-9e4b-4e32-bd60-20a889ff782d"},
-        {"id": 112, "mail": "jerrod@m.ie", "name": "Jerrod Hooper", "invite": True, "active": False, "company": 1,
-         "role": 1, "role_name": "Manager", "role_theme": "success", "token": "21faa801-8d67-4fa4-8adb-5442eaf90104"},
-        {"id": 113, "mail": "kk@k.ie", "name": "Kyler Kendrick", "invite": False, "active": False, "company": 1, "role": 2,
-         "role_name": "Trainee", "role_theme": "danger"},
-        {"id": 114, "mail": "x@m.ie", "name": "Xavier Neville", "invite": True, "active": False, "company": 1,
-         "role": 3, "role_name": "Connector", "role_theme": "warning", "token": "cfc5a323-9750-4909-9a4f-3e303996e200"},
-        {"id": 115, "mail": "gage@m.ie", "name": "Gage Greene", "invite": True, "active": True, "company": 1, "role": 3,
-         "role_name": "Connector", "role_theme": "warning", "token": None, "password": "pass"},
-        {"id": 117, "mail": "ea@e.ie", "name": "Erskine Abrams", "invite": False, "active": False, "company": 1, "role": 3,
-         "role_name": "Connector", "role_theme": "warning"},
-        {"id": 118, "mail": "norton@m.ie", "name": "Norton Garret", "invite": False, "active": False, "company": 1,
-         "role": 5, "role_name": "Student", "role_theme": "primary"},
-        {"id": 119, "mail": "ds@d.ie", "name": "Dex Stevens", "invite": False, "active": False, "company": 1, "role": 5,
-         "role_name": "Student", "role_theme": "primary"}
+        {
+            "id": -1,
+            "mail": "ian@tryflock.com",
+            "name": "Ian Luddy",
+            "invite": True,
+            "active": True,
+            "password": "pbkdf2:sha1:1000$Ejjo3uqM$04d48dc71ce6460f6454f403ef6e331ce7acfad3",
+            "company": -1
+        },
+        {
+            "id": -2,
+            "mail": "dani@tryflock.com",
+            "name": "Dani Brown",
+            "invite": True,
+            "active": True,
+            "password": "pbkdf2:sha1:1000$Ejjo3uqM$04d48dc71ce6460f6454f403ef6e331ce7acfad3",
+            "company": -1,
+            "role": -1,
+            "role_name": "Manager",
+            "role_theme": "success"
+        },
+        {
+            "id": -3,
+            "mail": "kacper@tryflock.com",
+            "name": "Kacper Oppegård",
+            "invite": True,
+            "active": True,
+            "password": "pbkdf2:sha1:1000$Ejjo3uqM$04d48dc71ce6460f6454f403ef6e331ce7acfad3",
+            "company": -1,
+            "role": -1,
+            "role_name": "Manager",
+            "role_theme": "success"
+        },
+        {
+            "id": -4,
+            "mail": "牛禹凡@tryflock.com",
+            "name": "牛禹凡",
+            "invite": True,
+            "active": False,
+            "password": "pbkdf2:sha1:1000$Ejjo3uqM$04d48dc71ce6460f6454f403ef6e331ce7acfad3",
+            "company": -1,
+            "role": -3,
+            "role_name": "Connector",
+            "role_theme": "warning"
+        },
+        {
+            "id": -5,
+            "mail": "jürgen@tryflock.com",
+            "name": "Jürgen Wexler",
+            "invite": True,
+            "active": False,
+            "password": "pbkdf2:sha1:1000$Ejjo3uqM$04d48dc71ce6460f6454f403ef6e331ce7acfad3",
+            "company": -1,
+            "role": -3,
+            "role_name": "Connector",
+            "role_theme": "warning"
+        },
+        {
+            "id": -6,
+            "mail": "erskine@tryflock.com",
+            "name": "Erskine Abrams",
+            "invite": True,
+            "active": False,
+            "password": "pbkdf2:sha1:1000$Ejjo3uqM$04d48dc71ce6460f6454f403ef6e331ce7acfad3",
+            "company": -1,
+            "role": -3,
+            "role_name": "Connector",
+            "role_theme": "warning"
+        },
+        {
+            "id": -7,
+            "mail": "joe@tryflock.com",
+            "name": "Joe Bloggs",
+            "invite": True,
+            "active": True,
+            "password": "pbkdf2:sha1:1000$Ejjo3uqM$04d48dc71ce6460f6454f403ef6e331ce7acfad3",
+            "company": -1,
+            "role": -2,
+            "role_name": "Trainee",
+            "role_theme": "danger"
+        },
+        {
+            "id": -8,
+            "mail": "jim@tryflock.com",
+            "name": "Jim Bloggs",
+            "invite": True,
+            "active": True,
+            "password": "pbkdf2:sha1:1000$Ejjo3uqM$04d48dc71ce6460f6454f403ef6e331ce7acfad3",
+            "company": -1,
+            "role": -2,
+            "role_name": "Trainee",
+            "role_theme": "danger"
+        },
+        {
+            "id": -9,
+            "mail": "jaylin@tryflock.com",
+            "name": "Jaylin Adcock",
+            "invite": True,
+            "active": True,
+            "password": "pbkdf2:sha1:1000$Ejjo3uqM$04d48dc71ce6460f6454f403ef6e331ce7acfad3",
+            "company": -1,
+            "role": -2,
+            "role_name": "Trainee",
+            "role_theme": "danger"
+        },
+        {
+            "id": -10,
+            "mail": "gyles@tryflock.com",
+            "name": "Gyles Traviss",
+            "invite": True,
+            "active": True,
+            "password": "pbkdf2:sha1:1000$Ejjo3uqM$04d48dc71ce6460f6454f403ef6e331ce7acfad3",
+            "company": -1,
+            "role": -2,
+            "role_name": "Trainee",
+            "role_theme": "danger"
+        }
     ],
     'Company': [
         {
-            'id': 1,
+            'id': -1,
             'name': 'IanCO',
-            'owner': 1
+            'owner': -1
         }
     ],
     'Place': [
         {
-            'id': 1,
+            'id': -1,
             'name': 'GEC',
             'address': 'Taylors Lane, Dublin 8',
             'mail': 'info@gec.ie',
             'phone': '01-234234234',
-            'company': 1
+            'company': -1
         },
         {
-            'id': 2,
-            'name': 'Cake Venue',
-            'address': 'Cake St, Dublin 12',
-            'mail': 'info@cake.ie',
+            'id': -2,
+            'name': 'Mannings Bakery',
+            'address': '12 Thomas St, Dublin 8',
+            'mail': 'info@mannings.ie',
             'phone': '01-234234234',
-            'company': 1
+            'company': -1
         },
         {
-            'id': 3,
+            'id': -3,
             'name': 'Square Tallaght',
             'address': 'Square, Tallaght',
             'mail': 'info@tallaght.ie',
             'phone': '01-234234234',
-            'company': 1
+            'company': -1
         },
         {
-            'id': 4,
+            'id': -4,
             'name': 'Walk Office',
             'address': 'Walk, Walkinstown',
             'mail': 'info@walk.ie',
             'phone': '01-234234234',
-            'company': 1
+            'company': -1
         },
         {
-            'id': 5,
+            'id': -5,
             'name': 'St. Catherines Gym',
             'address': 'Thomas St',
             'mail': 'info@gym.ie',
             'phone': '01-234234234',
-            'company': 1
+            'company': -1
         },
     ],
     'Event': [
         {
-            'id': 1,
+            'id': -1,
             'title': 'Cake Class',
-            'owner': 1,
-            'people': [1,2,3],
-            'place': 4,
-            'company': 1
+            'owner': -1,
+            'people': [-3, -10],
+            'place': -4,
+            'company': -1
         },
         {
-            'id': 2,
+            'id': -2,
             'title': 'Reading Club',
-            'owner': 1,
-            'people': [1,2,3,7],
-            'place': 1,
-            'company': 1
+            'owner': -1,
+            'people': [-4, -5, -7],
+            'place': -1,
+            'company': -1
         },
         {
-            'id': 3,
+            'id': -3,
             'title': 'Dancing',
-            'owner': 1,
-            'people': [1,2,112],
-            'place': 3,
-            'company': 1
+            'owner': -1,
+            'people': [],
+            'place': -3,
+            'company': -1
         },
         {
-            'id': 4,
+            'id': -4,
             'title': 'Gym',
-            'owner': 1,
-            'people': [112,113,114],
-            'place': 5,
-            'company': 1
+            'owner': -1,
+            'people': [-10],
+            'place': -5,
+            'company': -1
         },
         {
-            'id': 5,
+            'id': -5,
             'title': 'Dancing',
-            'owner': 1,
-            'people': [1,2,112],
-            'place': 3,
-            'company': 1
+            'owner': -1,
+            'people': [-2, -3, -10],
+            'place': -3,
+            'company': -1
         },
         {
-            'id': 6,
+            'id': -6,
             'title': 'Gym',
-            'owner': 1,
-            'people': [112,113,114],
-            'place': 5,
-            'company': 1
+            'owner': -1,
+            'people': [-7, -8, -9],
+            'place': -5,
+            'company': -1
         },
         {
-            'id': 7,
+            'id': -7,
             'title': 'Gym',
-            'owner': 1,
-            'people': [112,113,114],
-            'place': 5,
-            'company': 1
+            'owner': -1,
+            'people': [-2, -3, -4, -5],
+            'place': -5,
+            'company': -1
         },
         {
-            'id': 8,
-            'title': 'Dancing',
-            'owner': 1,
-            'people': [1,2,112],
-            'place': 3,
-            'company': 1
+            'id': -8,
+            'title': 'Reading Club',
+            'owner': -1,
+            'people': [-2, -3, -4, -5],
+            'place': -3,
+            'company': -1
         },
         {
-            'id': 9,
+            'id': -9,
             'title': 'Gym',
-            'owner': 1,
-            'people': [112,113,114],
-            'place': 5,
-            'company': 1
+            'owner': -1,
+            'people': [-2, -3, -4, -5],
+            'place': -5,
+            'company': -1
         },
     ]
 }

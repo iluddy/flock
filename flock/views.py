@@ -17,13 +17,17 @@ def root():
     if session.get('user_id') is None:
         return redirect(url_for('login'))
 
+    permissions = db_wrapper.permissions_get(session['user_id'])
+    if permissions is None:
+        return redirect(url_for('login'))
+
     return render_template(
         'index.html',
         user_name=session['user_name'],
         user_id=session['user_id'],
         company_id=session['company_id'],
         company_name=session['company_name'],
-        permissions=db_wrapper.permissions_get(session['user_id'])
+        permissions=permissions
     )
 
 @app.route('/templates')

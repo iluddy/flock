@@ -4,17 +4,13 @@ from werkzeug.exceptions import abort
 import models as mo
 from constants import *
 from models import *
-from utils import random_password
+from utils import random_password, validate_password
 from mongoengine import NotUniqueError, DoesNotExist
 
 class Database():
     """
     Wrapper for the database layer
     """
-    PAGE_SIZE = 12
-
-    session_cache = {}
-
     def __init__(self, db):
         self.db = db
         self.reset_database()
@@ -59,10 +55,12 @@ class Database():
     #### User Account ####
 
     def register_user(self, name, mail, password, company):
+        validate_password(password)
+
         new_company = Company(name=company)
 
         try:
-            owner = Person(name=name, mail=mail, password=password, company=new_company)
+            owner = Person(name=name, mail=mail.lower(), password=generate_password_hash(password), company=new_company)
             owner.save()
         except NotUniqueError:
             abort(400, 'Email address already in use :(')
@@ -74,13 +72,18 @@ class Database():
             abort(400, 'Company name already in use :(')
 
     def permissions_get(self, user_id):
-        return self.person_get(user_id=user_id).role.permissions
+        try:
+            return self.person_get(user_id=user_id).role.permissions
+        except DoesNotExist:
+            return None
 
     def activate_user(self, token, name, password):
+        validate_password(password)
+
         try:
             Person.objects(token=token).update_one(
                 name=name,
-                password=password,
+                password=generate_password_hash(password),
                 token=None,
                 active=True
             )
@@ -93,26 +96,21 @@ class Database():
         return token
 
     def authenticate_user(self, mail, password):
-        # TODO : encrypt stored passwords
         try:
-            user = Person.objects.get(mail=mail, password=password)
-            return user.id, user.name, user.company.id, user.company.name, user.mail
+            user = Person.objects.get(mail=mail.lower())
+            if check_password_hash(user.password, password):
+                return user.id, user.name, user.company.id, user.company.name, user.mail
+            abort(400, 'Password is incorrect :(')
         except DoesNotExist:
-            try:
-                Person.objects.get(mail=mail)
-            except DoesNotExist:
-                abort(400, 'Email address not registered :(')
-
-        abort(400, 'Password is incorrect :(')
+            abort(400, 'Email address not registered :(')
 
     def reset_user(self, mail):
         new_password = random_password()
         try:
             user = Person.objects.get(mail=mail)
-            user.password = new_password
+            user.password = generate_password_hash(new_password)
             user.save()
             return new_password
-            # TODO : encrypt stored passwords
         except DoesNotExist:
             abort(400, 'Email address not registered :(')
 
@@ -132,6 +130,8 @@ class Database():
         # Mail can either be a unique email address or can not exist
         if not new_person['mail']:
             del new_person['mail']
+        else:
+            new_person['mail'] = new_person['mail'].lower()
 
         try:
             return Person(**new_person).save()

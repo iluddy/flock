@@ -1,7 +1,8 @@
 from mongoengine import Document, SequenceField, StringField, BooleanField, ReferenceField, ListField, DateTimeField
 from mongoengine import PULL, DENY
+from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
-from utils import account_token
+from utils import account_token, hash_string
 
 # TODO - add indexes
 
@@ -56,7 +57,7 @@ class Person(Document, Base):
     name = StringField()
     invite = BooleanField(default=True)
     active = BooleanField(default=False)
-    password = StringField()
+    password = StringField(min_length=8)
     company = ReferenceField('Company', nullable=False)
     role = ReferenceField('Role', nullable=False, reverse_delete_rule=DENY)
     role_name = StringField(nullable=False)

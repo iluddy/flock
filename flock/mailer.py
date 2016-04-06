@@ -54,7 +54,7 @@ class Mailer():
 
         Follow this link to login:
 
-        http://localhost:5001
+        http://app.tryflock.com/login
 
         """.format(new_password)
 
@@ -70,7 +70,7 @@ class Mailer():
 
             Follow this link to activate your account:
 
-            http://localhost:5001/activate/{}
+            http://app.tryflock.com/activate/{}
 
         """.format(sender, token)
 

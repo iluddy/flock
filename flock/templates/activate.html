@@ -76,7 +76,7 @@
                         window.location.href = '/';
                     },
                     error: function(data) {
-                        $('#wrong').text(data.responseText).fadeIn();
+                        $('#wrong').text(data.responseText.replace('</p>', '').split('<p>').slice(-1)[0]).fadeIn();
                     }
                 });
             }else{
