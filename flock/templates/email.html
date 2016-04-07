@@ -527,42 +527,75 @@ img.flock-interblocks-article-author-avatar-image {
   vertical-align: middle;
 }
 
+.logo-img{
+    height: 110px;
+    display: inline-block;
+    position: relative;
+    top: 8px;
+    right: 15px;
+}
+
+.logo-name {
+    color: #e6e6e6;
+    font-size: 75px;
+    font-weight: 600;
+    letter-spacing: -3px;
+    margin-bottom: 0;
+    font-family: 'open sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    display: inline-block;
+    position: relative;
+    right: 45px;
+}
+.title-td{
+    font-family: 'open sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 28px;
+    text-align: center;
+    font-weight: 500;
+    color: #1ab394;
+}
+.footer-td{
+    font-size: 15px;
+    color: #999;
+    font-weight: lighter;
+}
+.content{
+    text-align: center;
+}
 </style>
-
-
 
 </head>
 
 <body style="background: #f9f9f9; margin: 0px; padding: 20px" bgcolor="f9f9f9">
 
+    <div style="text-align:center;">
+        <img class="logo-img" alt="Flock" src="http://app.tryflock.com/img/mail-header.png">
+    </div>
+
   <table cellspacing="0" border="0" cellpadding="0" align="center" width="595" bgcolor="white" class="main" style="border-collapse: separate; border-spacing: 0; font-family: Helvetica, Arial, sans-serif; letter-spacing: 0; table-layout: fixed">
     <tr>
-      <td class="main-td" style="border: 1px solid #dddddd; border-radius: 2px; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05); font-family: Helvetica, Arial, sans-serif; font-size: 16px; padding: 40px 60px">
+      <td class="main-td" style="border: 1px solid #dddddd; border-radius: 2px; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05); font-family: Helvetica, Arial, sans-serif; font-size: 16px; padding: 40px 60px 10px 60px">
 
+        <table width="100%" class="content" style="margin-bottom: 28px; border-collapse: separate; border-spacing: 0; table-layout: fixed">
+          <tr>
+            <td class="title-td">
+              {{ title }}
+            </td>
+          </tr>
+        </table>
 
-
-  <table width="100%" class="header" style="border-collapse: separate; border-spacing: 0; table-layout: fixed">
-    <tr>
-      <td class="logo" style="font-family: Helvetica, Arial, sans-serif; font-size: 16px; padding: 0; text-align: left" align="left">
-
-          <div style='text-align: left; font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    background: #1ab394;
-    color: #fff;
-    padding: 15px 25px;
-    width: 38px;'>Flock</div>
-
-      </td>
-    </tr>
-  </table>
-
-
+        <table width="100%" class="content" align="center" style="margin-bottom: 10px; border-collapse: separate; border-spacing: 0; table-layout: fixed">
+          <tr>
+            <td class="content-td" style="color: #525252; font-family: Helvetica, Arial, sans-serif; font-size: 15px; line-height: 22px; padding: 0">
+                {{ body }}
+            </td>
+          </tr>
+        </table>
 
         <table width="100%" class="content" style="border-collapse: separate; border-spacing: 0; table-layout: fixed">
           <tr>
-            <td class="content-td" style="color: #525252; font-family: Helvetica, Arial, sans-serif; font-size: 15px; line-height: 22px; padding: 0">
-
-              {{ body }}
-
+            <td class="footer-td">
+                <div>All the Best!</div>
+                <div>The Flock Team</div>
             </td>
           </tr>
         </table>

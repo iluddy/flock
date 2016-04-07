@@ -33,7 +33,7 @@ class Mailer():
             "from": sender,
             "to": recipient,
             "subject": subject,
-            "html": transform(generic_email_template.render(body=plain_text_to_html(content))),
+            "html": transform(generic_email_template.render(body=plain_text_to_html(content), title=subject)),
             "text": ""
         }
         requests.post(
@@ -49,11 +49,9 @@ class Mailer():
         content = """
 
         Your Password has been reset.
-
-        Your new Password is {}
+        Your new Password is <b>{}</b>
 
         Follow this link to login:
-
         http://app.tryflock.com/login
 
         """.format(new_password)
