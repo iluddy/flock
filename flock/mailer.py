@@ -23,7 +23,7 @@ class Mailer():
     # TODO - use non dev server
     server = "https://api.mailgun.net/v3/sandboxd4ff99d2df0b4dbbb94cc9e08a0391d1.mailgun.org/messages"
 
-    def send(self, recipient, subject, content, title, sender=default_sender):
+    def send(self, recipient, subject, title, content, sender=default_sender):
 
         # TODO - remove this
         recipient = 'ianluddy@gmail.com'
