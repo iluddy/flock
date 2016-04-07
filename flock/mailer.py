@@ -23,7 +23,7 @@ class Mailer():
     # TODO - use non dev server
     server = "https://api.mailgun.net/v3/sandboxd4ff99d2df0b4dbbb94cc9e08a0391d1.mailgun.org/messages"
 
-    def send(self, recipient, subject, content, sender=default_sender):
+    def send(self, recipient, subject, content, title, sender=default_sender):
 
         # TODO - remove this
         recipient = 'ianluddy@gmail.com'
@@ -33,7 +33,7 @@ class Mailer():
             "from": sender,
             "to": recipient,
             "subject": subject,
-            "html": transform(generic_email_template.render(body=plain_text_to_html(content), title=subject)),
+            "html": transform(generic_email_template.render(body=plain_text_to_html(content), title=title)),
             "text": ""
         }
         requests.post(
@@ -46,30 +46,33 @@ class Mailer():
 
         subject = "Your Password has been reset"
 
+        title = "Your Password was reset!"
+
         content = """
 
-        Your Password has been reset.
-        Your new Password is <b>{}</b>
+            Your Password has been reset.
+            Your new Password is <b>{}</b>
 
-        Follow this link to login:
-        http://app.tryflock.com/login
+            Follow this link to login:
+            http://app.tryflock.com/login
 
         """.format(new_password)
 
-        self.send(recipient, subject, content)
+        self.send(recipient, subject, title, content)
 
     def invite(self, recipient, sender, token):
 
-        subject = "{} has invited you to use Flock :)".format(sender)
+        subject = "{} has invited you to use Flock".format(sender)
+
+        title = "Come check out the Flock App!"
 
         content = """
 
-            {} has invited you to use Flock :)
+            {} has invited you to use Flock
 
             Follow this link to activate your account:
-
             http://app.tryflock.com/activate/{}
 
         """.format(sender, token)
 
-        self.send(recipient, subject, content, sender)
+        self.send(recipient, subject, title, content, sender)
