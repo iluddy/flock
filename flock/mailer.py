@@ -59,9 +59,9 @@ class Mailer():
 
     def invite(self, recipient, sender, token):
 
-        subject = "{} has invited you to use Flock".format(sender)
+        subject = "{} has invited you to use Flock".format(unicode(sender))
         title = "Come check out the Flock App!"
-        content = "<b>{}</b> has invited you to use Flock.\nClick the button below to log in.".format(sender)
+        content = "<b>{}</b> has invited you to use Flock.\nClick the button below to log in.".format(unicode(sender))
         button_link = "http://app.tryflock.com/activate/{}".format(token)
         button_caption = "Login to Flock"
 
