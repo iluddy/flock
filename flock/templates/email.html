@@ -1,626 +1,359 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-<meta name="viewport" content="width=device-width">
-<meta name="format-detection" content="telephone=no">
-<title>Email template</title>
-
-<style type="text/css" data-premailer="ignore">
-  #outlook a{
-    padding: 0;
-  }
-  body{
-    -webkit-text-size-adjust: none;
-    -ms-text-size-adjust: none;
-    font-weight: 400;
-    margin: 0;
-    padding: 0;
-  }
-  .ReadMsgBody{
-    width: 100%;
-  }
-  .ExternalClass{
-    width: 100%;
-  }
-  img {
-    border: 0;
-    max-width: 100%;
-    height: auto;
-    outline: none;
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    text-decoration: none;
-    line-height: 100%;
-  }
-  #backgroundTable{
-    height: 100% !important;
-    margin: 0;
-    padding: 0;
-    width: 100% !important;
-  }
-</style>
-
-
-
-
-<style type="text/css">
-  /**
-   * Generic
-   */
-
-  .main {
-    font-family: Helvetica, Arial, sans-serif;
-    letter-spacing: 0;
-  }
-
-  .main .main-td {
-    padding: 40px 60px;
-    border: 1px solid #dddddd;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
-    border-radius: 2px;
-  }
-
-  table {
-    border-spacing: 0;
-    border-collapse: separate;
-    table-layout: fixed;
-  }
-
-  td {
-    font-size: 16px;
-    padding: 0;
-    font-family: Helvetica, Arial, sans-serif;
-  }
-
-  a {
-    border: none;
-    outline: none !important;
-  }
-
-
-  /**
-   * Header
-   */
-
-  .header td img {
-    padding: 15px 0 30px;
-    text-align: left;
-  }
-
-  .header .logo {
-    text-align: left;
-  }
-
-  /**
-   * Content
-   */
-
-  .content-td {
-    font-size: 15px;
-    line-height: 22px;
-    padding: 0;
-    color: #525252;
-  }
-
-  .content-td > :first-child {
-    margin-top: 0;
-  }
-
-  .content-td h1 {
-    font-size: 26px;
-    line-height: 33px;
-    color: #282F33;
-    margin-bottom: 7px;
-    margin-top: 30px;
-    font-weight: normal;
-  }
-
-  .content-td h2 {
-    font-size: 18px;
-    font-weight: bold;
-    color: #282F33;
-    margin-top: 30px;
-    margin-bottom: 7px;
-  }
-
-  .content-td h1 + h2 {
-    margin-top: 0px !important;
-  }
-
-  .content-td h2 + h1 {
-    margin-top: 0px !important;
-  }
-
-  .content-td h3 ,
-  .content-td h4 ,
-  .content-td h5 {
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-
-  .content-td p {
-    margin: 0 0 17px 0;
-    line-height: 1.5;
-  }
-
-  .content-td p img,
-  .content-td h1 img,
-  .content-td h2 img,
-  .content-td li img,
-  .content-td .flock-h2b-button img {
-    margin: 0;
-    padding: 0;
-  }
-
-
-
-  .content-td p.intro {
-    font-size: 20px;
-    line-height: 30px;
-  }
-
-  .content-td blockquote {
-    margin: 40px 0;
-    font-style: italic;
-    color: #8C8C8C;
-    font-size: 18px;
-    text-align: center;
-    padding: 0 30px;
-    font-family: Georgia, sans-serif;
-    quotes: none;
-  }
-
-  .content-td blockquote a {
-    color: #8C8C8C;
-  }
-
-  .content-td ul {
-    list-style: disc;
-    margin: 0 0 20px 40px;
-    padding: 0;
-  }
-
-  .content-td ol {
-    list-style: decimal;
-    margin: 0 0 20px 40px;
-    padding: 0;
-  }
-
-  .content-td img {
-    max-width: 100%;
-    margin: 17px 0;
-  }
-
-  .content-td .flock-container {
-    margin-bottom: 16px;
-  }
-
-  .content-td hr {
-    border: none;
-    border-top: 1px solid #DDD;
-    margin: 50px 30% 50px 30%;
-  }
-
-  .content-td table {
-    border-collapse: collapse;
-    border-spacing: 0;
-    margin-bottom: 20px;
-  }
-
-  .content-td td,
-  .content-td th {
-    padding: 5px 7px;
-    border: 1px solid #DADADA;
-    text-align: left;
-    vertical-align: top;
-  }
-
-  .content-td th {
-    font-weight: bold;
-    background: #F6F6F6;
-  }
-
-  .content-td a {
-    color: #1251BA;
-  }
-
-  .content td.content-td table.flock-container {
-    margin: 17px 0;
-  }
-  .content td.content-td table.flock-container.flock-align-center {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .content td.content-td table.flock-container td {
-    background-color: #1995dc;
-    padding: 12px 35px;
-    border-radius: 3px;
-    font-family: Helvetica, Arial, sans-serif;
-    margin: 0;
-    border: none;
-  }
-
-  .content td.content-td table.flock-container .flock-h2b-button {
-    display: inline-block;
-    color: white;
-    font-weight: bold;
-    font-size: 14px;
-    text-decoration: none;
-    background-color: #1995dc;
-    border: none !important;
-    border-radius: 3px;
-  }
-
-  .footer-td {
-    text-align: center;
-    padding: 21px 30px 15px;
-  }
-
-  .footer-td p ,
-  .footer-td a {
-    font-size: 12px;
-    color: #b7b7b7;
-    text-decoration: none;
-    font-weight: 300;
-  }
-
-  .footer-td p {
-    margin: 0 0 6px 0;
-  }
-
-  .footer-td p.address {
-    margin-top: 9px;
-    line-height: 1.5em;
-  }
-
-  .footer-td p.powered-by {
-    margin-top: 18px;
-  }
-
-  .footer-td p.unsub {
-    margin: 0;
-  }
-
-  .footer .unsub a {
-    text-decoration: underline;
-    display: block;
-    margin: 12px 0 0;
-  }
-
-  p.unsub a {
-    text-decoration: underline;
-  }
-
-  .footer-td p.powered-by a {
-    font-weight: bold;
-  }
-
-  .footer-td textarea {
-    text-decoration: none;
-    font-size: 12px;
-    color: #b7b7b7;
-    font-family: Helvetica, Arial, sans-serif;
-    padding: 9px 0;
-    font-weight: 300;
-    line-height: normal;
-
-  }
-
-  a.flock-h2b-button {
-    background-color: #1995dc;
-    font-size: 14px;
-    color: #FFF;
-    font-weight: bold;
-    border-radius: 3px;
-    display: inline-block;
-    text-decoration: none;
-
-  }
-</style>
-
-
-<style type="text/css" data-premailer="ignore">
-  @media screen and (max-width: 595px) {
-    body {
-      padding: 10px !important;
-    }
-    .main {
-      width: 100% !important;
-    }
-    .main .main-td {
-      padding: 20px !important;
-    }
-    .header td {
-      text-align: center;
-    }
-  }
-
-  .content-td blockquote + * {
-    margin-top: 20px !important;
-  }
-
-  .ExternalClass .content-td h1 {
-    padding: 20px 0 !important;
-  }
-
-  .ExternalClass .content-td h2 {
-    padding: 0 0 5px !important;
-  }
-
-  .ExternalClass .content-td p {
-    padding: 10px 0 !important;
-  }
-
-  .ExternalClass .content-td .flock-container {
-    padding: 5px 0 !important;
-  }
-
-  .ExternalClass .content-td hr + * {
-    padding-top: 30px !important;
-  }
-
-  .ExternalClass .content-td ol ,
-  .ExternalClass .content-td ul {
-    padding: 0 0 20px 40px !important;
-    margin: 0 !important;
-  }
-
-  .ExternalClass .content-td ol li,
-  .ExternalClass .content-td ul li {
-    padding: 3px 0 !important;
-    margin: 0 !important;
-  }
-
-  .ExternalClass table .footer-td p {
-    padding: 0 0 6px 0 !important;
-    margin: 0 !important;
-  }
-
-  .ExternalClass table .footer-td p.powered-by ,
-  .ExternalClass table .footer-td p.unsub {
-    padding-top: 15px;
-  }
-
-</style>
-
-
-
-
-
-
-
-<style type="text/css">
-  .flock-align-right {
-  text-align: right !important;
-}
-.flock-align-center {
-  text-align: center !important;
-}
-.flock-align-left {
-  text-align: left !important;
-}
-/* Over-ride for RTL */
-.right-to-left .flock-align-right{
-  text-align: left !important;
-}
-.right-to-left .flock-align-left{
-  text-align: right !important;
-}
-.right-to-left .flock-align-left {
-  text-align:right !important;
-}
-.right-to-left li {
-  text-align:right !important;
-  direction: rtl;
-}
-.right-to-left .flock-align-left img,
-.right-to-left .flock-align-left .flock-h2b-button {
-  margin-left: 0 !important;
-}
-.flock-attachment,
-.flock-attachments,
-.flock-attachments td,
-.flock-attachments th,
-.flock-attachments tr,
-.flock-attachments tbody,
-.flock-attachments .icon,
-.flock-attachments .icon img {
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
-}
-.flock-attachments {
-  margin: 10px 0 !important;
-}
-.flock-attachments .icon,
-.flock-attachments .icon img {
-  width: 16px !important;
-  height: 16px !important;
-}
-.flock-attachments .icon {
-  padding-right: 5px !important;
-}
-.flock-attachment {
-  display: inline-block !important;
-  margin-bottom: 5px !important;
-}
-
-.flock-interblocks-content-card {
-  width: 334px;
-  max-height: 136px;
-  max-width: 100%;
-  overflow: hidden;
-  border-radius: 20px;
-  font-size: 16px;
-  border: 1px solid #e0e0e0;
-}
-
-.flock-interblocks-article-icon {
-  width: 22.5%;
-  height: 136px;
-  float: left;
-  background-color: #fafafa;
-  background-image: url('https://static.flockassets.com/assets/article_book-1a595be287f73c0d02f548f513bfc831.png');
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.flock-interblocks-article-text {
-  width: 77.5%;
-  float: right;
-  background-color: #fff;
-}
-
-.flock-interblocks-article-title {
-  color: #455a64;
-  height: 40px;
-  margin: 10px 15px;
-  line-height: 1.3;
-  font-weight: bold;
-  overflow: hidden;
-}
-
-.flock-interblocks-article-body {
-  color: #74848b;
-  height: 30px;
-  margin: 10px 15px;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1.3;
-  overflow: hidden;
-}
-
-.flock-interblocks-article-author {
-  margin: 10px 15px;
-  height: 24px;
-  line-height: normal;
-}
-
-.flock-interblocks-article-author-avatar {
-  width: 16px;
-  height: 16px;
-  display: inline-block;
-  vertical-align: middle;
-}
-
-img.flock-interblocks-article-author-avatar-image {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  margin: 0;
-  vertical-align: top;
-}
-
-.flock-interblocks-article-author-name {
-  color: #74848b;
-  line-height: 1.2;
-  margin: 0 0 0 5px;
-  display: inline-block;
-  font-size: 12px;
-  font-weight: 500;
-  overflow: hidden;
-  vertical-align: middle;
-}
-
-.logo-img{
-    height: 110px;
-    display: inline-block;
-    position: relative;
-    top: 8px;
-    right: 15px;
-}
-
-.logo-name {
-    color: #e6e6e6;
-    font-size: 75px;
-    font-weight: 600;
-    letter-spacing: -3px;
-    margin-bottom: 0;
-    font-family: 'open sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    display: inline-block;
-    position: relative;
-    right: 45px;
-}
-.title-td{
-    font-family: 'open sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 28px;
-    text-align: center;
-    font-weight: 500;
-    color: #1ab394;
-}
-.footer-td{
-    font-size: 15px;
-    color: #999;
-    font-weight: lighter;
-}
-.content{
-    text-align: center;
-}
-</style>
-
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Flock Notification</title>
+
+    <style type="text/css">
+
+        /* -------------------------------------
+            GLOBAL
+            A very basic CSS reset
+        ------------------------------------- */
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        body {
+            -webkit-font-smoothing: antialiased;
+            -webkit-text-size-adjust: none;
+            width: 100% !important;
+            height: 100%;
+            line-height: 1.6;
+        }
+
+        /* Let's make sure all tables have defaults */
+        table td {
+            vertical-align: top;
+        }
+
+        /* -------------------------------------
+            BODY & CONTAINER
+        ------------------------------------- */
+        body {
+            background-color: #f6f6f6;
+        }
+
+        .body-wrap {
+            background-color: #f6f6f6;
+            width: 100%;
+        }
+
+        .navbar-brand{
+            float: left;
+            display: inline-block;
+            font-size: 20px !important;
+            font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            padding-left: 6px;
+            padding-top: 1px;
+        }
+        }
+
+        .container {
+            display: block !important;
+            max-width: 600px !important;
+            margin: 0 auto !important;
+            /* makes it centered */
+            clear: both !important;
+        }
+
+        .content {
+            max-width: 600px;
+            margin: 0 auto;
+            display: block;
+            padding: 20px;
+        }
+
+        /* -------------------------------------
+            HEADER, FOOTER, MAIN
+        ------------------------------------- */
+        .main {
+            background: #fff;
+            border: 1px solid #e9e9e9;
+            border-radius: 3px;
+        }
+
+        .content-wrap {
+            padding: 20px;
+        }
+
+        .content-block {
+            padding: 0 0 10px;
+        }
+
+        .email-title{
+            font-size: 20px;
+            color: #1ab394;
+            padding-bottom: 5px;
+        }
+
+        .header {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .footer {
+            width: 100%;
+            clear: both;
+            color: #999;
+            padding: 20px;
+        }
+        .footer a {
+            color: #999;
+        }
+        .footer p, .footer a, .footer unsubscribe, .footer td {
+            font-size: 12px;
+        }
+
+        /* -------------------------------------
+            TYPOGRAPHY
+        ------------------------------------- */
+        h1, h2, h3 {
+            font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+            color: #000;
+            margin: 40px 0 0;
+            line-height: 1.2;
+            font-weight: 400;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 500;
+        }
+
+        h2 {
+            font-size: 24px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        h4 {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        p, ul, ol {
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+        p li, ul li, ol li {
+            margin-left: 5px;
+            list-style-position: inside;
+        }
+
+        /* -------------------------------------
+            LINKS & BUTTONS
+        ------------------------------------- */
+        a {
+            color: #1ab394;
+            text-decoration: underline;
+        }
+
+        .btn-primary {
+            text-decoration: none;
+            color: #FFF;
+            background-color: #1ab394;
+            border: solid #1ab394;
+            border-width: 5px 10px;
+            line-height: 2;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            display: inline-block;
+            border-radius: 5px;
+            text-transform: capitalize;
+        }
+
+        /* -------------------------------------
+            OTHER STYLES THAT MIGHT BE USEFUL
+        ------------------------------------- */
+        .last {
+            margin-bottom: 0;
+        }
+
+        .first {
+            margin-top: 0;
+        }
+
+        .aligncenter {
+            text-align: center;
+        }
+
+        .alignright {
+            text-align: right;
+        }
+
+        .alignleft {
+            text-align: left;
+        }
+
+        .clear {
+            clear: both;
+        }
+        .signoff{
+            color: #777;
+            padding-top: 20px;
+        }
+        /* -------------------------------------
+            ALERTS
+            Change the class depending on warning email, good email or bad email
+        ------------------------------------- */
+        .alert {
+            font-size: 16px;
+            color: #fff;
+            font-weight: 500;
+            padding: 5px;
+            text-align: center;
+            border-radius: 3px 3px 0 0;
+        }
+        .alert img{
+            max-width: 100%;
+            height: 50px;
+            display: inline-block;
+            float: left;
+        }
+        .alert a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+        }
+        .alert.alert-warning {
+            background: #f8ac59;
+        }
+        .alert.alert-bad {
+            background: #ed5565;
+        }
+        .alert.alert-good {
+            background: #1ab394;
+        }
+
+        /* -------------------------------------
+            INVOICE
+            Styles for the billing table
+        ------------------------------------- */
+        .invoice {
+            margin: 40px auto;
+            text-align: left;
+            width: 80%;
+        }
+        .invoice td {
+            padding: 5px 0;
+        }
+        .invoice .invoice-items {
+            width: 100%;
+        }
+        .invoice .invoice-items td {
+            border-top: #eee 1px solid;
+        }
+        .invoice .invoice-items .total td {
+            border-top: 2px solid #333;
+            border-bottom: 2px solid #333;
+            font-weight: 700;
+        }
+
+        /* -------------------------------------
+            RESPONSIVE AND MOBILE FRIENDLY STYLES
+        ------------------------------------- */
+        @media only screen and (max-width: 640px) {
+            h1, h2, h3, h4 {
+                font-weight: 600 !important;
+                margin: 20px 0 5px !important;
+            }
+
+            h1 {
+                font-size: 22px !important;
+            }
+
+            h2 {
+                font-size: 18px !important;
+            }
+
+            h3 {
+                font-size: 16px !important;
+            }
+
+            .container {
+                width: 100% !important;
+            }
+
+            .content, .content-wrap {
+                padding: 10px !important;
+            }
+
+            .invoice {
+                width: 100% !important;
+            }
+        }
+
+
+    </style>
 </head>
 
-<body style="background: #f9f9f9; margin: 0px; padding: 20px" bgcolor="f9f9f9">
+<body>
 
-    <div style="text-align:center; position: relative; right: 10px;">
-        <img class="logo-img" alt="Flock" src="http://app.tryflock.com/img/mail-header.png">
-    </div>
-
-  <table cellspacing="0" border="0" cellpadding="0" align="center" width="595" bgcolor="white" class="main" style="border-collapse: separate; border-spacing: 0; font-family: Helvetica, Arial, sans-serif; letter-spacing: 0; table-layout: fixed">
+<table class="body-wrap">
     <tr>
-      <td class="main-td" style="border: 1px solid #dddddd; border-radius: 2px; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05); font-family: Helvetica, Arial, sans-serif; font-size: 16px; padding: 40px 60px 10px 60px">
-
-        <table width="100%" class="content" style="margin-bottom: 28px; border-collapse: separate; border-spacing: 0; table-layout: fixed">
-          <tr>
-            <td class="title-td">
-              {{ title }}
-            </td>
-          </tr>
-        </table>
-
-        <table width="100%" class="content" align="center" style="margin-bottom: 10px; border-collapse: separate; border-spacing: 0; table-layout: fixed">
-          <tr>
-            <td class="content-td" style="color: #525252; font-family: Helvetica, Arial, sans-serif; font-size: 15px; line-height: 22px; padding: 0">
-                {{ body }}
-            </td>
-          </tr>
-        </table>
-
-        <table width="100%" class="content" style="border-collapse: separate; border-spacing: 0; table-layout: fixed">
-          <tr>
-            <td class="footer-td">
-                <div>All the Best!</div>
-                <div>The Flock Team</div>
-            </td>
-          </tr>
-        </table>
-
-      </td>
+        <td></td>
+        <td class="container" width="600">
+            <div class="content">
+                <table class="main" width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="alert alert-good">
+                            <img alt="image" src="http://app.tryflock.com/img/nav.png">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="content-wrap">
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td class="content-block email-title">
+                                        {{ title }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="content-block">
+                                        {{ body }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="content-block">
+                                        <a href="{{ button_link }}" class="btn-primary">{{ button_caption }}</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="content-block signoff">
+                                        All the best!
+                                        <br/>
+                                        The Flock Team
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <div class="footer">
+                    <table width="100%">
+                        <tr>
+                            <td class="aligncenter content-block">Flock HQ, 9 Thomas Court, Dublin 8</td>
+                        </tr>
+                    </table>
+                </div></div>
+        </td>
+        <td></td>
     </tr>
-  </table>
+</table>
 
-
-  <table width="100%" class="footer" align="middle" style="border-collapse: separate; border-spacing: 0; table-layout: fixed">
-    <tr>
-      <td style="font-family: Helvetica, Arial, sans-serif; font-size: 16px; padding: 0">
-        <table cellspacing="0" border="0" cellpadding="0" align="center" width="600" bgcolor="transparent" class="main" style="border-collapse: separate; border-spacing: 0; font-family: Helvetica, Arial, sans-serif; letter-spacing: 0; table-layout: fixed">
-          <tr>
-            <td class="footer-td" style="font-family: Helvetica, Arial, sans-serif; font-size: 16px; padding: 6px 30px 15px; text-align: center" align="center">
-
-                <p style="color: #b7b7b7; font-size: 12px; font-weight: 300; margin: 0 0 6px; text-decoration: none">Flock HQ, 9 Thomas Court, Dublin 8</p>
-
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
 </body>
-
-
 </html>

@@ -23,7 +23,7 @@ class Mailer():
     # TODO - use non dev server
     server = "https://api.mailgun.net/v3/sandboxd4ff99d2df0b4dbbb94cc9e08a0391d1.mailgun.org/messages"
 
-    def send(self, recipient, subject, title, content, sender=default_sender):
+    def send(self, recipient, subject, title, content, button_link=None, button_caption=None, sender=default_sender):
 
         # TODO - remove this
         recipient = 'ianluddy@gmail.com'
@@ -33,7 +33,12 @@ class Mailer():
             "from": sender,
             "to": recipient,
             "subject": subject,
-            "html": transform(generic_email_template.render(body=plain_text_to_html(content), title=title)),
+            "html": transform(generic_email_template.render(
+                body=plain_text_to_html(content),
+                title=title,
+                button_caption=button_caption,
+                button_link=button_link
+            )),
             "text": ""
         }
         requests.post(
@@ -45,34 +50,19 @@ class Mailer():
     def reset(self, recipient, new_password):
 
         subject = "Your Password has been reset"
-
         title = "Your Password was reset!"
+        content = "Your Password has been reset.\nYour new Password is <b>{}</b>".format(new_password)
+        button_link = "http://app.tryflock.com/login"
+        button_caption = "Login to Flock"
 
-        content = """
-
-            Your Password has been reset.
-            Your new Password is <b>{}</b>
-
-            Follow this link to login:
-            http://app.tryflock.com/login
-
-        """.format(new_password)
-
-        self.send(recipient, subject, title, content)
+        self.send(recipient, subject, title, content, button_link=button_link, button_caption=button_caption)
 
     def invite(self, recipient, sender, token):
 
         subject = "{} has invited you to use Flock".format(sender)
-
         title = "Come check out the Flock App!"
+        content = "<b>{}</b> has invited you to use Flock.\nClick the button below to log in.".format(sender)
+        button_link = "http://app.tryflock.com/activate/{}".format(token)
+        button_caption = "Login to Flock"
 
-        content = """
-
-            {} has invited you to use Flock
-
-            Follow this link to activate your account:
-            http://app.tryflock.com/activate/{}
-
-        """.format(sender, token)
-
-        self.send(recipient, subject, title, content, sender)
+        self.send(recipient, subject, title, content, sender=sender, button_link=button_link, button_caption=button_caption)
