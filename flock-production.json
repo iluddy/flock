@@ -10,8 +10,7 @@
     },
     "web_server": {
         "host": "52.30.178.175",
-        "port": 80,
-        "enabled": true
+        "port": 80
     },
     "rollbar": {
         "environment": "production",

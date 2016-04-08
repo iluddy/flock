@@ -18,6 +18,7 @@ setup(
         "flask_mongoengine",
         "requests",
         "premailer",
+        "fabric",
         "lxml",
         "rollbar==0.11.4",
     ],
