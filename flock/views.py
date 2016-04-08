@@ -102,7 +102,7 @@ def reset_user():
 @auth
 def people_delete():
     person_service.delete(request.form.get("id"))
-    return '{} has been deleted'.format(request.form.get("name")), 200
+    return u'{} has been deleted'.format(request.form.get("name")), 200
 
 @app.route('/people', methods=['GET', 'POST'])
 @auth
@@ -128,14 +128,14 @@ def people_add():
         'company': session['company_id']
     }
     person_service.add(new_person, session['user_id'], session['company_id'])
-    return '{} has been added'.format(new_person['name']), 200
+    return u'{} has been added'.format(new_person['name']), 200
 
 @app.route('/people/invite', methods=['POST'])
 @auth
 def people_invite():
     mail = request.form.get("mail")
     person_service.invite(mail, session['user_id'], session['company_id'])
-    return 'Invitation has been sent to {}'.format(mail), 200
+    return u'Invitation has been sent to {}'.format(mail), 200
 
 #### Places ####
 
@@ -143,7 +143,7 @@ def people_invite():
 @auth
 def places_delete():
     place_service.delete(request.form.get("id"))
-    return '{} has been deleted'.format(request.form.get("name")), 200
+    return u'{} has been deleted'.format(request.form.get("name")), 200
 
 @app.route('/places', methods=['GET', 'POST'])
 @auth
@@ -167,7 +167,7 @@ def places_add():
         'company': session['company_id']
     }
     place_service.add(new_place)
-    return '{} has been added'.format(new_place['name']), 200
+    return u'{} has been added'.format(new_place['name']), 200
 
 #### Events ####
 
@@ -193,7 +193,7 @@ def roles_update():
         "id": int(request.form.get('id'))
     }
     role_service.update(role)
-    return '{} Role Updated'.format(role['name']), 200
+    return u'{} Role Updated'.format(role['name']), 200
 
 @app.route('/roles', methods=['POST'])
 @auth
@@ -204,7 +204,7 @@ def roles_add():
         "permissions": json.loads(request.form.get("permissions"))
     }
     role_service.add(role, session['company_id'])
-    return '{} Role Added'.format(request.form.get("name")), 200
+    return u'{} Role Added'.format(request.form.get("name")), 200
 
 @app.route('/roles', methods=['DELETE'])
 @auth
@@ -212,4 +212,4 @@ def roles_delete():
     role_id = request.form.get("id")
     role = role_service.get(role_id=role_id)
     role_service.delete(role_id)
-    return '{} Role Deleted'.format(role.name), 200
+    return u'{} Role Deleted'.format(role.name), 200

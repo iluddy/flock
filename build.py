@@ -8,9 +8,8 @@ virtualenv = '/data/www/env'
 
 def build_production():
     with cd(app_dir):
-        sudo('git pull')
-        sudo('source {}/bin/activate'.format(virtualenv))
-        sudo('python {}/setup.py install'.format(app_dir))
+        sudo('git pull'.format(app_dir))
+        sudo('source {}/bin/activate && python {}/setup.py install'.format(virtualenv, app_dir))
         sudo('service flock restart', pty=False)
 
 if __name__ == '__main__':

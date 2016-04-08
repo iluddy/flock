@@ -27,7 +27,7 @@ class PlaceService(Service):
         events = self.db.event_get(place_id=place_id)
 
         if events:
-            abort(400, 'There are {} Event(s) happening at {}. Delete those Events first.'.format(len(events), place.name))
+            abort(400, u'There are {} Event(s) happening at {}. Delete those Events first.'.format(len(events), place.name))
 
         self.db.place_delete(place_id)
 
@@ -75,7 +75,7 @@ class RoleService(Service):
         people = self.db.person_get(role_id=role_id)
         role = self.get(role_id=role_id)
         if people:
-            abort(400, 'There are {} {}(s) registered. Remove those People first.'.format(len(people), role.name))
+            abort(400, u'There are {} {}(s) registered. Remove those People first.'.format(len(people), role.name))
         self.db.role_delete(role_id)
 
     def update(self, role):

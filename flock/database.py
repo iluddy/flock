@@ -161,9 +161,9 @@ class Database():
             # TODO - deal with multiple search terms
             # TODO - search status. ie. active, invitation pending etc
             query['$or'] = [
-                {'name': {'$options': 'i', '$regex': '.*{}.*'.format(search)}},
-                {'mail': {'$options': 'i', '$regex': '.*{}.*'.format(search)}},
-                {'role_name': {'$options': 'i', '$regex': '.*{}.*'.format(search)}}
+                {'name': {'$options': 'i', '$regex': u'.*{}.*'.format(search)}},
+                {'mail': {'$options': 'i', '$regex': u'.*{}.*'.format(search)}},
+                {'role_name': {'$options': 'i', '$regex': u'.*{}.*'.format(search)}}
             ]
 
         results = Person.objects(__raw__=query)
@@ -198,10 +198,10 @@ class Database():
 
         if search:
             query['$or'] = [
-                {'name': {'$options': 'i', '$regex': '.*{}.*'.format(search)}},
-                {'address': {'$options': 'i', '$regex': '.*{}.*'.format(search)}},
-                {'mail': {'$options': 'i', '$regex': '.*{}.*'.format(search)}},
-                {'description': {'$options': 'i', '$regex': '.*{}.*'.format(search)}}
+                {'name': {'$options': 'i', '$regex': u'.*{}.*'.format(search)}},
+                {'address': {'$options': 'i', '$regex': u'.*{}.*'.format(search)}},
+                {'mail': {'$options': 'i', '$regex': u'.*{}.*'.format(search)}},
+                {'description': {'$options': 'i', '$regex': u'.*{}.*'.format(search)}}
             ]
 
         results = Place.objects(__raw__=query)

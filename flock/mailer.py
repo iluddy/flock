@@ -52,7 +52,7 @@ class Mailer():
 
         subject = "Your Password has been reset"
         title = "Your Password was reset!"
-        content = "Your Password has been reset.\nYour new Password is <b>{}</b>\n\nFollow this link to login with your new password".format(new_password)
+        content = u"Your Password has been reset.\nYour new Password is <b>{}</b>\n\nFollow this link to login with your new password".format(new_password)
         button_link = 'http://app.tryflock.com/login'
         button_caption = 'Login to Flock'
 
@@ -63,7 +63,7 @@ class Mailer():
         subject = u"{} has invited you to use Flock".format(sender)
         title = "Come check out the Flock App!"
         content = u"<b>{}</b> has invited you to use Flock.\nClick the button below to log in.".format(sender)
-        button_link = "http://app.tryflock.com/activate/{}".format(token)
+        button_link = u"http://app.tryflock.com/activate/{}".format(token)
         button_caption = "Login to Flock"
 
         self.send(recipient, subject, title, content, sender=sender, button_link=button_link, button_caption=button_caption)
