@@ -150,7 +150,10 @@ class Database():
             return Person.objects.get(__raw__={'mail': mail, 'company': int(company_id)})
 
         if token:
-            return Person.objects.get(token=token)
+            try:
+                return Person.objects.get(token=token)
+            except DoesNotExist:
+                return None
 
         if role_id:
             return Person.objects(__raw__={'role': int(role_id)})

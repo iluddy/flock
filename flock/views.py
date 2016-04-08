@@ -43,10 +43,12 @@ def login():
 
 @app.route('/activate/<token>')
 def activate_form(token):
-    person = db_wrapper.person_get(None, token=token)
-    # TODO - deal with not finding user
-    # TODO - list terms and conditions on activate and register pages
-    # TODO - validate password on frontend
+    person = db_wrapper.person_get(token=token)
+
+    # Can't find user by this token so they must be active
+    if not person:
+        return redirect(url_for('login'))
+
     return render_template('activate.html', token=token, name=person.name, email=person.mail)
 
 @app.route('/activate', methods=['POST'])
