@@ -37,15 +37,17 @@ class PlaceService(Service):
 class PersonService(Service):
 
     def invite(self, mail, sender_id, company_id):
-        recipient = self.db.person_get(company_id, mail=mail)
+        recipient = self.db.person_get(company_id=company_id, mail=mail)
 
         if not mail or not recipient:
             abort(400, 'No email address registered for this Person, please add one to send an invitation')
 
+        token = self.db.generate_token(mail) if not recipient.token else recipient.token
+
         self.mailer.invite(
             mail,
             self.db.person_get(company_id, user_id=sender_id).name,
-            self.db.generate_token(mail)
+            token
         )
 
     def add(self, new_person, user_id, company_id):
