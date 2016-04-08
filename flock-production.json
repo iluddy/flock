@@ -9,7 +9,7 @@
         "level": 20
     },
     "web_server": {
-        "host": "52.30.178.175",
+        "host": "0.0.0.0",
         "port": 80
     },
     "rollbar": {
