@@ -121,7 +121,19 @@ function loadr(show){
 }
 
 function load_dashboard(){
-    $(page_main).html(dashboard_tmpl());
+    ajax_call({
+        'url': '/events',
+        'type': 'post',
+        'data': {
+            'limit': 10,
+            'sort_by': 'start',
+            'show_expired': false
+        },
+        'notify': false,
+        'success': function(input){
+            $(page_main).html(dashboard_tmpl({'events': input}));
+        }
+    });
 }
 
 function load_planner(){
@@ -133,15 +145,14 @@ function load_planner(){
             center: 'title',
             right: 'agendaDay,agendaWeek,month',
         },
+        defaultView: "agendaDay",
         minTime: "06:00:00",
         maxTime: "23:00:00",
         selectable: true,
         events: '/events',
         eventRender: function(event, element) {
-
             event.start_string = date_string(event.start);
             event.end_string = date_string(event.end);
-            console.log(event.start_string)
             $(event_tmpl({'people': event.people})).insertAfter($(element).find('.fc-content'));
             $(element).qtip({
                 content:{

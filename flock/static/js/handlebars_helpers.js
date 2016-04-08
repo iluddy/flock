@@ -30,3 +30,33 @@ Handlebars.registerHelper('any_in_array', function(elems, list, options) {
     }
     return options.inverse(this);
 });
+
+Handlebars.registerHelper('dateFormat', function(context, block) {
+  if (window.moment) {
+    var f = block.hash.format || "MMM DD, YYYY hh:mm:ss A";
+    return moment(context).format(f); //had to remove Date(context)
+  }else{
+    return context;   //  moment plugin not available. return data as is.
+  };
+});
+
+Handlebars.registerHelper('isToday', function(context, block) {
+  if (window.moment) {
+    if (moment(context).format('DD/MM/YYYY') == moment(new Date()).format('DD/MM/YYYY')){
+        return 'Today';
+    }else{
+        return moment(context).format('DD MMM'); //had to remove Date(context)
+    }
+  }else{
+    return context;   //  moment plugin not available. return data as is.
+  };
+});
+
+Handlebars.registerHelper('relativeTime', function(context, block) {
+  if (window.moment) {
+    // var f = block.hash.format || "MMM DD, YYYY hh:mm:ss A";
+    return moment(context).fromNow();
+  }else{
+    return context;   //  moment plugin not available. return data as is.
+  };
+});

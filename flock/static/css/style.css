@@ -8481,3 +8481,6 @@ body.md-skin {
 .navbar-header{
     background-color: #1ab394;
 }
+.timeline-people{
+    float: right;
+}

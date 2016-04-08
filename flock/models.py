@@ -68,14 +68,14 @@ class Person(Document, Base):
         self.token = account_token()
         return self.token
 
-    def to_dict(self):
-        output = self.to_mongo()
-        output['initials'] = ''.join(name[0].upper() for name in self.name.split())
-        return output
+    @property
+    def initials(self):
+        return ''.join(name[0].upper() for name in self.name.split())
 
 class Event(Document, Base):
     id = SequenceField(primary_key=True)
     title = StringField(nullable=False)
+    description = StringField(nullable=True)
     owner = ReferenceField('Person', reverse_delete_rule=DENY)
     start = DateTimeField(nullable=False)
     end = DateTimeField()
@@ -88,11 +88,12 @@ class Event(Document, Base):
         return {
             'id': self.id,
             'title': self.title,
-            'people': [person.to_dict() for person in self.people],
+            'description': self.description,
+            'people': [{'initials': person.initials, 'name': person.name, 'theme': person.role_theme} for person in self.people],
             'start': str(self.start),
             'end': str(self.end),
-            'owner': self.owner.to_dict(),
-            'place': self.place.to_dict() if self.place else None
+            'owner': self.owner.name,
+            'place': self.place.name if self.place else None
         }
 
 class Company(Document, Base):

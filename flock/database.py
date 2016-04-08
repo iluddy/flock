@@ -1,5 +1,5 @@
 from datetime import timedelta
-from random import randint
+from random import randint, choice
 from werkzeug.exceptions import abort
 import models as mo
 from constants import *
@@ -42,15 +42,28 @@ class Database():
             doc = getattr(mo, collection_name)
             for document in data:
                 doc(**document).save()
+        self.create_random_events()
 
-        # Update event times
-        for event in Event.objects():
-            event_time = datetime.utcnow()
-            event_time = event_time.replace(hour=randint(6, 18))
-            event.update(
-                start=event_time,
-                end=event_time + timedelta(hours=randint(1, 2))
-            )
+    def create_random_events(self):
+        titles = ['Dance Class', 'Cake Class', 'Computer Class', 'Office Meeting', 'Driving Lesson', 'Arts & Crafts']
+        id = -1
+        for i in range(-7, 7):
+            for j in range(25):
+                id -= 1
+                hour = randint(6, 18)
+                start = datetime.utcnow() + timedelta(days=i)
+                start = start.replace(hour=hour, minute=0)
+                end = start.replace(hour=hour + 1)
+                Event(
+                    id=id,
+                    start=start,
+                    end=end,
+                    company=-1,
+                    people=[randint(-10, -1), randint(-10, -1)],
+                    place=randint(-5, -1),
+                    owner=randint(-10, -1),
+                    title=choice(titles)
+                ).save()
 
     #### User Account ####
 
@@ -184,11 +197,35 @@ class Database():
 
     #### Event ####
 
-    def event_get(self, company_id=None, place_id=None):
-        if company_id:
-            return Event.objects(__raw__={'company': int(company_id)})
+    def event_get(self, company_id=None, start=None, end=None, show_expired=True, place_id=None, limit=None,
+            offset=None, sort_by=None, sort_dir='asc'):
+
+        query = {'company': int(company_id)}
+
         if place_id:
-            return Event.objects(__raw__={'place': int(place_id)})
+            query['place'] = int(place_id)
+
+        if show_expired is not True:
+            query['start'] = {'$gte': datetime.now()}
+
+        if start:
+            query['start'] = {'$gte': datetime.strptime(start, '%Y-%m-%d')}
+
+        if end:
+            query['end'] = {'$lte': datetime.strptime(end, '%Y-%m-%d')}
+
+        results = Event.objects(__raw__=query)
+
+        if sort_by:
+            results = results.order_by('-' + sort_by if sort_dir == 'asc' else sort_by)
+
+        if limit:
+            offset = 0 is not offset
+            start = int(offset) * int(limit)
+            end = start + int(limit)
+            results = results[start:end]
+
+        return results
 
     #### Place ####
 

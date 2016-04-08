@@ -25,86 +25,33 @@
     <div class="pane animated fadeInDown">
         <div class="" id="ibox-content">
             <div class="col-lg-8">
-
-                <div id="vertical-timeline" class="vertical-container light-timeline">
-                    <div class="vertical-timeline-block">
-                        <div class="vertical-timeline-icon navy-bg">
-                            <i class="fa fa-thumb-tack"></i>
-                        </div>
-
-                        <div class="vertical-timeline-content">
-                            <h2>Meeting</h2>
-                            <p>Conference on the sales results for the previous year. Monica please examine sales trends
-                                in marketing and products. Below please find the current status of the sale.
-                            </p>
-                            <a href="#" class="btn btn-sm btn-primary"> More info</a>
-                        <span class="vertical-date">
-                            Today <br>
-                            <small>Dec 24</small>
-                        </span>
-                        </div>
-                    </div>
-
-                    <div class="vertical-timeline-block">
-                        <div class="vertical-timeline-icon blue-bg">
-                            <i class="fa fa-thumb-tack"></i>
-                        </div>
-
-                        <div class="vertical-timeline-content">
-                            <h2>Send documents to Mike</h2>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                has been the industry's standard dummy text ever since.</p>
-                            <a href="#" class="btn btn-sm btn-success"> Download document </a>
-                        <span class="vertical-date">
-                            Today <br>
-                            <small>Dec 24</small>
-                        </span>
+                {{#each events}}
+                    <div id="vertical-timeline" class="vertical-container light-timeline">
+                        <div class="vertical-timeline-block">
+                            <div class="vertical-timeline-icon navy-bg">
+                                <i class="fa fa-thumb-tack"></i>
+                            </div>
+                            <div class="vertical-timeline-content">
+                                <h2>{{ title }}</h2>
+                                <p>
+                                    {{ place }}
+                                </p>
+                                <p>
+                                    {{ description }}
+                                </p>
+                                <div class="timeline-people">
+                                    {{#each people}}
+                                        <span class="label label-{{ theme }}">{{ name }}</span>
+                                    {{/each}}
+                                </div>
+                            <span class="vertical-date">
+                                {{dateFormat start format="hh:mm"}} <br>
+                                <small> {{isToday start}} </small>
+                            </span>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="vertical-timeline-block">
-                        <div class="vertical-timeline-icon lazur-bg">
-                            <i class="fa fa-thumb-tack"></i>
-                        </div>
-
-                        <div class="vertical-timeline-content">
-                            <h2>Coffee Break</h2>
-                            <p>Go to shop and find some products. Lorem Ipsum is simply dummy text of the printing and
-                                typesetting industry. Lorem Ipsum has been the industry's. </p>
-                            <a href="#" class="btn btn-sm btn-info">Read more</a>
-                            <span class="vertical-date"> Yesterday <br><small>Dec 23</small></span>
-                        </div>
-                    </div>
-
-                    <div class="vertical-timeline-block">
-                        <div class="vertical-timeline-icon yellow-bg">
-                            <i class="fa fa-thumb-tack"></i>
-                        </div>
-
-                        <div class="vertical-timeline-content">
-                            <h2>Phone with Jeronimo</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident
-                                rerum aut hic quasi placeat iure tempora laudantium ipsa ad debitis unde? Iste
-                                voluptatibus minus veritatis qui ut.</p>
-                            <span class="vertical-date">Yesterday <br><small>Dec 23</small></span>
-                        </div>
-                    </div>
-
-                    <div class="vertical-timeline-block">
-                        <div class="vertical-timeline-icon lazur-bg">
-                            <i class="fa fa-thumb-tack"></i>
-                        </div>
-
-                        <div class="vertical-timeline-content">
-                            <h2>Go to the doctor dr Smith</h2>
-                            <p>Find some issue and go to doctor. Lorem Ipsum is simply dummy text of the printing and
-                                typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since
-                                the 1500s. </p>
-                            <span class="vertical-date">Yesterday <br><small>Dec 23</small></span>
-                        </div>
-                    </div>
-
-                </div>
+                {{/each}}
             </div>
 
             <div class="col-lg-4">
@@ -681,7 +628,7 @@
 <script id="event_tmpl" type="text/x-handlebars-template">
     <div class="event_people">
         {{#each people}}
-            <span class="label label-{{role_theme}}">{{initials}}</span>
+            <span class="label label-{{theme}}">{{initials}}</span>
         {{/each}}
     </div>
 </script>
@@ -692,13 +639,11 @@
         <div class="event_body">
             <div class="event_time">{{start_string}} - {{end_string}}</div>
             <div>
-                {{place.name}}
-                <br/>
-                {{place.address}}
+                {{place}}
             </div>
             <div class="event_people_wrap">
                 {{#each people}}
-                    <span class="label label-{{role_theme}}">{{name}}</span>
+                    <span class="label label-{{theme}}">{{name}}</span>
                 {{/each}}
             </div>
         </div>

@@ -8,8 +8,9 @@ class Service:
 
 class EventService(Service):
 
-    def get(self, company_id):
-        return self.db.event_get(company_id=company_id)
+    def get(self, company_id, start=None, end=None, show_expired=True, limit=None, offset=None, sort_by=None, sort_dir=None):
+        return self.db.event_get(company_id=company_id, start=start, end=end, show_expired=show_expired, limit=limit,
+            offset=offset, sort_by=sort_by, sort_dir=sort_dir)
 
 class AccountService(Service):
 
