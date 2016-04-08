@@ -41,6 +41,7 @@ class Mailer():
             )),
             "text": ""
         }
+        
         requests.post(
             self.server,
             auth=self.auth,
