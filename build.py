@@ -11,7 +11,7 @@ def build_production():
         sudo('git pull')
         sudo('source {}/bin/activate'.format(virtualenv))
         sudo('python {}/setup.py install'.format(app_dir))
-        sudo('service flock restart')
+        sudo('service flock restart', pty=False)
 
 if __name__ == '__main__':
     build_production()
