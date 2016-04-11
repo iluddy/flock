@@ -8484,3 +8484,13 @@ body.md-skin {
 .timeline-people{
     float: right;
 }
+.dashboard-header{
+    position: relative;
+    bottom: 8px;
+    opacity: 0.5;
+    font-weight: normal;
+    padding: 3px;
+}
+.dashboard-header-events{
+    left: 105px;
+}

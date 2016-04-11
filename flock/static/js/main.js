@@ -1,8 +1,10 @@
-var roles;
+var user_id, page_main, loader;
 
 $(document).ready(function () {
     page_main = $("#main");
     loader = $("#loader");
+    user_id = parseInt($(".account_info .fa").attr("user_id"));
+    $(".account_info .fa").attr("user_id", "");
     $.when(
         ajax_load('/templates', {}, add_templates)
     ).done(templates_loaded);
@@ -127,7 +129,8 @@ function load_dashboard(){
         'data': {
             'limit': 10,
             'sort_by': 'start',
-            'show_expired': false
+            'show_expired': false,
+            'user_id': user_id
         },
         'notify': false,
         'success': function(input){
@@ -529,8 +532,7 @@ function load_settings_people(){
     }
 
     function draw_roles(input){
-        roles = input;
-        if( input.length > 0){
+        if( input.length > 0 ){
             $('#role_table_holder').html(people_type_table_tmpl({'types': input}));
         }else{
             $('#role_table_holder').html(no_data_tmpl({

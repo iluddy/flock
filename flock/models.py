@@ -89,7 +89,10 @@ class Event(Document, Base):
             'id': self.id,
             'title': self.title,
             'description': self.description,
-            'people': [{'initials': person.initials, 'name': person.name, 'theme': person.role_theme} for person in self.people],
+            'people': sorted(
+                [{'initials': person.initials, 'name': person.name, 'theme': person.role_theme} for person in self.people],
+                key=lambda x: x['theme']
+            ),
             'start': str(self.start),
             'end': str(self.end),
             'owner': self.owner.name,

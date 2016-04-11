@@ -25,6 +25,7 @@
     <div class="pane animated fadeInDown">
         <div class="" id="ibox-content">
             <div class="col-lg-8">
+                <h3 class="dashboard-header dashboard-header-events"> Upcoming Events </h3>
                 {{#each events}}
                     <div id="vertical-timeline" class="vertical-container light-timeline">
                         <div class="vertical-timeline-block">
@@ -32,7 +33,7 @@
                                 <i class="fa fa-thumb-tack"></i>
                             </div>
                             <div class="vertical-timeline-content">
-                                <h2>{{ title }}</h2>
+                                <h2>{{ title }} <span style="float: right; opacity: 0.4; font-size: 0.7em;">Created by {{ owner }}</span> </h2>
                                 <p>
                                     {{ place }}
                                 </p>
@@ -45,7 +46,7 @@
                                     {{/each}}
                                 </div>
                             <span class="vertical-date">
-                                {{dateFormat start format="hh:mm"}} <br>
+                                {{dateFormat start format="HH:mm"}} <br>
                                 <small> {{isToday start}} </small>
                             </span>
                             </div>
@@ -55,13 +56,9 @@
             </div>
 
             <div class="col-lg-4">
+                <h3 class="dashboard-header"> Notifications </h3>
                 <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>Your daily feed</h5>
-                        <div class="ibox-tools">
-                            <span class="label label-warning-light">10 Messages</span>
-                        </div>
-                    </div>
+
                     <div class="ibox-content">
 
                         <div>

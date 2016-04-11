@@ -198,7 +198,7 @@ class Database():
     #### Event ####
 
     def event_get(self, company_id=None, start=None, end=None, show_expired=True, place_id=None, limit=None,
-            offset=None, sort_by=None, sort_dir='asc'):
+            offset=None, sort_by=None, sort_dir='asc', user_id=None):
 
         query = {'company': int(company_id)}
 
@@ -213,6 +213,12 @@ class Database():
 
         if end:
             query['end'] = {'$lte': datetime.strptime(end, '%Y-%m-%d')}
+
+        if user_id:
+            query['$or'] = [
+                {'owner': user_id},
+                {'people': user_id},
+            ]
 
         results = Event.objects(__raw__=query)
 
