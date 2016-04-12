@@ -57,7 +57,7 @@ celery = make_celery(app)
 # DB
 db = MongoEngine()
 db.init_app(app)
-db_wrapper = Database(db)
+db_wrapper = Database(db, cfg)
 
 if __name__ == '__main__':
 

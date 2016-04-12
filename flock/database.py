@@ -11,11 +11,13 @@ class Database():
     """
     Wrapper for the database layer
     """
-    def __init__(self, db):
+    def __init__(self, db, cfg):
         self.db = db
+        self.cfg = cfg
         self.reset_database()
         self.add_defaults()
-        self.add_test_data()
+        if cfg['database']['test_data']:
+            self.add_test_data()
         self.add_indexes()
 
     #### Utils ####
@@ -42,7 +44,10 @@ class Database():
         for collection_name, data in TEST_DATA.iteritems():
             doc = getattr(mo, collection_name)
             for document in data:
-                doc(**document).save()
+                try:
+                    doc(**document).save()
+                except NotUniqueError:
+                    pass
         self.create_random_events()
         self.create_random_notifications()
 
