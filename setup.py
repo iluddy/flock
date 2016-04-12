@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='flock',
-    version='1.0',
+    version='1.1',
     long_description=__doc__,
     packages=['flock'],
     url='ianluddy@gmail.com',
@@ -23,10 +23,5 @@ setup(
         "rollbar==0.11.4",
         "celery",
         "redis",
-    ],
-    entry_points={
-        'console_scripts': [
-            'flock = flock:app',
-        ]
-    }
+    ]
 )
