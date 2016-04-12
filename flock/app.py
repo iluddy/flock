@@ -25,7 +25,6 @@ cfg = read_config_file(args.c)
 
 # Create App
 app = Flask(__name__, static_url_path='')
-print 'Creating APP'
 app.secret_key = SECRET_KEY
 app.permanent_session_lifetime = SESSION_DURATION
 documentor = Autodoc(app)
@@ -36,8 +35,8 @@ app.config['MONGODB_SETTINGS'] = {
 }
 
 # Celery
-app.config['CELERY_BROKER_URL'] = 'redis://127.0.0.1:6379/0'
-app.config['CELERY_RESULT_BACKEND'] = 'redis://127.0.0.1:6379/0'
+app.config['CELERY_BROKER_URL'] = cfg['redis']['url']
+app.config['CELERY_RESULT_BACKEND'] = cfg['redis']['url']
 
 def make_celery(app):
     celery = Celery(app.import_name, broker=app.config['CELERY_BROKER_URL'])
