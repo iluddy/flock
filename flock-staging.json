@@ -16,5 +16,8 @@
         "environment": "staging",
         "token": "65cc806fe1ef4ca88a5603514d5739f1"
     },
-    "template_dir": "/data/www/flock/flock/templates"
+    "template_dir": "/data/www/flock/flock/templates",
+    "redis": {
+        "url": "redis://127.0.0.1:6379/0"
+    }
 }

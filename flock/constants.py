@@ -13,6 +13,11 @@ PERMISSIONS = [
     'edit_system_settings'
 ]
 
+# TODO - use non dev server
+MAIL_AUTH = ("api", "key-97da181732b95a21257c270bd2215529")
+MAIL_SERVER = "https://api.mailgun.net/v3/sandboxd4ff99d2df0b4dbbb94cc9e08a0391d1.mailgun.org/messages"
+MAIL_SENDER = "Flock Notifications <notifications@tryflock.com>"
+
 PAGE_SIZE = 15
 
 DEFAULT_DATA = {

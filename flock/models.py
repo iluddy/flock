@@ -24,6 +24,7 @@ class Place(Document, Base):
     mail = StringField()
     phone = StringField()
     company = ReferenceField('Company', nullable=False)
+    deleted = BooleanField(default=False)
 
 class Thing(Document, Base):
     meta = {
@@ -35,6 +36,7 @@ class Thing(Document, Base):
     name = StringField(nullable=False)
     description = StringField(nullable=True)
     company = ReferenceField('Company', nullable=False)
+    deleted = BooleanField(default=False)
 
 class Role(Document, Base):
     meta = {
@@ -47,6 +49,7 @@ class Role(Document, Base):
     theme = StringField(nullable=False)
     company = ReferenceField('Company', nullable=False)
     permissions = ListField(StringField(nullable=False), nullable=False)
+    deleted = BooleanField(default=False)
 
 class Person(Document, Base):
     # TODO - allow email to be registered with multiple companies
@@ -63,6 +66,7 @@ class Person(Document, Base):
     role_name = StringField(nullable=False)
     role_theme = StringField(nullable=False)
     token = StringField()
+    deleted = BooleanField(default=False)
 
     def generate_token(self):
         self.token = account_token()
@@ -137,7 +141,13 @@ class Company(Document, Base):
 
 class Notification(Document, Base):
     id = SequenceField(primary_key=True)
-    title = StringField()
+    stamp = DateTimeField(default=datetime.now)
     body = StringField()
-    company = DateTimeField(default=datetime.now)
-    person = ReferenceField('Person')
+    message = StringField(nullable=True)
+    company = ReferenceField('Company')
+    owner = ReferenceField('Person')
+
+    def to_dict(self):
+        output = self.to_mongo()
+        output['stamp'] = str(output['stamp'])
+        return output

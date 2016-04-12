@@ -37,6 +37,8 @@ function compile_templates(){
     people_table_body_tmpl = Handlebars.compile($("#people_table_body_tmpl").html());
     event_tmpl = Handlebars.compile($("#event_tmpl").html());
     event_tip_tmpl = Handlebars.compile($("#event_tip_tmpl").html());
+    notifications_tmpl = Handlebars.compile($("#notifications_tmpl").html());
+    upcoming_events_tmpl = Handlebars.compile($("#upcoming_events_tmpl").html());
 
     // Partial Templates
     Handlebars.registerPartial("person_type_part", $("#people_type_table_row_tmpl").html());
@@ -123,6 +125,7 @@ function loadr(show){
 }
 
 function load_dashboard(){
+    $(page_main).html(dashboard_tmpl());
     ajax_call({
         'url': '/events',
         'type': 'post',
@@ -134,7 +137,21 @@ function load_dashboard(){
         },
         'notify': false,
         'success': function(input){
-            $(page_main).html(dashboard_tmpl({'events': input}));
+            $('#upcoming-timeline-wrapper').append(upcoming_events_tmpl({'events': input}));
+        }
+    });
+    ajax_call({
+        'url': '/notifications',
+        'type': 'post',
+        'data': {
+            'limit': 20,
+            'offset': 0,
+            'sort_by': 'stamp',
+            'sort_dir': 'asc'
+        },
+        'notify': false,
+        'success': function(input){
+            $('#notifications-wrapper').append(notifications_tmpl({'notifications': input}));
         }
     });
 }

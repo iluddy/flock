@@ -21,6 +21,8 @@ setup(
         "fabric",
         "lxml",
         "rollbar==0.11.4",
+        "celery",
+        "redis",
     ],
     entry_points={
         'console_scripts': [

@@ -14,17 +14,17 @@ WWW_DIR=/data/www
 
 case "$1" in
  start)
-   /data/www/env/bin/python $WWW_DIR/flock/flock/__init__.py -c $WWW_DIR/flock/flock-staging.json > /dev/null 2>&1 &
+   /data/www/env/bin/python $WWW_DIR/flock/flock/app.py -c $WWW_DIR/flock/flock-staging.json > /dev/null 2>&1 &
    echo 'Flock Started'
    ;;
  stop)
-   ps -aef | grep "flock/__init__.py" | awk '{print $2}' | xargs sudo kill > /dev/null 2>&1 &
+   ps -aef | grep "flock/app.py" | awk '{print $2}' | xargs sudo kill > /dev/null 2>&1 &
    echo 'Flock Stopped'
    ;;
  restart)
-   ps -aef | grep "flock/__init__.py" | awk '{print $2}' | xargs sudo kill > /dev/null 2>&1 &
+   ps -aef | grep "flock/app.py" | awk '{print $2}' | xargs sudo kill > /dev/null 2>&1 &
    sleep 3
-   /data/www/env/bin/python $WWW_DIR/flock/flock/__init__.py -c $WWW_DIR/flock/flock-staging.json > /dev/null 2>&1 &
+   /data/www/env/bin/python $WWW_DIR/flock/flock/app.py -c $WWW_DIR/flock/flock-staging.json > /dev/null 2>&1 &
    echo 'Flock Restarted'
    ;;
  *)

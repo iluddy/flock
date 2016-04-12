@@ -7,6 +7,16 @@ import hashlib
 from flask import make_response, session, abort
 from mongoengine import QuerySet
 
+def plain_text_to_html(content):
+    import re
+    # Replace what seems like an url with hyperlink
+    output = re.sub(r'(https?://[^ \n$]+)', r'<a href="\1">\1</a>', unicode(content))
+    # Replace two newline characters with paragraph boundry
+    output = '<p>%s</p>' % output.replace('\n\n', '</p><p>')
+    # Replace single newline with break-rule
+    output = output.replace('\n', '<br/>')
+    return output
+
 def hash_string(string):
     return hashlib.md5(string.encode('utf-8')).digest()
 

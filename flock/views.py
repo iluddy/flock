@@ -1,16 +1,16 @@
 from flask import request, redirect, url_for, render_template, session
 from utils import json_response, auth
 from constants import PAGE_SIZE
+from services import notification as notification_service
+from services import role as role_service
+from services import account as account_service
+from services import event as event_service
+from services import person as person_service
+from services import place as place_service
+from flock.app import db_wrapper
 import json
 import __builtin__
-
 app = __builtin__.flock_app
-db_wrapper = __builtin__.flock_db_wrapper
-person_service = __builtin__.flock_person_service
-place_service = __builtin__.flock_place_service
-account_service = __builtin__.flock_account_service
-event_service = __builtin__.flock_event_service
-role_service = __builtin__.flock_role_service
 
 @app.route('/')
 def root():
@@ -89,7 +89,7 @@ def register():
 
 @app.route('/login_user', methods=['POST'])
 def login_user():
-    session['user_id'], session['user_name'], session['company_id'], session['company_name'], session['email']= \
+    session['user_id'], session['user_name'], session['company_id'], session['company_name'], session['email'] = \
         db_wrapper.authenticate_user(request.form.get('mail'), request.form.get('password'))
     return 'Logged in :)', 200
 
@@ -135,9 +135,9 @@ def people_add():
 @app.route('/people/invite', methods=['POST'])
 @auth
 def people_invite():
-    mail = request.form.get("mail")
-    person_service.invite(mail, session['user_id'], session['company_id'])
-    return u'Invitation has been sent to {}'.format(mail), 200
+    email = request.form.get("mail")
+    person_service.invite(email, session['user_id'], session['company_id'])
+    return u'Invitation has been sent to {}'.format(email), 200
 
 #### Places ####
 
@@ -231,3 +231,15 @@ def roles_delete():
     role = role_service.get(role_id=role_id)
     role_service.delete(role_id)
     return u'{} Role Deleted'.format(role.name), 200
+
+#### Notifications ####
+
+@app.route('/notifications', methods=['GET', 'POST'])
+@auth
+def notifications():
+    limit = request.form.get("limit")
+    offset = request.form.get("offset")
+    sort_by = request.form.get("sort_by")
+    sort_dir = request.form.get("sort_dir")
+    return json_response(notification_service.get(company_id=session['company_id'], limit=limit, offset=offset,
+                                                  sort_by=sort_by, sort_dir=sort_dir))

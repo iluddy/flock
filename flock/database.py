@@ -36,6 +36,7 @@ class Database():
         Place.drop_collection()
         Event.drop_collection()
         Company.drop_collection()
+        Notification.drop_collection()
 
     def add_test_data(self):
         for collection_name, data in TEST_DATA.iteritems():
@@ -43,6 +44,7 @@ class Database():
             for document in data:
                 doc(**document).save()
         self.create_random_events()
+        self.create_random_notifications()
 
     def create_random_events(self):
         titles = ['Dance Class', 'Cake Class', 'Computer Class', 'Office Meeting', 'Driving Lesson', 'Arts & Crafts']
@@ -63,6 +65,27 @@ class Database():
                     place=randint(-5, -1),
                     owner=randint(-10, -1),
                     title=choice(titles)
+                ).save()
+
+    def create_random_notifications(self):
+        notifications = [
+            u'<b>{}</b> created a new Event',
+            u'<b>{}</b> edited an Event',
+            u'<b>{}</b> removed an Event',
+            u'<b>{}</b> added a new Person',
+            u'<b>{}</b> added a new Place',
+        ]
+        id = -1
+        for i in range(-7, 0):
+            for j in range(25):
+                id -= 1
+                owner = Person.objects.get(id=randint(-10, -1))
+                Notification(
+                    id=id,
+                    stamp=(datetime.utcnow() + timedelta(days=i)).replace(hour=randint(6, 18), minute=0),
+                    company=-1,
+                    owner=owner.id,
+                    body=choice(notifications).format(owner.name)
                 ).save()
 
     #### User Account ####
@@ -86,7 +109,8 @@ class Database():
 
     def permissions_get(self, user_id):
         try:
-            return self.person_get(user_id=user_id).role.permissions
+            role_id = self.person_get(user_id=user_id).role.id
+            return self.role_get(role_id=role_id).permissions
         except DoesNotExist:
             return None
 
@@ -110,7 +134,7 @@ class Database():
 
     def authenticate_user(self, mail, password):
         try:
-            user = Person.objects.get(mail=mail.lower())
+            user = self.person_get(mail=mail)
             if check_password_hash(user.password, password):
                 return user.id, user.name, user.company.id, user.company.name, user.mail
             abort(400, 'Password is incorrect :(')
@@ -120,7 +144,7 @@ class Database():
     def reset_user(self, mail):
         new_password = random_password()
         try:
-            user = Person.objects.get(mail=mail)
+            user = self.person_get(mail=mail)
             user.password = generate_password_hash(new_password)
             user.save()
             return new_password
@@ -130,8 +154,7 @@ class Database():
     #### Person ####
 
     def person_delete(self, person_id):
-        # TODO - validate
-        Person.objects.get(id=person_id).delete()
+        Person.objects(id=person_id).update_one(deleted=True)
 
     def person_add(self, new_person):
 
@@ -155,23 +178,29 @@ class Database():
         # TODO - this
         pass
 
-    def person_get(self, company_id=None, role_id=None, user_id=None, mail=None, search=None, sort_by=None, sort_dir=None, token=None, limit=None, offset=None):
+    def person_get(self, company_id=None, role_id=None, user_id=None, mail=None, search=None, sort_by=None,
+                   sort_dir=None, token=None, limit=None, offset=None, deleted=False):
+
+        query = {'deleted': deleted}
+
+        if company_id:
+            query['company'] = int(company_id)
+
         if user_id:
-            return Person.objects.get(id=user_id)
+            query['_id'] = int(user_id)
+            return Person.objects.get(__raw__=query)
 
         if mail:
-            return Person.objects.get(__raw__={'mail': mail, 'company': int(company_id)})
+            query['mail'] = mail.lower()
+            return Person.objects.get(__raw__=query)
 
         if token:
-            try:
-                return Person.objects.get(token=token)
-            except DoesNotExist:
-                return None
+            query['token'] = token
+            return Person.objects.get(__raw__=query)
 
         if role_id:
-            return Person.objects(__raw__={'role': int(role_id)})
-
-        query = {'company': company_id}
+            query['role'] = int(role_id)
+            return Person.objects(__raw__=query)
 
         if search:
             # TODO - deal with multiple search terms
@@ -200,7 +229,10 @@ class Database():
     def event_get(self, company_id=None, start=None, end=None, show_expired=True, place_id=None, limit=None,
             offset=None, sort_by=None, sort_dir='asc', user_id=None):
 
-        query = {'company': int(company_id)}
+        query = {}
+
+        if company_id:
+            query['company'] = int(company_id)
 
         if place_id:
             query['place'] = int(place_id)
@@ -235,12 +267,17 @@ class Database():
 
     #### Place ####
 
-    def place_get(self, company_id=None, place_id=None, search=None, sort_by=None, sort_dir=None, limit=None, offset=None):
+    def place_get(self, company_id=None, place_id=None, search=None, sort_by=None, sort_dir=None, limit=None,
+                  offset=None, deleted=False):
+
+        query = {'deleted': deleted}
+
+        if company_id:
+            query['company'] = company_id
 
         if place_id:
-            return Place.objects.get(id=place_id)
-
-        query = {'company': company_id}
+            query['_id'] = place_id
+            return Place.objects.get(__raw__=query)
 
         if search:
             query['$or'] = [
@@ -264,7 +301,7 @@ class Database():
         return results, count
 
     def place_delete(self, place_id):
-        Place.objects.get(id=place_id).delete()
+        Place.objects(id=place_id).update_one(deleted=True)
 
     def place_add(self, new_place):
         return Place(**new_place).save()
@@ -276,15 +313,23 @@ class Database():
 
     #### Role ####
 
-    def role_get(self, company_id=None, role_id=None):
+    def role_get(self, company_id=None, role_id=None, deleted=False):
+
+        query = {'deleted': deleted}
+
         if company_id:
-            return Role.objects(company=company_id)
+            query['company'] = int(company_id)
+            return Role.objects(__raw__=query)
+
         if role_id:
-            return Role.objects.get(id=role_id)
+            query['_id'] = int(role_id)
+            return Role.objects.get(__raw__=query)
 
     def role_add(self, role, company_id):
+
         if Role.objects(company=company_id, name=role['name']):
             abort(400, 'A Role with this name already exists.')
+
         role['company'] = company_id
         Role(**role).save()
 
@@ -304,4 +349,29 @@ class Database():
         )
 
     def role_delete(self, role_id):
-        Role.objects.get(id=role_id).delete()
+        Role.objects(id=role_id).update_one(deleted=True)
+
+    #### Notifications ####
+
+    def notification_get(self, company_id, limit=None, offset=None, sort_by=None, sort_dir=None):
+
+        results = Notification.objects(company=company_id)
+
+        if sort_by:
+            results = results.order_by('-' + sort_by if sort_dir == 'asc' else sort_by)
+
+        if limit is not None and offset is not None:
+            start = int(offset) * int(limit)
+            end = start + int(limit)
+            results = results[start:end]
+
+        return results
+
+    def notification_add(self, company_id, owner_id, body, message=None):
+        Notification(
+            stamp=datetime.now(),
+            company=company_id,
+            owner=owner_id,
+            body=body,
+            message=message,
+        ).save()
