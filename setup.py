@@ -4,7 +4,7 @@ setup(
     name='flock',
     version='1.1',
     long_description=__doc__,
-    packages=['flock'],
+    packages=['flock', 'flock.services', 'flock.templates', 'flock.static'],
     url='ianluddy@gmail.com',
     author_email='ianluddy@gmail.com',
     include_package_data=True,

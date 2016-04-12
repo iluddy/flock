@@ -2,10 +2,11 @@
     "database": {
         "name": "flock",
         "host": "localhost",
-        "port": 27017
+        "port": 27017,
+        "test_data": false
     },
     "logging": {
-        "file": "/tmp/flock.log",
+        "file": "/tmp/flock_app",
         "level": 20
     },
     "web_server": {
