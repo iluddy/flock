@@ -1,0 +1,23 @@
+{
+    "database": {
+        "name": "flock",
+        "host": "localhost",
+        "port": 27017
+    },
+    "logging": {
+        "file": "/tmp/flock.log",
+        "level": 20
+    },
+    "web_server": {
+        "host": "localhost",
+        "port": 5001
+    },
+    "rollbar": {
+        "environment": "develop",
+        "token": "65cc806fe1ef4ca88a5603514d5739f1"
+    },
+    "template_dir": "/Users/ianluddy/flock/flock/templates",
+    "redis": {
+        "url": "redis://127.0.0.1:6379/0"
+    }
+}
