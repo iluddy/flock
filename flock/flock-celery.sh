@@ -6,29 +6,21 @@
 # Default-Start: 2 3 4 5
 # Default-Stop: 0 1 6
 # Short-Description: Flock Celery
-# Description: This file starts and stops Flock Celery process
+# Description: This file starts and stops the Flock Celery workers
 #
 ### END INIT INFO
 
-WWW_DIR=/data/www
-
 case "$1" in
  start)
-   /data/www/env/bin/python $WWW_DIR/flock/flock/run_celery.py -c $WWW_DIR/flock/flock-production.json > /tmp/flock_celery &
-   echo 'Celery Started'
+   start-stop-daemon --start --pidfile /var/run/flock_celery.pid --make-pidfile --chuid ubuntu --user ubuntu --exec /data/www/env/bin/python -- /data/www/flock/flock/run_celery.py -c /data/www/flock/flock-production.json &
+   echo 'Flock Celery Started'
    ;;
  stop)
-   ps -aef | grep "flock/run_celery.py" | awk '{print $2}' | xargs sudo kill > /tmp/flock_celery &
-   echo 'Celery Stopped'
-   ;;
- restart)
-   ps -aef | grep "flock/run_celery.py" | awk '{print $2}' | xargs sudo kill > /tmp/flock_celery &
-   sleep 3
-   /data/www/env/bin/python $WWW_DIR/flock/flock/run_celery.py -c $WWW_DIR/flock/flock-production.json > /tmp/flock_celery &
-   echo 'Celery Restarted'
+   start-stop-daemon --stop -user ubuntu --pidfile /var/run/flock_celery.pid
+   echo 'Flock Celery Stopped'
    ;;
  *)
-   echo "Usage: flock-celery  {start|stop|restart}" >&2
+   echo "Usage: flock-celery  {start|stop}" >&2
    exit 3
    ;;
 esac

@@ -6,26 +6,18 @@
 # Default-Start: 2 3 4 5
 # Default-Stop: 0 1 6
 # Short-Description: Flock
-# Description: This file starts and stops Flock app
+# Description: This file starts and stops the Flock app
 #
 ### END INIT INFO
 
-WWW_DIR=/data/www
-
 case "$1" in
  start)
-   /data/www/env/bin/python $WWW_DIR/flock/flock/app.py -c $WWW_DIR/flock/flock-production.json > /tmp/flock_service &
+   start-stop-daemon --start --pidfile /var/run/flock.pid --make-pidfile --user root --exec /data/www/env/bin/python -- /data/www/flock/flock/app.py -c /data/www/flock/flock-production.json > /tmp/flock_app 2>&1 &
    echo 'Flock Started'
    ;;
  stop)
-   ps -aef | grep "flock/app.py" | awk '{print $2}' | xargs sudo kill > /tmp/flock_service &
+   start-stop-daemon --stop --pidfile /var/run/flock.pid
    echo 'Flock Stopped'
-   ;;
- restart)
-   ps -aef | grep "flock/app.py" | awk '{print $2}' | xargs sudo kill > /tmp/flock_service &
-   sleep 3
-   /data/www/env/bin/python $WWW_DIR/flock/flock/app.py -c $WWW_DIR/flock/flock-production.json > /tmp/flock_service &
-   echo 'Flock Restarted'
    ;;
  *)
    echo "Usage: flock  {start|stop|restart}" >&2
