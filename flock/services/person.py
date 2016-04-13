@@ -1,6 +1,7 @@
 from flock.app import db_wrapper as db
 from flask import abort
 from flock.services import mail
+from flock.services.notification import notify
 
 def invite(email, sender_id, company_id):
     recipient = db.person_get(company_id=company_id, mail=email)
@@ -25,11 +26,15 @@ def add(new_person, user_id, company_id):
     if new_person['invite']:
         invite(new_person['mail'], user_id, company_id)
 
-def delete(user_id):
+    notify(u'{} added a new Person - <b>%s</b>' % new_person['name'], action='add')
 
+def delete(user_id):
+    user_name = db.person_get(user_id=user_id).name
 
     # TODO - validate
     db.person_delete(user_id)
+
+    notify(u'{} deleted a Person - <b>%s</b>' % user_name, action='delete')
 
 def get(company_id=None, role_id=None, mail=None, search=None, sort_by=None, sort_dir=None, limit=None,
         offset=None):

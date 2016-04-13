@@ -144,6 +144,7 @@ class Notification(Document, Base):
     stamp = DateTimeField(default=datetime.now)
     body = StringField()
     message = StringField(nullable=True)
+    action = StringField(nullable=False, default='action')
     company = ReferenceField('Company')
     owner = ReferenceField('Person')
 

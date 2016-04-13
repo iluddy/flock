@@ -281,7 +281,7 @@ class Database():
             query['company'] = company_id
 
         if place_id:
-            query['_id'] = place_id
+            query['_id'] = int(place_id)
             return Place.objects.get(__raw__=query)
 
         if search:
@@ -372,11 +372,12 @@ class Database():
 
         return results
 
-    def notification_add(self, company_id, owner_id, body, message=None):
+    def notification_add(self, company_id, owner_id, body, action, message=None):
         Notification(
             stamp=datetime.now(),
             company=company_id,
             owner=owner_id,
             body=body,
+            action=action,
             message=message,
         ).save()

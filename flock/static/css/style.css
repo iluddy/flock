@@ -8494,3 +8494,19 @@ body.md-skin {
 .dashboard-header-events{
     left: 105px;
 }
+.feed-activity-list .feed-element i.fa{
+    color: #777;
+    font-size: 1.4em;
+    opacity: 0.5;
+    margin-top: 1px;
+    margin-right: 2px;
+}
+.feed-activity-list .feed-element i.fa.delete{
+    color: #ed5565;
+}
+.feed-activity-list .feed-element i.fa.add{
+    color: #1ab394;
+}
+.feed-activity-list .feed-element i.fa.edit{
+    color: #f8ac59;
+}

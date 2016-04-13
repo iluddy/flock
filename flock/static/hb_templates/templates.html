@@ -57,11 +57,21 @@
             <div>
                 <div class="feed-activity-list">
                     {{#each notifications}}
-                        <div class="feed-element">
+                        <div class="feed-element {{ action }}">
                             <a href="profile.html" class="pull-left">
                                 <!--<img alt="image" class="img-circle" src="img/profile.jpg">-->
-                                <!--<i class="fa fa-bullhorn"></i>-->
-                                <i class="fa fa-hashtag"></i>
+                                {{#equal action 'delete'}}
+                                    <i class="fa fa-trash delete"></i>
+                                {{/equal}}
+                                {{#equal action 'add'}}
+                                    <i class="fa fa-plus-circle add"></i>
+                                {{/equal}}
+                                {{#equal action 'edit'}}
+                                    <i class="fa fa-edit edit"></i>
+                                {{/equal}}
+                                {{#equal action 'action'}}
+                                    <i class="fa fa-bullhorn action"></i>
+                                {{/equal}}
                             </a>
                             <div class="media-body ">
                                 <small class="pull-right">{{relativeTime stamp}}</small>
