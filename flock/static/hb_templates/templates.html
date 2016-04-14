@@ -133,7 +133,7 @@
 
             <div class="col-md-3">
                 {{#perm 'edit_places'}}
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_places_modal">
+                    <button id="add_places_btn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_places_modal">
                         Add a Place
                     </button>
                 {{/perm}}
@@ -181,7 +181,7 @@
                     <!--<small>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>-->
                 </div>
                 <div class="modal-body">
-                    <form id="add_place_form" method="get" class="form-horizontal" data-toggle="validator">
+                    <form id="add_place_form" place_id="" method="get" class="form-horizontal" data-toggle="validator">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Name</label>
                             <div class="col-sm-9">
@@ -196,9 +196,6 @@
                         </div>
                         <div class="form-group"><label class="col-sm-3 control-label">Contact Phone</label>
                             <div class="col-sm-9"><input id="add_place_phone" type="text" placeholder="555-0001234" class="form-control input-lg"></div>
-                        </div>
-                        <div class="form-group"><label class="col-sm-3 control-label">Directions</label>
-                            <div class="col-sm-9"><textarea id="add_place_directions" type="text" placeholder="Go to Main St ..." class="form-control input-lg"></textarea></div>
                         </div>
                         <div class="form-group modal-footer-buttons">
                             <button id="modal_add_place" type="submit" class="btn btn-primary">Add</button>
@@ -336,14 +333,15 @@
 
 <script id="places_table_body_tmpl" type="text/x-handlebars-template">
     {{#each places}}
-        <tr>
-            <td>{{name}}</td>
-            <td>{{#if address}} {{address}} {{else}} <span class="placeholder-text">Unknown</span> {{/if}}</td>
-            <td>{{#if mail}} {{mail}} {{else}} <span class="placeholder-text">Unknown</span> {{/if}}</td>
-            <td>{{#if phone}} {{phone}} {{else}} <span class="placeholder-text">Unknown</span> {{/if}}</td>
+        <tr class="place_row" place_id="{{ _id }}">
+            <td class="place_name">{{name}}</td>
+            <td class="place_address">{{#if address}} {{address}} {{else}} <span class="placeholder-text">Unknown</span> {{/if}}</td>
+            <td class="place_mail">{{#if mail}} {{mail}} {{else}} <span class="placeholder-text">Unknown</span> {{/if}}</td>
+            <td class="place_phone">{{#if phone}} {{phone}} {{else}} <span class="placeholder-text">Unknown</span> {{/if}}</td>
             <td>
                 <!--<i place_id="{{_id}}" title="Show on Map" class="map-btn table-btn fa fa-map-marker"></i>-->
                 {{#perm 'edit_places'}}
+                    <i place_id="{{_id}}" name="{{name}}" title="Edit Place" class="edit-btn table-btn fa fa-edit" data-toggle="modal" data-target="#add_places_modal"></i>
                     <i place_id="{{_id}}" name="{{name}}" title="Delete Place" class="delete-btn table-btn fa fa-trash-o"></i>
                 {{/perm}}
             </td>

@@ -49,11 +49,17 @@ function ajax_load(func, args, callback, timeout){
 }
 
 function ajax_call(options){
+    var url = options.url;
+    var data = options.data;
+    if( (options.type == 'get' || options.type == undefined) && options.data != undefined){
+        url = url + '?' + $.param(options.data);
+        data = '';
+    }
     $.ajax({
-        url: options.url,
+        url: url,
         type: options.type || "get",
         datatype: "json",
-        data: options.data,
+        data: data,
         complete: function(data) {
             if (options.complete != undefined)
                 options.complete(data);

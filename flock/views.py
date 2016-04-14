@@ -174,30 +174,45 @@ def places_delete():
     place_service.delete(request.form.get("id"))
     return u'{} has been deleted'.format(request.form.get("name")), 200
 
-@app.route('/places', methods=['GET', 'POST'])
+@app.route('/places', methods=['GET'])
 @auth
 def places():
-    search = request.form.get("search", None)
-    sort_by = request.form.get("sort_by", None)
-    sort_dir = request.form.get("sort_dir", None)
-    limit = request.form.get("limit", PAGE_SIZE)
-    offset = request.form.get("offset", 0)
+    search = request.args.get("search")
+    sort_by = request.args.get("sort_by")
+    sort_dir = request.args.get("sort_dir")
+    limit = request.args.get("limit", PAGE_SIZE)
+    offset = request.args.get("offset", 0)
     data, count = place_service.get(session['company_id'], search=search, sort_by=sort_by, sort_dir=sort_dir, limit=limit, offset=offset)
     return json_response({'data': data, 'count': count})
 
-@app.route('/places', methods=['PUT'])
+@app.route('/places', methods=['POST'])
 @perm(['edit_places'])
 @auth
 def places_add():
     new_place = {
-        'name': request.form.get("name", None),
-        'mail': request.form.get("email", None),
-        'phone': request.form.get("phone", None),
-        'address': request.form.get("address", None),
+        'name': request.form.get("name"),
+        'mail': request.form.get("email"),
+        'phone': request.form.get("phone"),
+        'address': request.form.get("address"),
         'company': session['company_id']
     }
     place_service.add(new_place)
     return u'{} has been added'.format(new_place['name']), 200
+
+@app.route('/places', methods=['PUT'])
+@perm(['edit_places'])
+@auth
+def places_update():
+    updated_place = {
+        'id': request.form.get("id"),
+        'name': request.form.get("name"),
+        'mail': request.form.get("email"),
+        'phone': request.form.get("phone"),
+        'address': request.form.get("address"),
+        'company': session['company_id']
+    }
+    place_service.update(updated_place)
+    return u'{} has been updated'.format(updated_place['name']), 200
 
 #### Events ####
 

@@ -289,7 +289,7 @@ class Database():
                 {'name': {'$options': 'i', '$regex': u'.*{}.*'.format(search)}},
                 {'address': {'$options': 'i', '$regex': u'.*{}.*'.format(search)}},
                 {'mail': {'$options': 'i', '$regex': u'.*{}.*'.format(search)}},
-                {'description': {'$options': 'i', '$regex': u'.*{}.*'.format(search)}}
+                {'phone': {'$options': 'i', '$regex': u'.*{}.*'.format(search)}}
             ]
 
         results = Place.objects(__raw__=query)
@@ -308,8 +308,16 @@ class Database():
     def place_delete(self, place_id):
         Place.objects(id=place_id).update_one(deleted=True)
 
-    def place_add(self, new_place):
-        return Place(**new_place).save()
+    def place_add(self, place):
+        return Place(**place).save()
+
+    def place_update(self, place):
+        Place.objects(id=int(place['id'])).update_one(
+            name=place['name'],
+            phone=place['phone'],
+            mail=place['mail'],
+            address=place['address']
+        )
 
     #### Company ####
 

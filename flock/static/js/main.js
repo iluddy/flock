@@ -348,6 +348,7 @@ function load_places(){
         }else{
             $('#places_table_body').html(places_table_body_tmpl({'places': data.data}));
             $('#places_table_body .delete-btn').on('click', delete_place);
+            $('#places_table_body .edit-btn').on('click', edit_place);
         }
         count = data.count;
         $('#places_count').text(data.count);
@@ -377,6 +378,16 @@ function load_places(){
         }
     }
 
+    function reset_places_form(){
+        $("#add_place_form").attr("place_id", "");
+        $('#add_place_name').val('');
+        $('#add_place_email').val('');
+        $('#add_place_phone').val('');
+        $('#add_place_address').val('');
+        $("#modal_add_place").text('Add');
+        $("#add_places_modal .modal-title").text("Add a Place");
+    }
+
     function reload_places(){
         $('#add_place_error').hide();
         var filter = {
@@ -388,7 +399,7 @@ function load_places(){
         }
         ajax_call({
             'url': '/places',
-            'type': 'post',
+            'type': 'get',
             'notify': false,
             'data': filter,
             'success': draw_places
@@ -397,24 +408,36 @@ function load_places(){
     }
 
     function add_place(){
-        new_place = {
+        var place = {
             'name': $('#add_place_name').val(),
             'email': $('#add_place_email').val(),
             'phone': $('#add_place_phone').val(),
             'address': $('#add_place_address').val(),
-        }
+        };
         // TODO - validate form
-        if ( new_place['name'].length > 0 && new_place['address'].length > 0)
-            ajax_call({
-                'url': '/places',
-                'type': 'put',
-                'data': new_place,
-                'success': reload_places
-            });
+        if ( place['name'].length > 0 && place['address'].length > 0 ) {
+            var place_id = $("#add_place_form").attr("place_id").toString();
+            if( place_id.length > 0){
+                place['id'] = place_id;
+                ajax_call({
+                    'url': '/places',
+                    'type': 'put',
+                    'data': place,
+                    'success': reload_places
+                });
+            }else{
+                ajax_call({
+                    'url': '/places',
+                    'type': 'post',
+                    'data': place,
+                    'success': reload_places
+                });
+            }
+        }
     }
 
     function delete_place(){
-        to_remove = {'id': parseInt($(this).attr("place_id")), 'name': $(this).attr('name')};
+        var to_remove = {'id': parseInt($(this).attr("place_id")), 'name': $(this).attr('name')};
         ajax_call({
             'url': '/places',
             'type': 'delete',
@@ -425,8 +448,28 @@ function load_places(){
         });
     }
 
+    function edit_place(){
+        var place_id = $(this).attr("place_id");
+        var place_dom = $(this).parent().parent();
+        $("#modal_add_place").text('Update');
+        $("#add_places_modal .modal-title").text("Update a Place");
+        $("#add_place_form").attr("place_id", place_id);
+
+        $('#add_place_name').val($(place_dom).find('.place_name').text());
+        $('#add_place_address').val($(place_dom).find('.place_address').text());
+
+        var place_email = $(place_dom).find('.place_mail').text();
+        if( place_email.indexOf('Unknown') == -1 )
+            $('#add_place_email').val(place_email);
+
+        var place_phone = $(place_dom).find('.place_phone').text();
+        if( place_phone.indexOf('Unknown') == -1 )
+            $('#add_place_phone').val(place_phone);
+    }
+
     function add_handlers(){
         $('#modal_add_place').on('click', add_place);
+        $('#add_places_btn').on('click', reset_places_form);
         $('#places_table_search').on('keyup', function(){
             delay(function(){
                 page = 0;

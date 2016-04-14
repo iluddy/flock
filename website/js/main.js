@@ -317,6 +317,7 @@ function load_places(){
         }else{
             $('#places_table_body').html(places_table_body_tmpl({'places': data.data}));
             $('#places_table_body .delete-btn').on('click', delete_place);
+            $('#places_table_body .edit-btn').on('click', edit_place);
         }
         count = data.count;
         $('#places_count').text(data.count);
@@ -346,6 +347,10 @@ function load_places(){
         }
     }
 
+    function reset_places_form(){
+        $("#add_place_form").attr("place_id", "");
+    }
+
     function reload_places(){
         $('#add_place_error').hide();
         var filter = {
@@ -366,12 +371,12 @@ function load_places(){
     }
 
     function add_place(){
-        new_place = {
+        var new_place = {
             'name': $('#add_place_name').val(),
             'email': $('#add_place_email').val(),
             'phone': $('#add_place_phone').val(),
             'address': $('#add_place_address').val(),
-        }
+        };
         // TODO - validate form
         if ( new_place['name'].length > 0 && new_place['address'].length > 0)
             ajax_call({
@@ -383,7 +388,7 @@ function load_places(){
     }
 
     function delete_place(){
-        to_remove = {'id': parseInt($(this).attr("place_id")), 'name': $(this).attr('name')};
+        var to_remove = {'id': parseInt($(this).attr("place_id")), 'name': $(this).attr('name')};
         ajax_call({
             'url': '/places',
             'type': 'delete',
@@ -394,8 +399,19 @@ function load_places(){
         });
     }
 
+    function edit_place(){
+        var place_id = $(this).attr("place_id");
+        var place_dom = $(this).parent().parent();
+        $("#add_place_form").attr("place_id", place_id);
+        $('#add_place_name').val($(place_dom).find('.place_name').val());
+        $('#add_place_email').val($(place_dom).find('.place_mail').val());
+        $('#add_place_phone').val($(place_dom).find('.place_mail').val());
+        $('#add_place_address').val($(place_dom).find('.place_mail').val());
+    }
+
     function add_handlers(){
         $('#modal_add_place').on('click', add_place);
+        $('#add_places_btn').on('click', reset_places_form);
         $('#places_table_search').on('keyup', function(){
             delay(function(){
                 page = 0;

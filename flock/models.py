@@ -20,7 +20,6 @@ class Place(Document, Base):
     id = SequenceField(primary_key=True)
     name = StringField(nullable=False)
     address = StringField(nullable=False)
-    directions = StringField()
     mail = StringField()
     phone = StringField()
     company = ReferenceField('Company', nullable=False)
