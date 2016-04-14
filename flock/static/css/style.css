@@ -8492,7 +8492,7 @@ body.md-skin {
     padding: 3px;
 }
 .dashboard-header-events{
-    left: 105px;
+    /*left: 105px;*/
 }
 .feed-activity-list .feed-element i.fa{
     color: #777;
@@ -8556,4 +8556,32 @@ ul.slim-dropdown-menu .label{
 #calendar_wrap .fc-left{
     position: relative;
     left: 128px;
+}
+.widget-placeholder{
+    margin-bottom: 30px;
+}
+.widget-placeholder a:hover{
+    text-decoration: underline;
+}
+.widget-placeholder a{
+    color: white;
+}
+#upcoming_placeholder{
+}
+@media (max-width: 768px){
+    .vertical-timeline-content{
+        margin-left: 0px;
+    }
+    .vertical-container{
+        width: 100%;
+    }
+    .vertical-timeline-icon, .vertical-timeline-content h2 > span, .vertical-timeline-content::before{
+        display: none;
+    }
+    .fc-center, .fc-right, .fc-left, .fc-center{
+        display: none;
+    }
+    #places_tab, #people_tab, #system_tab{
+        display: none;
+    }
 }

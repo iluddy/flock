@@ -54,6 +54,26 @@
 </script>
 
 <script id="upcoming_events_tmpl" type="text/x-handlebars-template">
+
+    {{#array_empty events}}
+        <div id="upcoming_placeholder" class="widget widget-placeholder style1 navy-bg">
+            <div class="row">
+                <div class="col-xs-4">
+                    <i class="fa fa-calendar fa-5x"></i>
+                </div>
+                <div class="col-xs-8 text-right">
+                    <div>No upcoming Events! </div> <br/>
+                    <h3>
+                        <a href="#planner" onclick="$('.tab[target=planner]').click()">
+                            Add some now
+                            <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </h3>
+                </div>
+            </div>
+        </div>
+    {{/array_empty}}
+
     {{#each events}}
         <div id="vertical-timeline" class="vertical-container light-timeline">
             <div class="vertical-timeline-block">
@@ -84,47 +104,65 @@
 </script>
 
 <script id="notifications_tmpl" type="text/x-handlebars-template">
-    <div class="ibox float-e-margins">
-        <div class="ibox-content">
-            <div>
-                <div class="feed-activity-list">
-                    {{#each notifications}}
-                        <div class="feed-element {{ action }}">
-                            <a href="profile.html" class="pull-left feed-icon">
-                                <!--<img alt="image" class="img-circle" src="img/profile.jpg">-->
-                                {{#equal target 'person'}}
-                                    <i class="fa fa-user"></i>
-                                {{/equal}}
-                                {{#equal target 'role'}}
-                                    <i class="fa fa-user"></i>
-                                {{/equal}}
-                                {{#equal target 'place'}}
-                                    <i class="fa fa-map-marker"></i>
-                                {{/equal}}
-                                {{#equal target 'event'}}
-                                    <i class="fa fa-calendar"></i>
-                                {{/equal}}
-                                {{#equal target 'message'}}
-                                    <i class="fa fa-bullhorn"></i>
-                                {{/equal}}
-                            </a>
-                            <div class="media-body ">
-                                <small class="pull-right">{{relativeTime stamp}}</small>
-                                {{{ body }}} <br>
-                                <small class="text-muted">{{dateFormat stamp format="HH:mm"}}</small>
-                                {{#if message}}
-                                    <div class="well">
-                                        Message
-                                    </div>
-                                {{/if}}
-                            </div>
-                        </div>
-                    {{/each}}
+
+    {{#array_empty notifications}}
+        <div id="notification_placeholder" class="widget widget-placeholder style1 lazur-bg">
+            <div class="row">
+                <div class="col-xs-4">
+                    <i class="fa fa-bell fa-5x"></i>
                 </div>
-                <button class="btn btn-primary btn-block m-t"><i class="fa fa-arrow-down"></i> Show More </button>
+                <div class="col-xs-8 text-right">
+                    <h3>
+                        Notifications will appear here
+                    </h3>
+                </div>
             </div>
         </div>
-    </div>
+    {{/array_empty}}
+
+    {{#array_not_empty notifications}}
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <div>
+                    <div class="feed-activity-list">
+                        {{#each notifications}}
+                            <div class="feed-element {{ action }}">
+                                <a href="profile.html" class="pull-left feed-icon">
+                                    <!--<img alt="image" class="img-circle" src="img/profile.jpg">-->
+                                    {{#equal target 'person'}}
+                                        <i class="fa fa-user"></i>
+                                    {{/equal}}
+                                    {{#equal target 'role'}}
+                                        <i class="fa fa-user"></i>
+                                    {{/equal}}
+                                    {{#equal target 'place'}}
+                                        <i class="fa fa-map-marker"></i>
+                                    {{/equal}}
+                                    {{#equal target 'event'}}
+                                        <i class="fa fa-calendar"></i>
+                                    {{/equal}}
+                                    {{#equal target 'message'}}
+                                        <i class="fa fa-bullhorn"></i>
+                                    {{/equal}}
+                                </a>
+                                <div class="media-body ">
+                                    <small class="pull-right">{{relativeTime stamp}}</small>
+                                    {{{ body }}} <br>
+                                    <small class="text-muted">{{dateFormat stamp format="HH:mm"}}</small>
+                                    {{#if message}}
+                                        <div class="well">
+                                            Message
+                                        </div>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        {{/each}}
+                    </div>
+                    <!--<button class="btn btn-primary btn-block m-t"><i class="fa fa-arrow-down"></i> Show More </button>-->
+                </div>
+            </div>
+        </div>
+    {{/array_not_empty}}
 </script>
 
 <script id="dashboard_tmpl" type="text/x-handlebars-template">

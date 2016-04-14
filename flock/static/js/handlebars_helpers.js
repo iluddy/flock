@@ -22,8 +22,22 @@ Handlebars.registerHelper('in_array', function(elem, list, options) {
     return options.inverse(this);
 });
 
+Handlebars.registerHelper('array_empty', function(list, options) {
+    if(list.length == 0) {
+        return options.fn(this);
+    }
+    return options.inverse(this);
+});
+
 Handlebars.registerHelper('perm', function(elem, options) {
-    if(permissions.indexOf(elem) > -1) {
+    if (permissions.indexOf(elem) > -1) {
+        return options.fn(this);
+    }
+    return options.inverse(this);
+});
+
+Handlebars.registerHelper('array_not_empty', function(list, options) {
+    if(list.length > 0) {
         return options.fn(this);
     }
     return options.inverse(this);
