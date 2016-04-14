@@ -14,9 +14,10 @@ class Database():
     def __init__(self, db, cfg):
         self.db = db
         self.cfg = cfg
-        self.reset_database()
+        if cfg['database']['reset']:
+            self.reset_database()
         self.add_defaults()
-        if cfg['database']['test_data']:
+        if cfg['database']['add_test_data']:
             self.add_test_data()
         self.add_indexes()
 

@@ -3,7 +3,8 @@
         "name": "flock",
         "host": "localhost",
         "port": 27017,
-        "test_data": false
+        "reset": true,
+        "add_test_data": true
     },
     "logging": {
         "file": "/tmp/flock_app",
