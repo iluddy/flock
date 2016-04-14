@@ -1,10 +1,10 @@
-var user_id, page_main, loader;
+var user_id, page_main, loader, permissions;
 
 $(document).ready(function () {
     page_main = $("#main");
     loader = $("#loader");
     user_id = parseInt($(".account_info .fa").attr("user_id"));
-    $(".account_info .fa").attr("user_id", "");
+    permissions = $(".account_info .fa").attr("permissions");
     $.when(
         ajax_load('/templates', {}, add_templates)
     ).done(templates_loaded);

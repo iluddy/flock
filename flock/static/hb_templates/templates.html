@@ -130,10 +130,13 @@
 <script id="places_tmpl" type="text/x-handlebars-template">
     <div class="pane animated fadeInDown">
         <div class="col-lg-12">
+
             <div class="col-md-3">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_places_modal">
-                    Add a Place
-                </button>
+                {{#perm 'edit_places'}}
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_places_modal">
+                        Add a Place
+                    </button>
+                {{/perm}}
             </div>
 
             <div class="col-md-4">
@@ -247,9 +250,11 @@
     <div class="pane animated fadeInDown">
         <div class="col-lg-12">
             <div class="col-md-3">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_people_modal">
-                    Add a Person
-                </button>
+                {{#perm 'edit_people'}}
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_people_modal">
+                        Add a Person
+                    </button>
+                {{/perm}}
             </div>
 
             <div class="col-md-4">
@@ -338,7 +343,9 @@
             <td>{{#if phone}} {{phone}} {{else}} <span class="placeholder-text">Unknown</span> {{/if}}</td>
             <td>
                 <!--<i place_id="{{_id}}" title="Show on Map" class="map-btn table-btn fa fa-map-marker"></i>-->
-                <i place_id="{{_id}}" name="{{name}}" title="Delete Place" class="delete-btn table-btn fa fa-trash-o"></i>
+                {{#perm 'edit_places'}}
+                    <i place_id="{{_id}}" name="{{name}}" title="Delete Place" class="delete-btn table-btn fa fa-trash-o"></i>
+                {{/perm}}
             </td>
         </tr>
     {{/each}}
@@ -358,14 +365,20 @@
                         <span class="badge badge-primary">Active</span>
                     {{else}}
                         <span class="badge badge-warning">Invitation Pending</span>
-                        <i people_id="{{_id}}" mail="{{mail}}" title="Resend Invitation" class="invite-btn table-btn fa fa-reply"></i>
+                        {{#perm 'edit_people'}}
+                            <i people_id="{{_id}}" mail="{{mail}}" title="Resend Invitation" class="invite-btn table-btn fa fa-reply"></i>
+                        {{/perm}}
                     {{/if}}
                 {{else}}
                     <span class="placeholder-text badge">No Invite Sent</span>
-                    <i people_id="{{_id}}" mail="{{mail}}" title="Send Invitation" class="invite-btn table-btn fa fa-reply"></i>
+                    {{#perm 'edit_people'}}
+                        <i people_id="{{_id}}" mail="{{mail}}" title="Send Invitation" class="invite-btn table-btn fa fa-reply"></i>
+                    {{/perm}}
                 {{/if}}
             </td>
-            <td><i people_id="{{_id}}" name="{{name}}" title="Delete Person" class="delete-btn table-btn fa fa-trash-o"></i></td>
+            {{#perm 'edit_people'}}
+                <td><i people_id="{{_id}}" name="{{name}}" title="Delete Person" class="delete-btn table-btn fa fa-trash-o"></i></td>
+            {{/perm}}
         </tr>
     {{/each}}
 </script>

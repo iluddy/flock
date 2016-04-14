@@ -34,7 +34,7 @@
                 <div class="navbar-collapse collapse" id="navbar">
                     <ul class="nav navbar-nav">
                         <li class="active tab" target="dashboard">
-                            <a href="#dashboard"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
+                            <a href="#dashboard"><i style="font-size: 1.2em; position: relative; top: 1px;" class="fa fa-home"></i> <span class="nav-label">Home</span></a>
                         </li>
                         {%if 'view_events' in permissions or 'edit_events' in permissions%}
                             <li class="tab" target="planner">
@@ -62,7 +62,7 @@
                     </ul>
                     <ul class="nav navbar-top-links navbar-right">
                         <span class="account_info">
-                            <i class="fa fa-user" user_id="{{ user_id }}"></i>
+                            <i class="fa fa-user" user_id="{{ user_id }}" permissions="{{ permissions }}"></i>
                             <span class="m-t-xs">
                                 <strong class="font-bold"> {{ user_name }} </strong>
                             </span>
