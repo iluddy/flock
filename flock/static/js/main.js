@@ -158,7 +158,7 @@ function load_dashboard(){
 function load_planner(){
     $(page_main).html(planner_tmpl());
 
-    $('#calendar_wrap').fullCalendar({
+    $('#calendar_holder').fullCalendar({
         header: {
             left: 'prev,next today',
             center: 'title',
@@ -167,6 +167,7 @@ function load_planner(){
         defaultView: "agendaDay",
         minTime: "06:00:00",
         maxTime: "23:00:00",
+        height: $('#page-wrapper').height(),
         selectable: true,
         events: '/events',
         eventRender: function(event, element) {

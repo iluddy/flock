@@ -8395,22 +8395,22 @@ body.md-skin {
 }
 .event_tip{
     background-color: white;
-    padding: 5px;
+    padding: 0px;
 }
 .event_tip .event_people_wrap{
-    margin-top: 10px;
+    margin-top: 5px;
 }
 .event_tip .event_people_wrap span{
     margin-bottom: 2px;
     display: inline-block;
 }
 .event_tip .event_title{
-    margin-top: 10px;
-    font-size: 1.9em;
+    margin-top: 5px;
+    font-size: 1.1em;
 }
 .event_tip .event_body{
-    padding-top: 5px;
-    padding-left: 5px;
+    padding-top: 1px;
+    padding-left: 0px;
 }
 .event_tip .event_edit{
     text-decoration: underline;
@@ -8541,4 +8541,19 @@ ul.slim-dropdown-menu .label{
 }
 .themed-danger{
     color: #ed5565 !important;
+}
+.half-shade{
+    opacity: 0.5 !important;
+}
+#calendar_wrap{
+    padding: 0px 20px 0px 20px;
+    margin-bottom: 50px;
+}
+#add_event_btn{
+    position: absolute;
+    top: -4px;
+}
+#calendar_wrap .fc-left{
+    position: relative;
+    left: 128px;
 }
