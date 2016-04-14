@@ -248,7 +248,7 @@
         <div class="col-lg-12">
             <div class="col-md-3">
                 {{#perm 'edit_people'}}
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_people_modal">
+                    <button id="add_person_btn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_people_modal">
                         Add a Person
                     </button>
                 {{/perm}}
@@ -296,14 +296,14 @@
                     <h3 class="modal-title">Add a Person</h3>
                 </div>
                 <div class="modal-body">
-                    <form id="add_person_form" method="get" class="form-horizontal" data-toggle="validator">
+                    <form id="add_person_form" person_id="" method="get" class="form-horizontal" data-toggle="validator">
                         <div class="form-group"><label class="col-sm-2 control-label">Name</label>
                             <div class="col-sm-10"><input id="add_person_name" type="text" placeholder="Joe Bloggs" class="form-control input-lg req-input" required=""></div>
                         </div>
                         <div class="form-group"><label class="col-sm-2 control-label">Email</label>
                             <div class="col-sm-10"><input id="add_person_email" type="email" placeholder="jb@mail.com" class="form-control input-lg req-input" required=""></div>
                         </div>
-                        <div class="form-group">
+                        <div id="add_person_invite_box" class="form-group">
                             <div class="col-sm-10 pull-right">
                                 {{> checkbox_part id='add_person_invite' checked='true' label='Send this Person an invitation to use Flock'}}
                             </div>
@@ -314,10 +314,17 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Role</label>
                             <div id="add_person_type_choice" class="col-sm-10">
-                                <div class="spacer"></div>
-                                {{#each roles}}
-                                    <span type_id="{{_id}}" class="label-color-choice label label-{{theme}}" value="default">{{name}}</span>
-                                {{/each}}
+                                <div class="dropup">
+                                    <button class="btn btn-default dropdown-toggle" type="button" id="role_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span id="role_dropdown_value" class="themed"></span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul id="role_dropdown_choice" class="slim-dropdown-menu dropdown-menu" aria-labelledby="role_dropdown">
+                                        {{#each roles}}
+                                            <li><a class="themed themed-{{ theme }}" role_theme="{{ theme }}" role_name="{{ name }} "role_id="{{_id}}"> {{ name }}</a></li>
+                                        {{/each}}
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group modal-footer-buttons">
@@ -351,12 +358,12 @@
 
 <script id="people_table_body_tmpl" type="text/x-handlebars-template">
     {{#each people}}
-        <tr>
+        <tr class="person_row" person_id="{{_id}}">
             <!--<td>{{> checkbox_part}}</td>-->
-            <td>{{name}}</td>
-            <td>{{#if mail}} {{mail}} {{else}} <span class="placeholder-text">Unknown</span> {{/if}}</td>
-            <td>{{#if phone}} {{phone}} {{else}} <span class="placeholder-text">Unknown</span> {{/if}}</td>
-            <td><span class="label label-{{role_theme}}">{{role_name}}</span></td>
+            <td class="person_name">{{name}}</td>
+            <td class="person_email">{{#if mail}} {{mail}} {{else}} <span class="placeholder-text">Unknown</span> {{/if}}</td>
+            <td class="person_phone">{{#if phone}} {{phone}} {{else}} <span class="placeholder-text">Unknown</span> {{/if}}</td>
+            <td><span role_theme="{{role_theme}}" class="person_role label label-{{role_theme}}">{{role_name}}</span></td>
             <td>
                 {{#if invite}}
                     {{#if active}}
@@ -364,19 +371,22 @@
                     {{else}}
                         <span class="badge badge-warning">Invitation Pending</span>
                         {{#perm 'edit_people'}}
-                            <i people_id="{{_id}}" mail="{{mail}}" title="Resend Invitation" class="invite-btn table-btn fa fa-reply"></i>
+                            <i person_id="{{_id}}" mail="{{mail}}" title="Resend Invitation" class="invite-btn table-btn fa fa-reply"></i>
                         {{/perm}}
                     {{/if}}
                 {{else}}
                     <span class="placeholder-text badge">No Invite Sent</span>
                     {{#perm 'edit_people'}}
-                        <i people_id="{{_id}}" mail="{{mail}}" title="Send Invitation" class="invite-btn table-btn fa fa-reply"></i>
+                        <i person_id="{{_id}}" mail="{{mail}}" title="Send Invitation" class="invite-btn table-btn fa fa-reply"></i>
                     {{/perm}}
                 {{/if}}
             </td>
-            {{#perm 'edit_people'}}
-                <td><i people_id="{{_id}}" name="{{name}}" title="Delete Person" class="delete-btn table-btn fa fa-trash-o"></i></td>
-            {{/perm}}
+            <td>
+                {{#perm 'edit_people'}}
+                    <i person_id="{{_id}}" title="Edit Person" class="edit-btn table-btn fa fa-edit" data-toggle="modal" data-target="#add_people_modal"></i>
+                    <i person_id="{{_id}}" name="{{name}}" title="Delete Person" class="delete-btn table-btn fa fa-trash-o"></i>
+                {{/perm}}
+            </td>
         </tr>
     {{/each}}
 </script>

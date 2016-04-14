@@ -130,32 +130,50 @@ def people_delete():
     person_service.delete(request.form.get("id"))
     return u'{} has been deleted'.format(request.form.get("name")), 200
 
-@app.route('/people', methods=['GET', 'POST'])
+@app.route('/people', methods=['GET'])
 @auth
 def people():
-    search = request.form.get("search", None)
-    sort_by = request.form.get("sort_by", None)
-    sort_dir = request.form.get("sort_dir", None)
-    limit = request.form.get("limit", PAGE_SIZE)
-    offset = request.form.get("offset", 0)
+    search = request.args.get("search", None)
+    sort_by = request.args.get("sort_by", None)
+    sort_dir = request.args.get("sort_dir", None)
+    limit = request.args.get("limit", PAGE_SIZE)
+    offset = request.args.get("offset", 0)
     data, count = person_service.get(session['company_id'], search=search, sort_by=sort_by, sort_dir=sort_dir, limit=limit, offset=offset)
     return json_response({'data': data, 'count': count})
 
 @app.route('/people', methods=['PUT'])
 @perm(['edit_people'])
 @auth
-def people_add():
-    invite = request.form.get("invite", None)
+def people_put():
+    invite = request.form.get("invite")
     new_person = {
-        'name': request.form.get("name", None),
-        'mail': request.form.get("mail", None),
-        'role': request.form.get("type", None),
-        'phone': request.form.get("phone", None),
+        'id': request.form.get("id"),
+        'name': request.form.get("name"),
+        'mail': request.form.get("mail"),
+        'role': request.form.get("type"),
+        'phone': request.form.get("phone"),
+        'invite': True if invite else False,
+        'company': session['company_id']
+    }
+    person_service.update(new_person)
+    return u'{} has been updated'.format(new_person['name']), 200
+
+@app.route('/people', methods=['POST'])
+@perm(['edit_people'])
+@auth
+def people_post():
+    invite = request.form.get("invite")
+    new_person = {
+        'name': request.form.get("name"),
+        'mail': request.form.get("mail"),
+        'role': request.form.get("type"),
+        'phone': request.form.get("phone"),
         'invite': True if invite else False,
         'company': session['company_id']
     }
     person_service.add(new_person, session['user_id'], session['company_id'])
     return u'{} has been added'.format(new_person['name']), 200
+
 
 @app.route('/people/invite', methods=['POST'])
 @perm(['edit_people'])

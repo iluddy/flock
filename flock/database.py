@@ -161,6 +161,17 @@ class Database():
     def person_delete(self, person_id):
         Person.objects(id=person_id).update_one(deleted=True)
 
+    def person_update(self, person):
+        role = Role.objects(id=person['role']).get()
+        Person.objects(id=int(person['id'])).update_one(
+            role=role,
+            role_name=role.name,
+            role_theme=role.theme,
+            mail=person['mail'],
+            name=person['name'],
+            phone=person['phone'],
+        )
+
     def person_add(self, new_person):
 
         role = Role.objects(id=new_person['role']).get()
@@ -178,10 +189,6 @@ class Database():
             return Person(**new_person).save()
         except NotUniqueError:
             abort(400, 'That email address is already in use.')
-
-    def person_update(self, new_person):
-        # TODO - this
-        pass
 
     def person_get(self, company_id=None, role_id=None, user_id=None, mail=None, search=None, sort_by=None,
                    sort_dir=None, token=None, limit=None, offset=None, deleted=False):

@@ -213,6 +213,7 @@ function load_people(){
         }else{
             $('#people_table_body').html(people_table_body_tmpl({'people': data.data}));
             $('#people_table_body .delete-btn').on('click', delete_person);
+            $('#people_table_body .edit-btn').on('click', edit_person);
             $('#people_table_body .invite-btn').on('click', invite_person);
         }
         count = data.count;
@@ -243,6 +244,17 @@ function load_people(){
         }
     }
 
+    function reset_people_form(){
+        $("#add_person_form").attr("person_id", "");
+        $("#add_person_invite_box").show();
+        $('#add_person_email').removeAttr('disabled');
+        $('#add_person_name').val('');
+        $('#add_person_email').val('');
+        $('#add_person_phone').val('');
+        $("#modal_add_person").text('Add');
+        $("#add_people_modal .modal-title").text("Add a Person");
+    }
+
     function reload_people(){
         $('#add_person_error').hide();
         var filter = {
@@ -254,7 +266,7 @@ function load_people(){
         }
         ajax_call({
             'url': '/people',
-            'type': 'post',
+            'type': 'get',
             'notify': false,
             'data': filter,
             'success': draw_people
@@ -262,9 +274,27 @@ function load_people(){
         $('#add_people_modal').modal('hide');
     }
 
-    function add_person(){
-        var new_person = {
-            'type': $('#add_person_type_choice .label-color-choice.selected').attr('type_id'),
+    function edit_person(){
+        reset_people_form();
+        $("#add_person_invite_box").hide();
+        var person_id = $(this).attr("person_id");
+        var person_dom = $(this).parent().parent();
+        $("#modal_add_person").text('Update');
+        $("#add_people_modal .modal-title").text("Update a Person");
+        $("#add_person_form").attr("person_id", person_id);
+        $('#add_person_name').val($.trim($(person_dom).find('.person_name').text()));
+        $('#add_person_email').val($.trim($(person_dom).find('.person_email').text()));
+        $('#add_person_email').attr('disabled','');
+        var person_phone = $(person_dom).find('.person_phone').text();
+        if( person_phone.indexOf('Unknown') == -1 )
+            $('#add_person_phone').val($.trim(person_phone));
+    }
+
+    function add_person(e){
+        e.preventDefault();
+        var person = {
+            'id': $('#add_person_form').attr('person_id'),
+            'type': $('#role_dropdown_value').attr('role_id'),
             'name': $('#add_person_name').val(),
             'mail': $('#add_person_email').val()
         };
@@ -273,22 +303,33 @@ function load_people(){
         var invite = $('#add_person_invite').is(":checked");
 
         if( invite == true )
-            new_person['invite'] = true;
+            person['invite'] = true;
 
         if( phone.length > 0)
-            new_person['phone'] = phone;
+            person['phone'] = phone;
 
-        if ( new_person['name'].length > 0 && new_person['mail'].length > 0 )
-            ajax_call({
-                'url': '/people',
-                'type': 'put',
-                'data': new_person,
-                'success': reload_people
-            });
+        if ( person['name'].length > 0 && person['mail'].length > 0 )
+
+            if( person['id'].length > 0 ){
+                ajax_call({
+                    'url': '/people',
+                    'type': 'put',
+                    'data': person,
+                    'success': reload_people
+                });
+            }else{
+                ajax_call({
+                    'url': '/people',
+                    'type': 'post',
+                    'data': person,
+                    'success': reload_people
+                });
+            }
+
     }
 
     function delete_person(){
-        var to_remove = {'id': parseInt($(this).attr("people_id")), 'name': $(this).attr('name')};
+        var to_remove = {'id': parseInt($(this).attr("person_id")), 'name': $(this).attr('name')};
         ajax_call({
             'url': '/people',
             'type': 'delete',
@@ -301,9 +342,18 @@ function load_people(){
         var to_invite = {'mail': $(this).attr("mail")};
         ajax_call({'url': '/people/invite', 'type': 'post', 'data': to_invite, 'success': reload_people});
     }
-
+    
+    function choose_role(){
+        $("#role_dropdown_value").removeClass().addClass("themed themed-" + $(this).attr("role_theme"));
+        $("#role_dropdown_value").attr("role_id", $(this).attr("role_id"));
+        $("#role_dropdown_value").text($(this).attr("role_name"));
+    }
+    
     function add_handlers(){
         $('#modal_add_person').on('click', add_person);
+        $('#add_person_btn').on('click', reset_people_form);
+        $('#role_dropdown_choice li > a').on('click', choose_role);
+        $('#role_dropdown_choice li > a:first').click();
         $('#people_table_search').on('keyup', function(){
             delay(function(){
                 page = 0;
@@ -407,7 +457,8 @@ function load_places(){
         $('#add_places_modal').modal('hide');
     }
 
-    function add_place(){
+    function add_place(e){
+        e.preventDefault();
         var place = {
             'name': $('#add_place_name').val(),
             'email': $('#add_place_email').val(),
@@ -449,6 +500,7 @@ function load_places(){
     }
 
     function edit_place(){
+        reset_places_form();
         var place_id = $(this).attr("place_id");
         var place_dom = $(this).parent().parent();
         $("#modal_add_place").text('Update');
@@ -536,7 +588,8 @@ function load_settings_people(){
         }
     }
 
-    function save_role(){
+    function save_role(e){
+        e.preventDefault();
 
         var role_id = $('#add_role_form').attr('role_id');
 

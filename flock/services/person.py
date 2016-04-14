@@ -28,6 +28,10 @@ def add(new_person, user_id, company_id):
 
     notify(u'{} added a new Person - <b>%s</b>' % new_person['name'], action='add', target='person')
 
+def update(person):
+    db.person_update(person)
+    notify(u'{} updated details for <b>%s</b>' % person['name'], action='edit', target='person')
+
 def delete(user_id):
     user_name = db.person_get(user_id=user_id).name
 

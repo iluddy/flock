@@ -8510,3 +8510,35 @@ body.md-skin {
 .feed-activity-list .feed-element.edit .feed-icon i.fa{
     color: #f8ac59;
 }
+ul.slim-dropdown-menu a{
+    padding: 3px 10px !important;
+}
+ul.slim-dropdown-menu{
+    min-width: 0px !important;
+}
+ul.slim-dropdown-menu .label{
+    display: block !important;
+    padding: 4px;
+    font-size: 0.95em;
+}
+.themed{
+
+}
+.themed-default{
+    color: #777 !important;
+}
+.themed-warning{
+    color: #f8ac59 !important;
+}
+.themed-primary{
+    color: #1ab394 !important;
+}
+.themed-success{
+    color: #337ab7 !important;
+}
+.themed-info{
+    color: #23c6c8 !important;
+}
+.themed-danger{
+    color: #ed5565 !important;
+}
