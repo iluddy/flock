@@ -234,27 +234,20 @@ def places_update():
 
 #### Events ####
 
-@app.route('/events', methods=['POST'])
+@app.route('/events', methods=['GET'])
 @perm(['edit_events'])
 @auth
 def events_post():
-    start = request.form.get("name")
-    end = request.form.get("email")
-    show_expired = request.form.get("show_expired", True)
-    limit = request.form.get("limit")
-    offset = request.form.get("offset")
-    sort_by = request.form.get("sort_by")
-    sort_dir = request.form.get("sort_dir")
-    user_id = int(request.form.get("user_id", 0))
+    start = request.args.get("start")
+    end = request.args.get("end")
+    show_expired = request.args.get("show_expired", True)
+    limit = request.args.get("limit")
+    offset = request.args.get("offset")
+    sort_by = request.args.get("sort_by")
+    sort_dir = request.args.get("sort_dir")
+    user_id = int(request.args.get("user_id", 0))
     return json_response(event_service.get(session['company_id'], start=start, end=end, show_expired=show_expired,
         limit=limit, sort_dir=sort_dir, sort_by=sort_by, offset=offset, user_id=user_id))
-
-@app.route('/events', methods=['GET'])
-@auth
-def events_get():
-    start = request.args.get('start')
-    end = request.args.get('end')
-    return json_response(event_service.get(session['company_id'], start=start, end=end))
 
 #### Roles ####
 
