@@ -12,7 +12,7 @@
 
 case "$1" in
  start)
-   start-stop-daemon --start --pidfile /var/run/flock.pid --make-pidfile --user root --exec /data/www/env/bin/python -- /data/www/flock/flock/app.py -c /data/www/flock/flock-production.json > /tmp/flock_app 2>&1 &
+   start-stop-daemon --start --pidfile /var/run/flock.pid --make-pidfile --user root --exec /data/www/env/bin/python -- /data/www/flock/flock/app.py -c /data/www/flock/configs/flock-production.json > /tmp/flock_app 2>&1 &
    echo 'Flock Started'
    ;;
  stop)
@@ -20,7 +20,7 @@ case "$1" in
    echo 'Flock Stopped'
    ;;
  *)
-   echo "Usage: flock  {start|stop|restart}" >&2
+   echo "Usage: flock  {start|stop}" >&2
    exit 3
    ;;
 esac
