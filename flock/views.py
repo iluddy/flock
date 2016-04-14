@@ -1,5 +1,6 @@
-from flask import request, redirect, url_for, render_template, session
-from utils import json_response, auth
+from flask import request, redirect, url_for, render_template, session, abort
+from functools import wraps
+from utils import json_response
 from constants import PAGE_SIZE
 from services import notification as notification_service
 from services import role as role_service
@@ -11,6 +12,28 @@ from flock.app import db_wrapper
 import json
 import __builtin__
 app = __builtin__.flock_app
+
+def auth(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if session.get('user_id') is None:
+            session.clear()
+            abort(403, 'You are no longer logged in!')
+        # TODO - verify user and company match
+        return f(*args, **kwargs)
+    return decorated_function
+
+def perm(permissions):
+    def actualDecorator(test_func):
+        @wraps(test_func)
+        def wrapper(*args, **kwargs):
+            user_permissions = db_wrapper.permissions_get(session['user_id'])
+            for permission in permissions:
+                if not user_permissions or permission not in user_permissions:
+                    abort(400, "You don't have permission to do this :(")
+            return test_func(*args, **kwargs)
+        return wrapper
+    return actualDecorator
 
 @app.route('/')
 def root():
@@ -101,6 +124,7 @@ def reset_user():
 #### People ####
 
 @app.route('/people', methods=['DELETE'])
+@perm(['edit_people'])
 @auth
 def people_delete():
     person_service.delete(request.form.get("id"))
@@ -118,6 +142,7 @@ def people():
     return json_response({'data': data, 'count': count})
 
 @app.route('/people', methods=['PUT'])
+@perm(['edit_people'])
 @auth
 def people_add():
     invite = request.form.get("invite", None)
@@ -133,6 +158,7 @@ def people_add():
     return u'{} has been added'.format(new_person['name']), 200
 
 @app.route('/people/invite', methods=['POST'])
+@perm(['edit_people'])
 @auth
 def people_invite():
     email = request.form.get("mail")
@@ -142,6 +168,7 @@ def people_invite():
 #### Places ####
 
 @app.route('/places', methods=['DELETE'])
+@perm(['edit_places'])
 @auth
 def places_delete():
     place_service.delete(request.form.get("id"))
@@ -159,6 +186,7 @@ def places():
     return json_response({'data': data, 'count': count})
 
 @app.route('/places', methods=['PUT'])
+@perm(['edit_places'])
 @auth
 def places_add():
     new_place = {
@@ -174,6 +202,7 @@ def places_add():
 #### Events ####
 
 @app.route('/events', methods=['POST'])
+@perm(['edit_events'])
 @auth
 def events_post():
     start = request.form.get("name")
@@ -202,6 +231,7 @@ def roles():
     return json_response(role_service.get(company_id=session['company_id']))
 
 @app.route('/roles', methods=['PUT'])
+@perm(['edit_system_settings'])
 @auth
 def roles_update():
     role = {
@@ -214,6 +244,7 @@ def roles_update():
     return u'{} Role Updated'.format(role['name']), 200
 
 @app.route('/roles', methods=['POST'])
+@perm(['edit_system_settings'])
 @auth
 def roles_add():
     role = {
@@ -225,6 +256,7 @@ def roles_add():
     return u'{} Role Added'.format(request.form.get("name")), 200
 
 @app.route('/roles', methods=['DELETE'])
+@perm(['edit_system_settings'])
 @auth
 def roles_delete():
     role_id = request.form.get("id")

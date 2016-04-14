@@ -1,10 +1,9 @@
 import json
 import logging
-from functools import wraps
 from logging.handlers import RotatingFileHandler
 from uuid import uuid4, uuid5, NAMESPACE_DNS
 import hashlib
-from flask import make_response, session, abort
+from flask import make_response, abort
 from mongoengine import QuerySet
 
 def plain_text_to_html(content):
@@ -104,15 +103,3 @@ def json_response(response):
     response = make_response(json.dumps(response))
     response.mimetype = "application/json"
     return response
-
-def auth(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if session.get('user_id') is None:
-            session.clear()
-            abort(403, 'You are no longer logged in!')
-
-        # TODO - verify user and company match
-
-        return f(*args, **kwargs)
-    return decorated_function
