@@ -58,19 +58,22 @@
                 <div class="feed-activity-list">
                     {{#each notifications}}
                         <div class="feed-element {{ action }}">
-                            <a href="profile.html" class="pull-left">
+                            <a href="profile.html" class="pull-left feed-icon">
                                 <!--<img alt="image" class="img-circle" src="img/profile.jpg">-->
-                                {{#equal action 'delete'}}
-                                    <i class="fa fa-trash delete"></i>
+                                {{#equal target 'person'}}
+                                    <i class="fa fa-user"></i>
                                 {{/equal}}
-                                {{#equal action 'add'}}
-                                    <i class="fa fa-plus-circle add"></i>
+                                {{#equal target 'role'}}
+                                    <i class="fa fa-user"></i>
                                 {{/equal}}
-                                {{#equal action 'edit'}}
-                                    <i class="fa fa-edit edit"></i>
+                                {{#equal target 'place'}}
+                                    <i class="fa fa-map-marker"></i>
                                 {{/equal}}
-                                {{#equal action 'action'}}
-                                    <i class="fa fa-bullhorn action"></i>
+                                {{#equal target 'event'}}
+                                    <i class="fa fa-calendar"></i>
+                                {{/equal}}
+                                {{#equal target 'message'}}
+                                    <i class="fa fa-bullhorn"></i>
                                 {{/equal}}
                             </a>
                             <div class="media-body ">

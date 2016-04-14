@@ -372,12 +372,13 @@ class Database():
 
         return results
 
-    def notification_add(self, company_id, owner_id, body, action, message=None):
+    def notification_add(self, company_id, owner_id, body, action, target, message=None):
         Notification(
             stamp=datetime.now(),
             company=company_id,
             owner=owner_id,
             body=body,
             action=action,
+            target=target,
             message=message,
         ).save()

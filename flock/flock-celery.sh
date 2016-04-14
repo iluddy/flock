@@ -16,7 +16,7 @@ case "$1" in
    echo 'Flock Celery Started'
    ;;
  stop)
-   start-stop-daemon --stop -user ubuntu --pidfile /var/run/flock_celery.pid
+   start-stop-daemon --stop -user root --pidfile /var/run/flock_celery.pid
    echo 'Flock Celery Stopped'
    ;;
  *)

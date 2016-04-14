@@ -8501,12 +8501,12 @@ body.md-skin {
     margin-top: 1px;
     margin-right: 2px;
 }
-.feed-activity-list .feed-element i.fa.delete{
+.feed-activity-list .feed-element.delete .feed-icon i.fa{
     color: #ed5565;
 }
-.feed-activity-list .feed-element i.fa.add{
+.feed-activity-list .feed-element.add .feed-icon i.fa{
     color: #1ab394;
 }
-.feed-activity-list .feed-element i.fa.edit{
+.feed-activity-list .feed-element.edit .feed-icon i.fa{
     color: #f8ac59;
 }

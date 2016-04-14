@@ -26,7 +26,7 @@ def add(new_person, user_id, company_id):
     if new_person['invite']:
         invite(new_person['mail'], user_id, company_id)
 
-    notify(u'{} added a new Person - <b>%s</b>' % new_person['name'], action='add')
+    notify(u'{} added a new Person - <b>%s</b>' % new_person['name'], action='add', target='person')
 
 def delete(user_id):
     user_name = db.person_get(user_id=user_id).name
@@ -34,7 +34,7 @@ def delete(user_id):
     # TODO - validate
     db.person_delete(user_id)
 
-    notify(u'{} deleted a Person - <b>%s</b>' % user_name, action='delete')
+    notify(u'{} deleted a Person - <b>%s</b>' % user_name, action='delete', target='person')
 
 def get(company_id=None, role_id=None, mail=None, search=None, sort_by=None, sort_dir=None, limit=None,
         offset=None):

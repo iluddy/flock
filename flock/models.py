@@ -145,6 +145,7 @@ class Notification(Document, Base):
     body = StringField()
     message = StringField(nullable=True)
     action = StringField(nullable=False, default='action')
+    target = StringField(nullable=False, default='message')
     company = ReferenceField('Company')
     owner = ReferenceField('Person')
 
