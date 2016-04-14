@@ -507,16 +507,16 @@ function load_places(){
         $("#add_places_modal .modal-title").text("Update a Place");
         $("#add_place_form").attr("place_id", place_id);
 
-        $('#add_place_name').val($(place_dom).find('.place_name').text());
-        $('#add_place_address').val($(place_dom).find('.place_address').text());
+        $('#add_place_name').val($.trim($(place_dom).find('.place_name').text()));
+        $('#add_place_address').val($.trim($(place_dom).find('.place_address').text()));
 
         var place_email = $(place_dom).find('.place_mail').text();
         if( place_email.indexOf('Unknown') == -1 )
-            $('#add_place_email').val(place_email);
+            $('#add_place_email').val($.trim(place_email));
 
         var place_phone = $(place_dom).find('.place_phone').text();
         if( place_phone.indexOf('Unknown') == -1 )
-            $('#add_place_phone').val(place_phone);
+            $('#add_place_phone').val($.trim(place_phone));
     }
 
     function add_handlers(){
