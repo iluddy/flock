@@ -9,7 +9,8 @@ virtualenv = '/data/www/env'
 
 def build_production():
     with cd(app_dir):
-        sudo('git pull'.format(app_dir))
+        sudo('git stash')
+        sudo('git pull')
         sudo('source {}/bin/activate && python {}/setup.py install'.format(virtualenv, app_dir))
         sudo('monit restart all', pty=False)
 
