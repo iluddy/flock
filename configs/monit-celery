@@ -1,0 +1,4 @@
+check process celery with pidfile /var/run/flock_celery.pid
+   group ubuntu
+   start = "/etc/init.d/flock-celery start"
+   stop = "/etc/init.d/flock-celery stop"
