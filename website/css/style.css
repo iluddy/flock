@@ -4456,6 +4456,13 @@ body.mini-navbar.fixed-sidebar .logo-element {
   margin: 0 auto;
   padding: 100px 20px 20px 20px;
 }
+.logo-name {
+  color: #e6e6e6;
+  font-size: 180px;
+  font-weight: 800;
+  letter-spacing: -10px;
+  margin-bottom: 0;
+}
 .middle-box h1 {
   font-size: 170px;
 }
@@ -8375,131 +8382,99 @@ body.md-skin {
 #main .tabs-container .tabs-left .panel-body{
     margin-left: 12%;
 }
-.event_people{
-    position: absolute;
-    right: 5px;
-    bottom: 5px;
-}
-.fc-month-view .event_people, .fc-agendaWeek-view .event_people{
-    display: none;
-}
-.fc-event:hover{
-    z-index: 100 !important;
-}
-.event_tip{
+
+/* Custom */
+
+body{
     background-color: white;
-    padding: 5px;
 }
-.event_tip .event_people_wrap{
-    margin-top: 10px;
+#navbar{
+    padding: 20px 50px 20px 50px;
+    max-width: 1400px;
 }
-.event_tip .event_people_wrap span{
-    margin-bottom: 2px;
-    display: inline-block;
+#navbar button{
+    font-weight: 600;
+    padding: 10px 15px;
 }
-.event_tip .event_title{
-    margin-top: 10px;
-    font-size: 1.9em;
+#navbar span{
+    margin: 2px;
 }
-.event_tip .event_body{
-    padding-top: 5px;
-    padding-left: 5px;
-}
-.event_tip .event_edit{
-    text-decoration: underline;
-    float: right;
-}
-.event_tip .event_footer{
-    margin-top: 5px;
-    height: 15px;
-}
-.event_tip .event_time{
-    margin-top: 10px;
-    opacity: 0.6;
-}
-.req-input{
-    border-left: 3px solid #1ab394;
-}
-.account_info{
-    border-right: 1px solid #aaa;
-    padding-right: 7px;
-}
-.account_info span{
-    margin-left: 4px;
-}
-#page-wrapper{
+#main{
     padding: 0px;
 }
-#people_type_row_new{
-    text-align: center;
+.section{
+    background-color: white;
+    width: 100%;
+    display: block;
+    padding: 20px 50px 20px 50px;
+    margin: 10px 0px 10px 0px;
 }
-#people_type_row_new button{
-    margin-top: 20px;
-    width: 200px;
+.section .section-inner{
+    max-width: 1400px;
 }
-.color-choice{
-    height: 40px;
-    width: 40px;
-    display: inline-block;
-}
-.label-color-choice:hover, .color-choice:hover{
-    opacity: 0.8;
-}
-.label-color-choice{
-    font-size: 1.05em;
-    opacity: 0.4;
-    display: inline-block;
-    margin-bottom: 10px;
-    cursor: pointer;
-    border-radius: 0px;
-    padding: 8px;
-}
-.color-choice{
-    opacity: 0.2;
-    cursor: pointer;
-}
-.label-color-choice.selected, .color-choice.selected{
-    opacity: 1;
-}
-.centered{
-   text-align: center;
-}
-.navbar-header img{
-    height: 30px;
-    position: relative;
-    bottom: -9px;
-    left: 21px;
-    float: left;
-}
-.navbar-header{
+.section-green{
+    border-top: 10px solid #17a084;
+    color: white;
     background-color: #1ab394;
 }
-
-/* Website */
-.logo-name {
+#login{
     color: #1ab394;
-    font-size: 110px;
-    font-weight: 800;
-    letter-spacing: -8px;
-    margin-bottom: 0;
 }
 .browser{
     border: 1px solid #ccc;
     border-radius: 3px;
+    max-width: 750px;
 }
-.crossbar{
+.browser .crossbar{
     border-bottom: 1px solid #ccc;
     padding: 7px 11px;
 }
-.dots li{
+.browser .browser-content{
+    height: 400px;
+}
+.browser .crossbar .dots li{
     display: inline-block;
     height: 10px;
     width: 10px;
     border-radius: 100%;
 }
-.dots .red{
+.browser .crossbar .dots{
+    margin: 0px;
+    padding: 0px;
+}
+.browser .crossbar .dots .yellow {
+    background-color: #e4d735;
+}
+.browser .crossbar .dots .red {
     background-color: #e34c24;
 }
-.dots .yellow {
-    background-color: #e4d735;
+.browser .crossbar .dots .green {
+    background-color: #2ad665;
+}
+#title h1 strong{
+    font-size: 2.6em;
+    letter-spacing: -6px;
+}
+#title h1{
+    letter-spacing: -1.5px;
+    line-height: 48px;
+    font-size: 2.5em;
+    font-weight: 100;
+}
+#title h1:after {
+    height: 1px;
+    background-color: #bbb;
+    margin: 30px 0;
+    display: block;
+    width: 150px;
+    content: " ";
+}
+#title button{
+    width: 380px !important;
+    margin-top: 30px;
+    margin-bottom: 40px;
+}
+#title h2{
+    line-height: 33px;
+    font-size: 1.7em;
 }
