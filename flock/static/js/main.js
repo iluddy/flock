@@ -128,6 +128,7 @@ function load_dashboard(){
     $(page_main).html(dashboard_tmpl());
     ajax_call({
         'url': '/events',
+        'type': 'get',
         'data': {
             'limit': 10,
             'sort_by': 'start',
@@ -141,7 +142,7 @@ function load_dashboard(){
     });
     ajax_call({
         'url': '/notifications',
-        'type': 'post',
+        'type': 'get',
         'data': {
             'limit': 20,
             'offset': 0,

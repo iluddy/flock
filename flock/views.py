@@ -237,9 +237,8 @@ def places_update():
 #### Events ####
 
 @app.route('/events', methods=['GET'])
-@perm(['edit_events'])
 @auth
-def events_post():
+def events():
     start = request.args.get("start")
     end = request.args.get("end")
     show_expired = request.args.get("show_expired", True)
@@ -253,7 +252,7 @@ def events_post():
 
 #### Roles ####
 
-@app.route('/roles')
+@app.route('/roles', methods=['GET'])
 @auth
 def roles():
     return json_response(role_service.get(company_id=session['company_id']))
@@ -294,12 +293,12 @@ def roles_delete():
 
 #### Notifications ####
 
-@app.route('/notifications', methods=['GET', 'POST'])
+@app.route('/notifications', methods=['GET'])
 @auth
 def notifications():
-    limit = request.form.get("limit")
-    offset = request.form.get("offset")
-    sort_by = request.form.get("sort_by")
-    sort_dir = request.form.get("sort_dir")
+    limit = request.args.get("limit")
+    offset = request.args.get("offset")
+    sort_by = request.args.get("sort_by")
+    sort_dir = request.args.get("sort_dir")
     return json_response(notification_service.get(company_id=session['company_id'], limit=limit, offset=offset,
                                                   sort_by=sort_by, sort_dir=sort_dir))
