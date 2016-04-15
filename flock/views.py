@@ -127,6 +127,8 @@ def reset_user():
 @perm(['edit_people'])
 @auth
 def people_delete():
+    if request.form.get("id") == str(session['user_id']):
+        abort(400, "You can't delete your own account :)")
     person_service.delete(request.form.get("id"))
     return u'{} has been deleted'.format(request.form.get("name")), 200
 
