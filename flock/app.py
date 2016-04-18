@@ -89,10 +89,10 @@ if __name__ == '__main__':
     # Create Views
     from flock import views
 
-    # Run using flask development server
-    # app.run(cfg["web_server"]["host"], cfg["web_server"]["port"])
-
     # Run with Tornado
-    http_server = HTTPServer(WSGIContainer(app))
+    http_server = HTTPServer(WSGIContainer(app), ssl_options={
+        "certfile": "/etc/letsencrypt/live/app.tryflock.com/cert.pem",
+        "keyfile": "/etc/letsencrypt/live/app.tryflock.com/privkey.pem",
+    })
     http_server.listen(cfg["web_server"]["port"], address=cfg["web_server"]["host"])
     IOLoop.instance().start()
