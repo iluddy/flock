@@ -7,7 +7,7 @@
         "add_test_data": false
     },
     "logging": {
-        "file": "/home/log/flock_app",
+        "file": "/home/flock/log/flock_app",
         "level": 20
     },
     "web_server": {
