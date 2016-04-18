@@ -25,6 +25,7 @@ else:
 app = Flask(__name__, static_url_path='')
 app.secret_key = SECRET_KEY
 app.permanent_session_lifetime = SESSION_DURATION
+app.template_folder = cfg["template_dir"]
 documentor = Autodoc(app)
 app.config['MONGODB_SETTINGS'] = {
     'db': cfg["database"]["name"],
