@@ -90,7 +90,7 @@ if __name__ == '__main__':
     from flock import views
 
     # Run
-    app.run(cfg["web_server"]["host"], cfg["web_server"]["port"])
+    app.run(cfg["web_server"]["host"])
 
     # Run with Tornado
     # ssl = False
