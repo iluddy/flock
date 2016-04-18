@@ -7,7 +7,7 @@
         "add_test_data": false
     },
     "logging": {
-        "file": "~/log/flock_app",
+        "file": "/home/log/flock_app",
         "level": 20
     },
     "web_server": {
@@ -18,7 +18,7 @@
         "environment": "production",
         "token": "65cc806fe1ef4ca88a5603514d5739f1"
     },
-    "template_dir": "~/flock/flock/templates",
+    "template_dir": "/home/flock/flock/templates",
     "redis": {
         "url": "redis://127.0.0.1:6379/0"
     }
