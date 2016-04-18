@@ -23,5 +23,6 @@ setup(
         "rollbar==0.11.4",
         "celery",
         "redis",
+        "gunicorn"
     ]
 )
