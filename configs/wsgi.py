@@ -4,7 +4,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 from flock.utils import read_config_file
 
-cfg = read_config_file('/Users/ianluddy/flock/configs/flock-develop-mac.json')
+cfg = read_config_file('/data/www/flock/configs/flock-production.json')
 
 import __builtin__
 __builtin__.flock_cfg = cfg
