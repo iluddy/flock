@@ -12,7 +12,9 @@ def build_production():
         sudo('git stash')
         sudo('git pull')
         sudo('source {}/bin/activate && python {}/setup.py install'.format(virtualenv, app_dir))
-        sudo('monit restart all', pty=False)
+        sudo('restart flock', pty=False)
+        sudo('restart flock-celery', pty=False)
+        sudo('service nginx -s reload', pty=False)
 
 if __name__ == '__main__':
     build_production()
