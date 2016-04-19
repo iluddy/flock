@@ -13,8 +13,6 @@ def build_production():
         sudo('git pull')
         sudo('source {}/bin/activate && python {}/setup.py install'.format(virtualenv, app_dir))
         sudo('monit restart all', pty=False)
-        sudo('git stash pop')
-
 
 if __name__ == '__main__':
     build_production()
