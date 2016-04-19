@@ -1,2 +1,2 @@
-recursive-include flock/static/*.*
-recursive-include flock/templates/*.*
+recursive-include flock/static *.*
+include flock/templates/*
