@@ -75,6 +75,11 @@ class Person(Document, Base):
     def initials(self):
         return ''.join(name[0].upper() for name in self.name.split())
 
+    def to_dict(self):
+        output = self.to_mongo()
+        del output['password']
+        return output
+
 class Event(Document, Base):
     id = SequenceField(primary_key=True)
     title = StringField(nullable=False)
