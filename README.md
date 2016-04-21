@@ -1,9 +1,15 @@
 # Flock
 
+Ridiculously simple, mobile-friendly co-ordination tool for any type of organisation.
+Currently under construction.
+
 ### Requirements
 
 - MongoDB
 - Redis
+- Celery
+- NGinx
+- Gunicorn
 
 ### Ubuntu Install Notes
 
